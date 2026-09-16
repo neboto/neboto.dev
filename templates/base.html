@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ config.title }} — AWS in your terminal, read-only by design{% endblock title %}</title>
+  <meta name="description" content="{% block description %}{{ config.description }}{% endblock description %}">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#1e1e2e">
+  <link rel="icon" type="image/png" href="{{ get_url(path='favicon.png') }}">
+  <link rel="canonical" href="{{ current_url | default(value=config.base_url) }}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="neboto">
+  <meta property="og:title" content="{% block ogtitle %}neboto — AWS in your terminal, read-only by design{% endblock ogtitle %}">
+  <meta property="og:description" content="{% block ogdescription %}{{ config.description }}{% endblock ogdescription %}">
+  <meta property="og:image" content="{{ get_url(path='brand/neboto-social.png') }}">
+  <meta property="og:url" content="{{ current_url | default(value=config.base_url) }}">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="{{ get_url(path='css/site.css') }}">
+</head>
+<body class="{% block bodyclass %}{% endblock bodyclass %}">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <nav class="top-inner">
+    <a class="wordmark" href="{{ get_url(path='/') }}"><span class="wm-name">neboto</span></a>
+    <ul class="top-nav">
+      <li><a href="{{ get_url(path='guide/') }}"{% if current_path is defined and current_path is starting_with(pat="/guide") %} aria-current="page"{% endif %}>Guide</a></li>
+      <li><a href="{{ config.extra.releases }}">Releases</a></li>
+      <li><a href="{{ config.extra.repo }}">GitHub</a></li>
+    </ul>
+  </nav>
+</header>
+<main id="main">
+{% block content %}{% endblock content %}
+</main>
+<footer class="foot">
+  <div class="foot-inner">
+    <span><span class="wm-name">neboto</span> · read-only by design · MIT</span>
+    <span><a href="{{ config.extra.repo }}">Source</a> · <a href="{{ config.extra.repo }}/blob/main/SECURITY.md">Security</a> · <a href="{{ config.extra.repo }}/blob/main/PERMISSIONS.md">IAM permissions</a></span>
+  </div>
+</footer>
+</body>
+</html>

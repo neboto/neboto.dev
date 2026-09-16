@@ -1,0 +1,16 @@
+{% set guide = get_section(path="guide/_index.md") %}
+<aside class="sidebar">
+  <p class="side-title"><a href="{{ guide.permalink }}">Guide</a></p>
+  <ol>
+  {% for p in guide.pages %}
+    <li><a href="{{ p.permalink }}"{% if page is defined and page.permalink == p.permalink %} aria-current="page"{% endif %}>{{ p.title }}</a></li>
+  {% endfor %}
+  </ol>
+  <p class="side-title">Elsewhere</p>
+  <ul class="plain">
+    <li><a href="{{ config.extra.releases }}">Releases</a></li>
+    <li><a href="{{ config.extra.repo }}/blob/main/PERMISSIONS.md">PERMISSIONS.md</a></li>
+    <li><a href="{{ config.extra.repo }}/blob/main/config.example.toml">config.example.toml</a></li>
+    <li><a href="{{ config.extra.repo }}/issues">Issues</a></li>
+  </ul>
+</aside>

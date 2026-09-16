@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block bodyclass %}landing{% endblock bodyclass %}
+{% block content %}
+<section class="hero">
+  <div class="hero-copy">
+    <p class="kicker">AWS · terminal · read-only</p>
+    <h1>Browse your AWS accounts <em>without leaving the terminal</em>.</h1>
+    <p class="lede">65 services behind one fuzzy search, console-style detail panes, live log tailing, CloudWatch charts, and links you can follow across services and regions. It issues only <code>describe</code>, <code>list</code> and <code>get</code> calls — nothing it does can change your account.</p>
+    <div class="install">
+      <pre><code>{{ config.extra.install_cmd }}</code></pre>
+      <button class="copy" type="button" data-copy="{{ config.extra.install_cmd }}" aria-label="Copy install command">copy</button>
+    </div>
+    <p class="hero-links">
+      <a class="btn primary" href="{{ get_url(path='guide/install/') }}">Install guide</a>
+      <a class="btn" href="{{ get_url(path='guide/') }}">Read the guide</a>
+      <a class="btn ghost" href="{{ config.extra.repo }}">Source on GitHub</a>
+    </p>
+  </div>
+</section>
+
+<section class="demo">
+  <div class="window">
+    <div class="window-bar"><span></span><span></span><span></span></div>
+    <video autoplay muted loop playsinline preload="metadata" poster="{{ get_url(path='media/poster.png') }}" aria-label="neboto demo: filter EC2 instances, open the detail pane, jump to the subnet, its VPC, the security group and back">
+      <source src="{{ get_url(path='media/demo.mp4') }}" type="video/mp4">
+      <img src="{{ get_url(path='media/demo.gif') }}" alt="neboto demo recording">
+    </video>
+  </div>
+  <p class="caption">Recorded against a local emulator — nothing on screen is a real account. The <code>⚙ localhost:4566</code> badge is the honest signal.</p>
+</section>
+
+<section class="features">
+  {{ section.content | safe }}
+</section>
+
+<section class="shot">
+  <h2>One resource, every angle</h2>
+  <p>A security group's inbound rules, the interfaces that use it, and a link back to each instance — one pane, no tab-hopping.</p>
+  <div class="window">
+    <div class="window-bar"><span></span><span></span><span></span></div>
+    <img src="{{ get_url(path='media/screenshot.png') }}" width="1200" height="700" alt="neboto showing a security group's inbound rules in the split detail pane, with the EC2 sub-tabs above and the status bar below" loading="lazy">
+  </div>
+</section>
+
+<section class="readonly">
+  <h2>Read-only is the point</h2>
+  <p>Every assumed cross-account session is pinned to the AWS-managed <code>ReadOnlyAccess</code> session policy, and the full IAM footprint is documented action by action in <a href="{{ config.extra.repo }}/blob/main/PERMISSIONS.md">PERMISSIONS.md</a>. Security teams can approve it <em>because</em> it cannot mutate. When you do want to change something, <kbd>C</kbd> copies the ready-to-run AWS CLI command for the selected resource, region and ids filled in.</p>
+  <p><a class="btn" href="{{ get_url(path='guide/permissions/') }}">Permissions and the read-only guarantee →</a></p>
+</section>
+
+<script>
+document.querySelectorAll('button.copy').forEach(b => b.addEventListener('click', async () => {
+  try { await navigator.clipboard.writeText(b.dataset.copy); b.textContent = 'copied'; setTimeout(() => b.textContent = 'copy', 1500); } catch (e) {}
+}));
+</script>
+{% endblock content %}

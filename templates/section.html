@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}{{ section.title }} — neboto{% endblock title %}
+{% block description %}{{ section.description | default(value=config.description) }}{% endblock description %}
+{% block ogtitle %}{{ section.title }} — neboto{% endblock ogtitle %}
+{% block ogdescription %}{{ section.description | default(value=config.description) }}{% endblock ogdescription %}
+{% block bodyclass %}docs{% endblock bodyclass %}
+{% block content %}
+<div class="docs-grid">
+  {% include "partials/sidebar.html" %}
+  <article class="doc">
+    <h1>{{ section.title }}</h1>
+    {{ section.content | safe }}
+    <ol class="toc-list">
+    {% for page in section.pages %}
+      <li><a href="{{ page.permalink }}">{{ page.title }}</a>{% if page.description %} <span class="dim">— {{ page.description }}</span>{% endif %}</li>
+    {% endfor %}
+    </ol>
+  </article>
+</div>
+{% endblock content %}
