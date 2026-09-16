@@ -1,0 +1,11 @@
+{
+  "Comment": "neboto.dev -> GitHub Pages (repo neboto/neboto.dev). Apex A/AAAA are GitHub's published Pages addresses; www is a CNAME to the org's Pages host.",
+  "Changes": [
+    { "Action": "UPSERT", "ResourceRecordSet": { "Name": "neboto.dev", "Type": "A", "TTL": 300, "ResourceRecords": [
+      { "Value": "185.199.108.153" }, { "Value": "185.199.109.153" }, { "Value": "185.199.110.153" }, { "Value": "185.199.111.153" } ] } },
+    { "Action": "UPSERT", "ResourceRecordSet": { "Name": "neboto.dev", "Type": "AAAA", "TTL": 300, "ResourceRecords": [
+      { "Value": "2606:50c0:8000::153" }, { "Value": "2606:50c0:8001::153" }, { "Value": "2606:50c0:8002::153" }, { "Value": "2606:50c0:8003::153" } ] } },
+    { "Action": "UPSERT", "ResourceRecordSet": { "Name": "www.neboto.dev", "Type": "CNAME", "TTL": 300, "ResourceRecords": [
+      { "Value": "neboto.github.io" } ] } }
+  ]
+}
