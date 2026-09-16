@@ -9,15 +9,25 @@ Silicon) are attached to every [GitHub release](https://github.com/neboto/neboto
 
 ## Installer
 
-Picks the right binary for your platform, verifies its SHA-256, and puts it
-in `~/.local/bin`:
+Picks the right binary for your platform, verifies its SHA-256 and, when the
+GitHub CLI is installed and logged in, its signed build provenance, then puts
+it in `~/.local/bin`:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/neboto/neboto-tui/main/install.sh | sh
 ```
 
+Prefer to read a script before running it? Download it first:
+
+```bash
+curl -fsSLO https://raw.githubusercontent.com/neboto/neboto-tui/main/install.sh && less install.sh && sh install.sh
+```
+
 `NEBOTO_VERSION=v0.1.0` pins a version and `NEBOTO_INSTALL_DIR` changes the
-destination. Make sure the destination is on your `PATH`.
+destination. Make sure the destination is on your `PATH`. The script is
+served from the project's `main` branch on GitHub, which is protected and
+only changes through reviewed pull requests; there is deliberately no copy
+of it on this site.
 
 ## cargo-binstall
 
