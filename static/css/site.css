@@ -67,9 +67,9 @@ hr { border: 0; border-top: 1px solid var(--surface0); margin: 2rem 0; }
 .kicker { color: var(--overlay0); text-transform: uppercase; letter-spacing: .18em; font-size: .8em; margin: 0 0 1rem; }
 .hero h1 { font-size: clamp(1.8rem, 4.2vw, 3rem); margin: 0 0 1rem; max-width: 22ch; color: var(--text); }
 .hero h1 em { color: var(--orange); font-style: normal; }
-.lede { color: var(--subtext0); font-size: 1.05rem; max-width: 64ch; margin: 0 0 1.6rem; }
-.install { position: relative; max-width: 64ch; }
-.install pre { margin: 0; padding-right: 5.5rem; border-color: var(--surface1); white-space: pre-wrap; word-break: break-all; }
+.lede { color: var(--subtext0); font-size: 1.05rem; max-width: 70ch; margin: 0 0 1.6rem; }
+.install { position: relative; max-width: 58rem; }   /* the one-liner fits on one line above ~950px */
+.install pre { margin: 0; padding-right: 5.5rem; border-color: var(--surface1); white-space: pre-wrap; overflow-wrap: anywhere; }
 .install pre code { color: var(--green); }
 .install .copy { position: absolute; top: .55rem; right: .6rem; background: var(--surface0); color: var(--subtext0); border: 1px solid var(--surface2); border-radius: 6px; padding: .2rem .6rem; font: inherit; font-size: .8em; cursor: pointer; }
 .install .copy:hover { color: var(--text); border-color: var(--peach); }
