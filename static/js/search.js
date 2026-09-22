@@ -13,6 +13,8 @@
   if (!box || !out || typeof Fuse === "undefined") return;
 
   var indexUrl = box.getAttribute("data-index");
+  // The landing page is indexed under the site title; call it Home.
+  var rootUrl = (box.getAttribute("data-root") || "").replace(/\/$/, "");
   var fuse = null;
   var loading = null;
   var cursor = -1;
@@ -96,7 +98,7 @@
     }
     out.innerHTML = hits.slice(0, 8).map(function (h) {
       return '<li><a href="' + esc(h.item.url) + '">' +
-        '<span class="search-title">' + esc(h.item.title) + "</span>" +
+        '<span class="search-title">' + esc(h.item.url.replace(/\/$/, "") === rootUrl ? "Home" : h.item.title) + "</span>" +
         '<span class="search-snip">' + snippet(h, q) + "</span></a></li>";
     }).join("");
     out.hidden = false;
@@ -141,6 +143,11 @@
     box.focus();
     box.select();
   });
+
+  document.addEventListener("click", function (e) {
+    if (!box.parentNode.contains(e.target)) clear();
+  });
+  box.addEventListener("focus", function () { if (box.value.trim().length >= 3) run(); });
 
   var q = new URLSearchParams(window.location.search).get("q");
   if (q) { box.value = q; run(); }
