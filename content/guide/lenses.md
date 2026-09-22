@@ -16,8 +16,8 @@ modals. Each takes over the keymap while open; <kbd>Esc</kbd> closes it and
 | <kbd>W</kbd> | Change timeline: who changed this resource; <kbd>[</kbd> / <kbd>]</kbd> widen to 90 days, <kbd>a</kbd> includes reads |
 | <kbd>U</kbd> | Referenced by: which loaded resources mention this one |
 | <kbd>N</kbd> | Network access: the effective security-group rule table |
-| <kbd>o</kbd> | S3 object browser |
-| <kbd>i</kbd> | DynamoDB item browser (Scan / Query) |
+| <kbd>o</kbd> | S3 object browser, with a Terraform state viewer inside it (see [Browsers](@/guide/browsers.md)) |
+| <kbd>i</kbd> | DynamoDB item browser: Scan / Query (see [Browsers](@/guide/browsers.md)) |
 | <kbd>s</kbd> | SSM Session Manager · ECS Exec · assume an Organizations member-account role |
 | <kbd>x</kbd> / <kbd>Y</kbd> | Reveal / copy a secret or SSM parameter value (never cached, never logged) |
 | <kbd>O</kbd> | Open this resource in the AWS Console |
