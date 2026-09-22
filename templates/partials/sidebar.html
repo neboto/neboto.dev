@@ -1,5 +1,11 @@
 {% set guide = get_section(path="guide/_index.md") %}
 <aside class="sidebar">
+  <form class="search" role="search" onsubmit="return false">
+    <label class="visually-hidden" for="site-search">Search the guide</label>
+    <input id="site-search" type="search" placeholder="Search  /" autocomplete="off" spellcheck="false"
+           data-index="{{ get_url(path='search_index.en.json') }}">
+    <ul id="site-search-results" class="search-results" hidden></ul>
+  </form>
   <p class="side-title"><a href="{{ guide.permalink }}">Guide</a></p>
   <ol>
   {% for p in guide.pages %}
@@ -13,4 +19,6 @@
     <li><a href="{{ config.extra.repo }}/blob/main/config.example.toml">config.example.toml</a></li>
     <li><a href="{{ config.extra.repo }}/issues">Issues</a></li>
   </ul>
+  <script src="{{ get_url(path='js/fuse.min.js') }}" defer></script>
+  <script src="{{ get_url(path='js/search.js') }}" defer></script>
 </aside>

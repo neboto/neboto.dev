@@ -4,7 +4,13 @@ base_url = "https://neboto.dev"
 title = "neboto"
 description = "A fast, keyboard-driven, read-only terminal UI for browsing AWS."
 compile_sass = false
-build_search_index = false
+build_search_index = true
+
+[search]
+index_format = "fuse_json"
+include_title = true
+include_description = true
+include_content = true
 generate_feeds = false
 minify_html = false
 
