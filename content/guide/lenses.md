@@ -24,8 +24,8 @@ modals. Each takes over the keymap while open; <kbd>Esc</kbd> closes it and
 
 ## Metrics (<kbd>m</kbd>)
 
-Charts for 53 resource kinds, each with the right namespace and dimension
-set: EC2, EBS, Lambda, ECS services and tasks, RDS, load balancers,
+Charts for most resource kinds that publish CloudWatch metrics, each with
+the right namespace and dimension set: EC2, EBS, Lambda, ECS services and tasks, RDS, load balancers,
 DynamoDB, SQS, Kinesis, MSK, API Gateway, CloudFront, NAT gateways, VPN and
 Direct Connect, and so on. On a CloudWatch dashboard, <kbd>m</kbd> renders
 the dashboard itself: its widgets laid out on the console's own grid, with
