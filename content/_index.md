@@ -13,4 +13,5 @@ template = "index.html"
 - **"Who changed this?"** <kbd>W</kbd> opens a CloudTrail lens on any resource, merged with alarm history, stack events and deployments.
 - **Multi-account, safely.** Switch profiles with <kbd>P</kbd>, or assume into an Organizations member account with <kbd>s</kbd> — every assumed session is pinned to a `ReadOnlyAccess` session policy.
 - **Watch, record, export.** <kbd>w</kbd> auto-refreshes without the list ever blanking, <kbd>,</kbd> records a navigation routine you can replay with one key, <kbd>X</kbd> exports JSON, CSV and Markdown.
+- **Copy the command, not the risk.** <kbd>C</kbd> copies the AWS CLI command for what you want to do next — describe, connect, stop, scale, force-deploy — previewed with region and profile filled in. neboto never runs it.
 - **Your colours.** Ten theme presets, light and dark, plus per-colour overrides. This site uses the same catppuccin-mocha palette as the recording.

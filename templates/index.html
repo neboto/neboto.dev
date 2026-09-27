@@ -48,6 +48,12 @@
   <p><a class="btn" href="{{ get_url(path='guide/permissions/') }}">Permissions and the read-only guarantee →</a></p>
 </section>
 
+<section class="readonly sibling">
+  <h2>Coming soon: nebaz, for Azure</h2>
+  <p><a href="https://github.com/neboto/nebaz">nebaz</a> is neboto's Azure sibling: the same keyboard-driven, read-only terminal UI, built on the same core and signed in through the Azure CLI. It is in active development, with VMs, Storage, Networking, Key Vault, AKS, App Service, SQL, Cosmos DB and more already in. There is no release yet.</p>
+  <p><a class="btn" href="https://github.com/neboto/nebaz">Follow nebaz on GitHub →</a></p>
+</section>
+
 <script>
 document.querySelectorAll('button.copy').forEach(b => b.addEventListener('click', async () => {
   try { await navigator.clipboard.writeText(b.dataset.copy); b.textContent = 'copied'; setTimeout(() => b.textContent = 'copy', 1500); } catch (e) {}

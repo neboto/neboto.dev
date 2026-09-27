@@ -32,9 +32,14 @@ This is a design constraint, not a missing feature.
 2. A permissions document that describes a purely read-only footprint is a trust asset. Security teams can approve neboto precisely *because* it cannot mutate. One gated write action changes that conversation permanently.
 
 Where a mutation is genuinely what you want, <kbd>C</kbd> copies the
-ready-to-run AWS CLI command for the selected resource, with the region and
-ids filled in. You never reconstruct an ARN by hand, and neboto never holds
-the ability to run it.
+ready-to-run AWS CLI command for the selected resource, with the region,
+profile and ids filled in: stop an instance, force an ECS redeployment, set
+an Auto Scaling group's capacity, open an SSM session, write a kubeconfig. A
+picker groups the commands as Inspect / Connect / Change and shows the exact
+text before copying. Nothing destructive is offered, and commands that take
+a value are prefilled with the current one, so pasting without editing
+changes nothing. You never reconstruct an ARN by hand, and neboto never
+holds the ability to run the command.
 
 ## Reporting a security issue
 

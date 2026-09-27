@@ -39,7 +39,7 @@ move between panes, and most verbs are a single letter. Inside the app,
 | <kbd>F</kbd> | Cycle a filter over the states present in this view |
 | <kbd>V</kbd>, <kbd>J</kbd> / <kbd>K</kbd> | Visual row selection; <kbd>Ctrl-A</kbd> selects all |
 | <kbd>y</kbd> | Copy the id or ARN, or the selection as a Markdown table |
-| <kbd>C</kbd> | Copy the equivalent read-only AWS CLI command |
+| <kbd>C</kbd> | Copy an AWS CLI command: the read command, plus start/stop, scale, force-deploy and connect commands where they apply (copied, never run; see [What's new](@/guide/whats-new.md)) |
 | <kbd>X</kbd> / <kbd>Ctrl-X</kbd> | Export the resource (deep) / the list |
 
 ## Detail pane
@@ -53,6 +53,7 @@ move between panes, and most verbs are a single letter. Inside the app,
 | <kbd>h</kbd> <kbd>←</kbd> <kbd>Esc</kbd> <kbd>Ctrl-O</kbd> | Back |
 | <kbd>/</kbd> | Filter the body text |
 | <kbd>y</kbd> / <kbd>c</kbd> | Copy the row, or the visual selection |
+| <kbd>C</kbd> | Copy an AWS CLI command for this resource (same picker as the list) |
 | <kbd>e</kbd> | Open in `$EDITOR` |
 | <kbd>Z</kbd> | Full-width pane |
 
