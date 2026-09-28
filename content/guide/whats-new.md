@@ -1,6 +1,6 @@
 +++
 title = "What's new"
-description = "Changes since the first release: operational CLI commands behind C, which load balancers hold an instance, the EC2 console log, Route 53 and Resolver fixes. Plus nebaz, the Azure sibling in development."
+description = "Changes since the first release: a demo mode, a key display for recordings, DMS, X-Ray and Batch, export formats, operational CLI commands behind C, which load balancers hold an instance, the EC2 console log, Route 53 and Resolver fixes. Plus nebaz, the Azure sibling in development."
 weight = 90
 +++
 
@@ -8,6 +8,61 @@ What changed in each release since `v0.1.0`, newest first. The full notes
 and binaries are on the
 [releases page](https://github.com/neboto/neboto-tui/releases). The
 installer always fetches the latest release, so re-running it upgrades you.
+
+## v0.1.7
+
+### Try it without an AWS account
+
+```bash
+neboto --demo
+```
+
+opens `acme-prod`, a made-up account with a few problems planted in it: a
+failed ECS deploy, SSH open to the world, a drifted CloudFormation stack, a
+Lambda whose logs keep streaming. It uses no credentials and makes no network
+calls. The recordings on the home page were made with it. See
+[First run](@/guide/first-run.md#no-aws-account-try-the-demo).
+
+### `--show-keys`: the keys on screen, for recordings
+
+`--show-keys` (or `show_keys = true` in the config) puts each key you press,
+and what it did, in a small box in the corner: `⏎ open`, `2 Deployments`,
+`W change timeline`. It's meant for screen recordings, shares and demos,
+where the viewer sees the screen change but not the key. Text you type into
+a search box, filter or picker is never shown.
+
+### Three new services
+
+- **DMS** (`@dms`): replication tasks, instances, endpoints and serverless
+  replications. A task that crashed reads **stopped (error)** with its stop
+  reason, its Tables section lists the tables that errored first, and an
+  endpoint whose connection test failed says so. <kbd>m</kbd> charts CDC
+  latency, <kbd>t</kbd> tails the task log.
+- **X-Ray** (`@xray`): the service map (worst node first, with p50/p90/p99
+  and callers and callees), traces with their root cause and segments, and
+  groups and sampling rules. Everything is scoped to a 5m–6h window you step
+  with <kbd>[</kbd> / <kbd>]</kbd>.
+- **Batch** (`@batch`): job queues, compute environments, jobs and job
+  definitions. neboto works out why a queue is stuck (a compute environment
+  that's disabled, invalid or scaled to zero while jobs wait) from what's
+  already loaded, and <kbd>t</kbd> tails a job's container log.
+
+### Fixes
+
+- S3 Tables: following a table bucket or table ARN lands on the right
+  sub-tab.
+- The Referenced-by lens (<kbd>U</kbd>) printed its service column as
+  `@@ec2`.
+
+## v0.1.6
+
+### Choose what exports write
+
+`export_formats` picks which files <kbd>X</kbd>, <kbd>Ctrl-X</kbd> and the
+deep export write: any of `"json"`, `"csv"`, `"md"`. The default is still all
+three. `export_dir` sets where they go (`~/` is expanded, and the directory is
+created on first use); `NEBOTO_EXPORT_DIR` still wins. A bad value warns at
+startup and is ignored, never stopping neboto from starting.
 
 ## v0.1.5
 

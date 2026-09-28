@@ -21,24 +21,67 @@
 <section class="demo">
   <div class="window">
     <div class="window-bar"><span></span><span></span><span></span></div>
-    <video autoplay muted loop playsinline preload="metadata" poster="{{ get_url(path='media/poster.png') }}" aria-label="neboto demo: filter EC2 instances, open the detail pane, jump to the subnet, its VPC, the security group and back">
+    <video autoplay muted loop playsinline preload="metadata" poster="{{ get_url(path='media/poster.png') }}" aria-label="neboto demo: an ECS service is half healthy; its deployments show revision 15 failed and rolled back; the change timeline shows CI deployed it; the stopped task's log says DATABASE_URL is not set">
       <source src="{{ get_url(path='media/demo.mp4') }}" type="video/mp4">
       <img src="{{ get_url(path='media/demo.gif') }}" alt="neboto demo recording">
     </video>
   </div>
-  <p class="caption">Recorded against a local AWS emulator, hence the <code>⚙ localhost:4566</code> badge. Nothing on screen is a real account.</p>
+  <p class="caption">A failed deploy, from “something’s wrong” to “here’s why”. Recorded with <code>neboto --demo</code>, a made-up account that ships in the binary: run it yourself, no AWS account needed.</p>
 </section>
 
 <section class="features">
   {{ section.content | safe }}
 </section>
 
+<section class="workflows">
+  <h2>Workflows, not tabs</h2>
+  <p>Each clip is one question answered against <code>neboto --demo</code>.</p>
+  <div class="workflow-grid">
+    <figure>
+      <div class="window">
+        <div class="window-bar"><span></span><span></span><span></span></div>
+        <video autoplay muted loop playsinline preload="metadata" aria-label="Following links from an ECS service to its target group and load balancer, then the service's effective network access">
+          <source src="{{ get_url(path='media/scenes/follow-links.mp4') }}" type="video/mp4">
+        </video>
+      </div>
+      <figcaption><strong>Follow the links.</strong> <kbd>Enter</kbd> from an ECS service to its target group and load balancer, <kbd>Ctrl-O</kbd> back, then <kbd>N</kbd> for the service's effective network access across every security group.</figcaption>
+    </figure>
+    <figure>
+      <div class="window">
+        <div class="window-bar"><span></span><span></span><span></span></div>
+        <video autoplay muted loop playsinline preload="metadata" aria-label="A security group with SSH open to the world; the change timeline shows who opened it">
+          <source src="{{ get_url(path='media/scenes/who-changed.mp4') }}" type="video/mp4">
+        </video>
+      </div>
+      <figcaption><strong>Who changed this?.</strong> SSH is open to the world. <kbd>W</kbd> merges CloudTrail, alarm history, stack events and deployments for this one resource, and names who opened it.</figcaption>
+    </figure>
+    <figure>
+      <div class="window">
+        <div class="window-bar"><span></span><span></span><span></span></div>
+        <video autoplay muted loop playsinline preload="metadata" aria-label="Live-tailing a Lambda function's logs, filtered to errors">
+          <source src="{{ get_url(path='media/scenes/lambda-tail.mp4') }}" type="video/mp4">
+        </video>
+      </div>
+      <figcaption><strong>Tail the logs.</strong> <kbd>t</kbd> live-tails a Lambda's log group; <kbd>/</kbd> filters to the DynamoDB throttles and <kbd>w</kbd> wraps them so the message reads in full.</figcaption>
+    </figure>
+    <figure>
+      <div class="window">
+        <div class="window-bar"><span></span><span></span><span></span></div>
+        <video autoplay muted loop playsinline preload="metadata" aria-label="A drifted CloudFormation stack; the change timeline on the drifted resource shows the console edit behind it">
+          <source src="{{ get_url(path='media/scenes/stack-drift.mp4') }}" type="video/mp4">
+        </video>
+      </div>
+      <figcaption><strong>Explain the drift.</strong> A stack's Drift section names the changed property. Follow it to the resource and <kbd>W</kbd> finds the console edit behind it.</figcaption>
+    </figure>
+  </div>
+</section>
+
 <section class="shot">
   <h2>One resource, every angle</h2>
-  <p>A security group's inbound rules, the interfaces that use it, and a link back to each instance — one pane, no tab-hopping.</p>
+  <p>A security group's inbound rules, what uses it, and a link to every group it references — one pane, no tab-hopping. The SSH rule someone forgot stands out.</p>
   <div class="window">
     <div class="window-bar"><span></span><span></span><span></span></div>
-    <img src="{{ get_url(path='media/screenshot.png') }}" width="1200" height="700" alt="neboto showing a security group's inbound rules in the split detail pane, with the EC2 sub-tabs above and the status bar below" loading="lazy">
+    <img src="{{ get_url(path='media/screenshot.png') }}" width="1200" height="670" alt="neboto showing a security group's inbound rules in the split detail pane, with the EC2 sub-tabs above and the status bar below" loading="lazy">
   </div>
 </section>
 
