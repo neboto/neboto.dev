@@ -97,6 +97,14 @@ hr { border: 0; border-top: 1px solid var(--surface0); margin: 2rem 0; }
 .features li code, .features li kbd { color: var(--peach); }
 .features h2 { margin-top: 0; }
 
+.workflows { margin-top: 4rem !important; }
+.workflows h2 { margin-top: 0; }
+.workflows > p { color: var(--subtext0); }
+.workflow-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr)); gap: 1.5rem; margin-top: 1.25rem; }
+.workflow-grid figure { margin: 0; }
+.workflow-grid figcaption { color: var(--subtext0); font-size: .95em; margin-top: .7rem; }
+.workflow-grid figcaption strong { color: var(--text); }
+.workflow-grid figcaption kbd { color: var(--peach); }
 .shot { margin-top: 4rem !important; }
 .shot h2, .readonly h2 { margin-top: 0; }
 .shot p { color: var(--subtext0); }

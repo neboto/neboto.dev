@@ -4,6 +4,18 @@ description = "Credentials, region, the welcome splash, and the command-line fla
 weight = 20
 +++
 
+## No AWS account? Try the demo
+
+```bash
+neboto --demo
+```
+
+opens a made-up account, `acme-prod`, with a few problems planted in it: a
+failed ECS deploy, SSH open to the world, a drifted CloudFormation stack, a
+Lambda whose logs keep streaming. It uses no credentials and makes no network
+calls, so it's also a safe way to learn the keys before pointing neboto at a
+real account. The recordings on the home page were made with it.
+
 ## Credentials and region
 
 neboto uses the standard AWS credential chain: environment variables,
@@ -41,6 +53,7 @@ Every flag overrides the config file for that run only.
 | `-m`, `--macro <NAME>` | Run a saved macro on startup |
 | `--theme <THEME>` | Colour preset |
 | `--endpoint-url <URL>` | Point at a local emulator |
+| `--demo` | Browse a made-up account offline: no credentials, no network |
 | `--banner` / `--no-banner` | Show or hide the ASCII banner |
 
 ## The screen
