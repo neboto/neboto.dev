@@ -23,7 +23,7 @@ Lambda whose logs keep streaming. It uses no credentials and makes no network
 calls. The recordings on the home page were made with it. See
 [First run](@/guide/first-run.md#no-aws-account-try-the-demo).
 
-### <kbd>--show-keys</kbd>: the keys on screen, for recordings
+### `--show-keys`: the keys on screen, for recordings
 
 `--show-keys` (or `show_keys = true` in the config) puts each key you press,
 and what it did, in a small box in the corner: `⏎ open`, `2 Deployments`,
