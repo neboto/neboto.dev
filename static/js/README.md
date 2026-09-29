@@ -11,3 +11,5 @@ files (Google Fonts is the one exception). To upgrade: download the new
 `search.js` is ours: it lazy-loads Zola's `search_index.en.json` (built with
 `index_format = "fuse_json"` in `config.toml`) on first focus of the top-bar
 search box (every page) and renders page-level results with a highlighted body snippet.
+
+`copy.js` is ours too: it adds a copy button to every code block in the guide.

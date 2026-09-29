@@ -71,8 +71,14 @@ hr { border: 0; border-top: 1px solid var(--surface0); margin: 2rem 0; }
 .install { position: relative; max-width: 58rem; }   /* the one-liner fits on one line above ~950px */
 .install pre { margin: 0; padding-right: 5.5rem; border-color: var(--surface1); white-space: pre-wrap; overflow-wrap: anywhere; }
 .install pre code { color: var(--green); }
-.install .copy { position: absolute; top: .55rem; right: .6rem; background: var(--surface0); color: var(--subtext0); border: 1px solid var(--surface2); border-radius: 6px; padding: .2rem .6rem; font: inherit; font-size: .8em; cursor: pointer; }
-.install .copy:hover { color: var(--text); border-color: var(--peach); }
+.codeblock { position: relative; margin: 1em 0; }
+.codeblock pre { margin: 0; padding-right: 5rem; }
+/* A long line fades out under the button: a strip inside the block's border, the button on top. */
+.codeblock::after { content: ""; position: absolute; top: 1px; right: 1px; bottom: 1px; width: 5.5rem; pointer-events: none;
+  background: linear-gradient(to right, transparent, var(--mantle) 1.5rem); border-radius: 0 var(--radius) var(--radius) 0; }
+.codeblock .copy { z-index: 1; }
+.install .copy, .codeblock .copy { position: absolute; top: .55rem; right: .6rem; background: var(--surface0); color: var(--subtext0); border: 1px solid var(--surface2); border-radius: 6px; padding: .2rem .6rem; font: inherit; font-size: .8em; cursor: pointer; }
+.install .copy:hover, .codeblock .copy:hover { color: var(--text); border-color: var(--peach); }
 .hero-links { margin: 1.4rem 0 0; display: flex; flex-wrap: wrap; gap: .7rem; }
 .btn { display: inline-block; padding: .55rem 1rem; border-radius: 8px; border: 1px solid var(--surface2); color: var(--text); background: var(--surface0); font-weight: 600; text-decoration: none; }
 .btn:hover { border-color: var(--peach); color: var(--text); text-decoration: none; }
@@ -154,7 +160,7 @@ pre code .z-variable { color: var(--text); }
 .search-note { padding: .5rem .7rem; color: var(--overlay0); font-size: .9em; }
 
 @media (max-width: 52rem) {
-  .docs-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+  .docs-grid { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }   /* minmax: a long code line scrolls in its block instead of widening the page */
   .sidebar { position: static; border-bottom: 1px solid var(--surface0); padding-bottom: 1rem; }
   .sidebar ol { display: flex; flex-wrap: wrap; gap: .2rem .6rem; }
   .sidebar .plain { display: none; }
