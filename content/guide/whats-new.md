@@ -1,6 +1,6 @@
 +++
 title = "What's new"
-description = "Changes since the first release: a demo mode, a key display for recordings, DMS, X-Ray and Batch, export formats, operational CLI commands behind C, which load balancers hold an instance, the EC2 console log, Route 53 and Resolver fixes. Plus nebaz, the Azure sibling in development."
+description = "Changes since the first release: sub-tabs from either pane with H and L, a demo mode, a key display for recordings, DMS, X-Ray and Batch, export formats, operational CLI commands behind C, which load balancers hold an instance, the EC2 console log, Route 53 and Resolver fixes. Plus nebaz, the Azure sibling in development."
 weight = 90
 +++
 
@@ -8,6 +8,40 @@ What changed in each release since `v0.1.0`, newest first. The full notes
 and binaries are on the
 [releases page](https://github.com/neboto/neboto-tui/releases). The
 installer always fetches the latest release, so re-running it upgrades you.
+
+## v0.1.8
+
+### <kbd>H</kbd> / <kbd>L</kbd>: sub-tabs from either pane
+
+<kbd>Tab</kbd> and the digits switch *sections* once you're in the detail
+pane, so moving from an instance to the security groups used to take
+<kbd>h</kbd>, <kbd>Tab</kbd>, <kbd>l</kbd>. <kbd>H</kbd> and <kbd>L</kbd> now
+step to the previous and next sub-tab from either pane. From the detail pane
+you land on the new tab's first row and stay in the detail pane.
+
+### <kbd>h</kbd> no longer walks back through history
+
+In the list pane, <kbd>h</kbd> and <kbd>←</kbd> used to go back through
+navigation history, often into another service. Tapping <kbd>h</kbd> twice to
+get from a detail pane back to its list lost your place. History is now on
+<kbd>Ctrl-O</kbd> and <kbd>Backspace</kbd> only; <kbd>h</kbd> keeps meaning
+"back to the list".
+
+### Fixes
+
+- <kbd>Ctrl-O</kbd> back to an `@all` result list no longer re-fetches the
+  service you typed it over. With that service's cache expired, every round
+  trip used to reload it and throw the result away.
+- Key hints that named the wrong key: the ECS task pane said `v logs` and an
+  OpenSearch access policy said "press v to view"; both are <kbd>e</kbd>.
+  The status bar now says `H/L sub-tab`.
+- When a picker's footer is too narrow, the position counter (`6/72`) stays
+  visible and the hint is trimmed instead.
+
+### Under the hood
+
+Every dependency is up to date, including all the AWS SDKs and the terminal
+UI library (ratatui 0.30).
 
 ## v0.1.7
 

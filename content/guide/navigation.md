@@ -5,7 +5,8 @@ weight = 30
 +++
 
 The keymap is vim-flavoured: <kbd>j</kbd>/<kbd>k</kbd> move, <kbd>h</kbd>/<kbd>l</kbd>
-move between panes, and most verbs are a single letter. Inside the app,
+move between panes, <kbd>H</kbd>/<kbd>L</kbd> step through sub-tabs, and most
+verbs are a single letter. Inside the app,
 <kbd>?</kbd> opens the full reference.
 
 ## Anywhere
@@ -32,8 +33,9 @@ move between panes, and most verbs are a single letter. Inside the app,
 | <kbd>gg</kbd> / <kbd>G</kbd> | Top / bottom |
 | <kbd>Ctrl-d</kbd> / <kbd>Ctrl-u</kbd> | Half page |
 | <kbd>l</kbd> <kbd>→</kbd> <kbd>Enter</kbd> | Open the detail pane |
-| <kbd>h</kbd> <kbd>←</kbd> <kbd>Backspace</kbd> <kbd>Ctrl-O</kbd> | Back through history |
+| <kbd>Backspace</kbd> <kbd>Ctrl-O</kbd> | Back through history |
 | <kbd>Tab</kbd> / <kbd>Shift-Tab</kbd>, <kbd>1</kbd>–<kbd>9</kbd>, <kbd>0</kbd> | Switch sub-tab |
+| <kbd>H</kbd> / <kbd>L</kbd> | Previous / next sub-tab (from either pane) |
 | <kbd>a</kbd> | Hide noisy rows (defaults, automated snapshots, passed checks…) |
 | <kbd>z</kbd> | Cycle sort: load order → name ↑ → name ↓ → state |
 | <kbd>F</kbd> | Cycle a filter over the states present in this view |
@@ -48,9 +50,11 @@ move between panes, and most verbs are a single letter. Inside the app,
 |---|---|
 | <kbd>j</kbd> <kbd>k</kbd>, <kbd>gg</kbd> / <kbd>G</kbd> | Scroll |
 | <kbd>Tab</kbd> / <kbd>Shift-Tab</kbd>, <kbd>1</kbd>–<kbd>9</kbd> | Switch section |
+| <kbd>H</kbd> / <kbd>L</kbd> | Previous / next sub-tab, staying in the detail pane |
 | <kbd>[[</kbd> / <kbd>]]</kbd> | Previous / next group header |
 | <kbd>l</kbd> <kbd>→</kbd> <kbd>Enter</kbd> | Follow the link under the cursor |
-| <kbd>h</kbd> <kbd>←</kbd> <kbd>Esc</kbd> <kbd>Ctrl-O</kbd> | Back |
+| <kbd>h</kbd> <kbd>←</kbd> <kbd>Esc</kbd> | Back to the list |
+| <kbd>Ctrl-O</kbd> | Back through history |
 | <kbd>/</kbd> | Filter the body text |
 | <kbd>y</kbd> / <kbd>c</kbd> | Copy the row, or the visual selection |
 | <kbd>C</kbd> | Copy an AWS CLI command for this resource (same picker as the list) |
