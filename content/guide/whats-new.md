@@ -1,6 +1,6 @@
 +++
 title = "What's new"
-description = "Changes since the first release: sub-tabs from either pane with H and L, a demo mode, a key display for recordings, DMS, X-Ray and Batch, export formats, operational CLI commands behind C, which load balancers hold an instance, the EC2 console log, Route 53 and Resolver fixes. Plus nebaz, the Azure sibling in development."
+description = "Changes since the first release: a headless CLI for scripts and AI agents (neboto ls, neboto get), IAM policy documents, sub-tabs from either pane with H and L, a demo mode, a key display for recordings, DMS, X-Ray and Batch, export formats, operational CLI commands behind C, which load balancers hold an instance, the EC2 console log, Route 53 and Resolver fixes. Plus nebaz, the Azure sibling in development."
 weight = 90
 +++
 
@@ -8,6 +8,42 @@ What changed in each release since `v0.1.0`, newest first. The full notes
 and binaries are on the
 [releases page](https://github.com/neboto/neboto-tui/releases). The
 installer always fetches the latest release, so re-running it upgrades you.
+
+## v0.1.9
+
+### A CLI for scripts and AI agents
+
+`neboto ls` and `neboto get` print instead of opening the TUI, as a table,
+JSON, Markdown or CSV. They make the same read-only calls, so an agent handed
+`neboto` can look but not touch.
+
+```bash
+neboto ls @ec2 -t volume --state available -o json
+neboto get @iam deploy-role --section policies -o json
+```
+
+`get` prints everything a resource's detail pane shows, including the
+sections that need extra calls. There's an agent skill to go with it. See
+[Scripts and agents](@/guide/cli.md).
+
+### IAM: what a role can actually do
+
+Roles, users and groups have a new **Policies** section with every attached
+and inline policy document, so you no longer open them one at a time.
+Permissions still lists them, and <kbd>⏎</kbd> still expands one in place.
+
+### `@all` results: <kbd>⏎</kbd> jumps, <kbd>l</kbd> peeks
+
+In an `@all` result list, <kbd>⏎</kbd> still jumps to the resource in its
+service. <kbd>l</kbd> and <kbd>→</kbd> now open its detail pane in place, as
+a mouse click does, so the results stay on screen.
+
+### Exports
+
+`X` exports and the <kbd>e</kbd> JSON view drop the TUI's key hints
+("press t to tail"), JSON values lose their status glyphs
+(`UPDATE_COMPLETE`, not `✓ UPDATE_COMPLETE`), and a section that never
+loaded is `null`.
 
 ## v0.1.8
 
