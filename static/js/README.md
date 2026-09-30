@@ -13,3 +13,6 @@ files (Google Fonts is the one exception). To upgrade: download the new
 search box (every page) and renders page-level results with a highlighted body snippet.
 
 `copy.js` is ours too: it adds a copy button to every code block in the guide.
+
+`lightbox.js` is ours as well: it lets the home page's hero demo and
+workflow clips open enlarged in a `<dialog>`, replayed from the start with controls and its caption.
