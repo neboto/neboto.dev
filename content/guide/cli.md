@@ -66,6 +66,22 @@ the TUI, an unknown profile or region is an error rather than a fallback, so
 a script never gets another account's answer. Secret values are never
 fetched: the TUI's <kbd>x</kbd> / <kbd>Y</kbd> have no CLI equivalent.
 
+## What scripts can rely on
+
+- **Stable:** the flags; the JSON envelopes; each `ls` row's `type`, `id`,
+  `name`, `state` and `tags`; `get`'s `resource` object and `tags`; section
+  *names* (`.sections.Permissions`); resource type names; service prefixes;
+  the first four CSV columns; the exit codes. Removing or renaming any of
+  these is a breaking change: the schema moves to `neboto/v2` and the
+  release notes say so. New sections, types, services and flags can arrive
+  in any release. A test holds this, so it can't change by accident.
+- **Descriptive:** everything *inside* a section, and the extra per-type
+  columns on an `ls` row (`"Runtime"`, `"Memory"`, …). These are the detail
+  pane, serialized: labels, units and grouping follow the TUI and can change
+  in any release. Read them; don't hard-code paths into them. When a script
+  needs one field to stay put, the AWS API is that contract (`aws …`).
+- **For people only:** `-o table` and `-o md`. Don't parse them.
+
 ## For AI agents
 
 [`skills/neboto/SKILL.md`](https://github.com/neboto/neboto-tui/blob/main/skills/neboto/SKILL.md)
