@@ -1,6 +1,6 @@
 +++
 title = "What's new"
-description = "Changes since the first release: a headless CLI for scripts and AI agents (neboto ls, neboto get), IAM policy documents, sub-tabs from either pane with H and L, a demo mode, a key display for recordings, DMS, X-Ray and Batch, export formats, operational CLI commands behind C, which load balancers hold an instance, the EC2 console log, Route 53 and Resolver fixes. Plus nebaz, the Azure sibling in development."
+description = "Changes since the first release: app/neboto in CloudTrail user agents, a clearer CloudTrail event search, a headless CLI for scripts and AI agents (neboto ls, neboto get), IAM policy documents, sub-tabs from either pane with H and L, a demo mode, a key display for recordings, DMS, X-Ray and Batch, export formats, operational CLI commands behind C, which load balancers hold an instance, the EC2 console log, Route 53 and Resolver fixes. Plus nebaz, the Azure sibling in development."
 weight = 90
 +++
 
@@ -8,6 +8,29 @@ What changed in each release since `v0.1.0`, newest first. The full notes
 and binaries are on the
 [releases page](https://github.com/neboto/neboto-tui/releases). The
 installer always fetches the latest release, so re-running it upgrades you.
+
+## v0.1.10
+
+### See neboto's calls in CloudTrail
+
+Every request now carries `app/neboto` in its user agent, so your own trail
+shows exactly what neboto called, and that it only read. See
+[Permissions](@/guide/permissions.md#check-it-in-your-own-cloudtrail).
+
+### CloudTrail: a search that runs out of events says so
+
+The Events tab loads the newest 500 events, and <kbd>/</kbd> searches only
+those. A capped list now shows `newest 500 only`, a search with no match
+says it only looked there, and <kbd>f</kbd> opens CloudTrail's own search
+pre-filled from what you typed: `lambda` becomes the event source
+`lambda.amazonaws.com`, `ListFunctions20150331` an event name.
+
+### What scripts can rely on
+
+The CLI's output now has a written contract: the envelope, the core keys,
+section and type names, flags and exit codes are stable, and what's inside a
+section follows the TUI. See
+[Scripts and agents](@/guide/cli.md#what-scripts-can-rely-on).
 
 ## v0.1.9
 

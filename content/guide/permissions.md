@@ -31,6 +31,14 @@ This is a design constraint, not a missing feature.
 1. The Organizations member-account switch pins every assumed session to a `ReadOnlyAccess` session policy. Write actions would either fail silently cross-account or force that guarantee to be weakened.
 2. A permissions document that describes a purely read-only footprint is a trust asset. Security teams can approve neboto precisely *because* it cannot mutate. One gated write action changes that conversation permanently.
 
+### Check it in your own CloudTrail
+
+Every request neboto makes carries `app/neboto` in its user agent. In
+CloudTrail Lake or Athena, filter on `userAgent LIKE '%app/neboto%'` and
+every row should be `readOnly = true`. Event history can't filter on the
+user agent, so look up an event name there (Lambda's is
+`ListFunctions20150331`, for example) and check its `userAgent`.
+
 Where a mutation is genuinely what you want, <kbd>C</kbd> copies the
 ready-to-run AWS CLI command for the selected resource, with the region,
 profile and ids filled in: stop an instance, force an ECS redeployment, set
