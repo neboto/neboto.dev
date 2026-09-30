@@ -106,11 +106,22 @@ hr { border: 0; border-top: 1px solid var(--surface0); margin: 2rem 0; }
 .workflows { margin-top: 4rem !important; }
 .workflows h2 { margin-top: 0; }
 .workflows > p { color: var(--subtext0); }
-.workflow-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr)); gap: 1.5rem; margin-top: 1.25rem; }
+.workflow-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(24rem, 100%), 1fr)); gap: 1.5rem; margin-top: 1.25rem; }
 .workflow-grid figure { margin: 0; }
 .workflow-grid figcaption { color: var(--subtext0); font-size: .95em; margin-top: .7rem; }
 .workflow-grid figcaption strong { color: var(--text); }
 .workflow-grid figcaption kbd { color: var(--peach); }
+.window.zoomable { cursor: zoom-in; }
+.window.zoomable:hover { border-color: var(--surface2); }
+.enlarge, .lightbox-close { margin-left: auto; background: none; border: 0; padding: .2rem .4rem; font: .8rem var(--mono); color: var(--overlay0); cursor: pointer; }
+.window.zoomable:hover .enlarge, .enlarge:focus-visible, .lightbox-close:hover, .lightbox-close:focus-visible { color: var(--peach); }
+/* 1200px is the clips' recorded width: any bigger and the terminal text goes soft. */
+.lightbox { width: min(1200px, 94vw, (90vh - 34px - 5rem) * 1200 / 670); max-width: none; max-height: none; padding: 0; border: 0; background: none; color: var(--text); overflow: visible; }
+.lightbox::backdrop { background: rgba(17,17,27,.93); }
+.lightbox .window video { cursor: auto; }
+.lightbox-caption { color: var(--subtext0); font-size: .95em; margin: .8rem 0 0; max-width: none; }
+.lightbox-caption strong { color: var(--text); }
+.lightbox-caption kbd { color: var(--peach); }
 .shot { margin-top: 4rem !important; }
 .shot h2, .readonly h2 { margin-top: 0; }
 .shot p { color: var(--subtext0); }
