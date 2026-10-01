@@ -1,6 +1,6 @@
 +++
 title = "What's new"
-description = "Changes since the first release: app/neboto in CloudTrail user agents, a clearer CloudTrail event search, a headless CLI for scripts and AI agents (neboto ls, neboto get), IAM policy documents, sub-tabs from either pane with H and L, a demo mode, a key display for recordings, DMS, X-Ray and Batch, export formats, operational CLI commands behind C, which load balancers hold an instance, the EC2 console log, Route 53 and Resolver fixes. Plus nebaz, the Azure sibling in development."
+description = "Changes since the first release: an @all search you can narrow and sort, app/neboto in CloudTrail user agents, a clearer CloudTrail event search, a headless CLI for scripts and AI agents (neboto ls, neboto get), IAM policy documents, sub-tabs from either pane with H and L, a demo mode, a key display for recordings, DMS, X-Ray and Batch, export formats, operational CLI commands behind C, which load balancers hold an instance, the EC2 console log, Route 53 and Resolver fixes. Plus nebaz, the Azure sibling in development."
 weight = 90
 +++
 
@@ -8,6 +8,20 @@ What changed in each release since `v0.1.0`, newest first. The full notes
 and binaries are on the
 [releases page](https://github.com/neboto/neboto-tui/releases). The
 installer always fetches the latest release, so re-running it upgrades you.
+
+## v0.1.11
+
+### `@all`: see what was searched, narrow it, sort it
+
+The service strip now shows what an `@all` search covered: each service
+with its number of matches, and `–` for one whose cache has expired, so
+"no results" can't hide "didn't look there". Click a chip, or step through
+them with <kbd>Tab</kbd> (<kbd>H</kbd> / <kbd>L</kbd>), to show only that
+service's results. <kbd>z</kbd> now sorts `@all` results too, by name,
+state or service. See [Search](@/guide/search.md#all).
+
+Also fixed: the strip no longer shows an EC2 chip for a service you never
+opened.
 
 ## v0.1.10
 

@@ -37,7 +37,7 @@ verbs are a single letter. Inside the app,
 | <kbd>Tab</kbd> / <kbd>Shift-Tab</kbd>, <kbd>1</kbd>–<kbd>9</kbd>, <kbd>0</kbd> | Switch sub-tab |
 | <kbd>H</kbd> / <kbd>L</kbd> | Previous / next sub-tab (from either pane) |
 | <kbd>a</kbd> | Hide noisy rows (defaults, automated snapshots, passed checks…) |
-| <kbd>z</kbd> | Cycle sort: load order → name ↑ → name ↓ → state |
+| <kbd>z</kbd> | Cycle sort: load order → name ↑ → name ↓ → state (→ service, under `@all`) |
 | <kbd>F</kbd> | Cycle a filter over the states present in this view |
 | <kbd>V</kbd>, <kbd>J</kbd> / <kbd>K</kbd> | Visual row selection; <kbd>Ctrl-A</kbd> selects all |
 | <kbd>y</kbd> | Copy the id or ARN, or the selection as a Markdown table |
