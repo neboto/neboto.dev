@@ -44,8 +44,21 @@ about first. <kbd>Enter</kbd> on a result jumps to it in its own service;
 <kbd>l</kbd> or <kbd>→</kbd> opens its detail pane in place, as a click
 does, so the result list stays on screen.
 
+The service strip at the top shows what the search covered:
+
+```
+neboto │  @all  │  EC2 –  │  ECS 7  │  λ 1  │  IAM 4
+```
+
+Each service you've opened this session shows how many results it has. `–`
+marks one whose cache has expired, so it wasn't searched; open it again to
+include it. Click a chip, or step through them with <kbd>Tab</kbd> /
+<kbd>Shift</kbd>+<kbd>Tab</kbd> (<kbd>H</kbd> / <kbd>L</kbd>), to show only
+that service's results; `@all` shows them all again. <kbd>z</kbd> sorts the
+results, including grouped by service.
+
 ## Filters that are not search
 
 - <kbd>F</kbd> cycles a state filter over the states present in the current view (running, stopped, failed…).
 - <kbd>a</kbd> hides rows the service considers noise: default VPCs, automated snapshots, passed checks. Noise shows by default; <kbd>a</kbd> opts in to hiding it.
-- <kbd>z</kbd> cycles the sort: load order, name ascending, name descending, state.
+- <kbd>z</kbd> cycles the sort: load order, name ascending, name descending, state (and service, under `@all`). While a search is active the default is best match first, and a sort you pick overrides it.
