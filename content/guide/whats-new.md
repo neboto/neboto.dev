@@ -1,6 +1,6 @@
 +++
 title = "What's new"
-description = "Changes since the first release: an @all search you can narrow and sort, app/neboto in CloudTrail user agents, a clearer CloudTrail event search, a headless CLI for scripts and AI agents (neboto ls, neboto get), IAM policy documents, sub-tabs from either pane with H and L, a demo mode, a key display for recordings, DMS, X-Ray and Batch, export formats, operational CLI commands behind C, which load balancers hold an instance, the EC2 console log, Route 53 and Resolver fixes. Plus nebaz, the Azure sibling in development."
+description = "Changes since the first release: the mouse works everywhere, CloudFormation stack policies and StackSet results, gzipped EC2 user data, safer SSM sessions, an @all search you can narrow and sort, app/neboto in CloudTrail user agents, a clearer CloudTrail event search, a headless CLI for scripts and AI agents (neboto ls, neboto get), IAM policy documents, sub-tabs from either pane with H and L, a demo mode, a key display for recordings, DMS, X-Ray and Batch, export formats, operational CLI commands behind C, which load balancers hold an instance, the EC2 console log, Route 53 and Resolver fixes. Plus nebaz, the Azure sibling in development."
 weight = 90
 +++
 
@@ -8,6 +8,50 @@ What changed in each release since `v0.1.0`, newest first. The full notes
 and binaries are on the
 [releases page](https://github.com/neboto/neboto-tui/releases). The
 installer always fetches the latest release, so re-running it upgrades you.
+
+## v0.2.0
+
+### The mouse works everywhere
+
+neboto is still keyboard-first, but nothing needs the keyboard any more.
+
+- **Status-bar hints:** clickable. Click `m metrics` or `W trail` and it
+  presses that key wherever you are.
+- **Region and profile:** the region name opens the region picker, and the
+  profile and account badges open the profile picker.
+- **Welcome screen:** has one-click starting points (`@ec2`, `@s3`, `@lambda`
+  …).
+- **Pickers and help:** scroll with the wheel; click to choose, and
+  double-click to confirm. A click outside closes them.
+- **Browsers, log tail and lenses:** S3, DynamoDB, the log tail and the
+  <kbd>W</kbd> / <kbd>U</kbd> / <kbd>N</kbd> lenses scroll, select and drill
+  in with the mouse.
+- **Smaller targets:** one click on a `→` follows the link. Clicking the
+  detail pane's title bar toggles full width, and the `‹` / `›` tab markers
+  scroll the tabs.
+
+See [Navigation](@/guide/navigation.md#mouse) for every gesture.
+
+### CloudFormation: stack policies and StackSet results
+
+A live stack has a **Policy** section that reads its stack policy statement
+by statement (<kbd>e</kbd> opens the document). <kbd>Enter</kbd> on a
+StackSet operation lists its per-account, per-region results inline,
+failures first.
+
+### Fixes
+
+- **EC2 user data** compressed with gzip, the default for Terraform's
+  `cloudinit_config`, now shows the script instead of raw base64.
+- **SSM sessions** never write static AWS keys into the command they launch.
+  Sessions running on static keys (rather than a profile) now open in the
+  current terminal, so the keys can't end up in shell history or on screen.
+  Profile and SSO users see no change.
+- **Assumed member accounts:** SSM sessions are off while you're assumed into
+  one. The `aws` CLI would run as your base profile, in the wrong account. See
+  [Multi-account](@/guide/multi-account.md).
+- **Flat view:** with a <kbd>/</kbd> filter active, the section tab follows
+  the cursor correctly.
 
 ## v0.1.11
 
