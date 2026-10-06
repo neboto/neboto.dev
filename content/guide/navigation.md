@@ -71,6 +71,21 @@ you built, and <kbd>`</kbd> shows the whole jump list.
 
 ## Mouse
 
-Clicks select rows and sub-tabs, double-click drills in or follows a link,
-right-click goes back, and the wheel scrolls. Hold <kbd>Shift</kbd> while
-dragging for your terminal's native text selection.
+Everything on screen that names a key can be clicked. The keyboard is still
+faster, but nothing needs it.
+
+| Gesture | Does |
+|---|---|
+| Click | Select a row, switch a tab or section, open a picker from a badge, press a status-bar hint (`m metrics`, `W trail`…) |
+| Double-click | <kbd>Enter</kbd>: open the detail pane, follow a link, confirm a picker row, drill into a folder |
+| Click a `→` | Follow that link |
+| Click the detail pane's title bar | Full width (<kbd>Z</kbd>) |
+| Click a `‹` / `›` | Scroll the tabs |
+| Wheel | Scroll the list, the detail body, a picker, or an in-pane view (scrolling up in a log tail pauses it) |
+| Drag | Select a range of rows; <kbd>y</kbd> copies them |
+| Right-click | Back (<kbd>Ctrl-O</kbd>); in a popup or an in-pane view, close it |
+| Click outside a popup | Close it |
+
+neboto captures the mouse, so a plain drag selects rows rather than text.
+Hold <kbd>Shift</kbd> while dragging for your terminal's own text selection
+(<kbd>Option</kbd> in iTerm2).

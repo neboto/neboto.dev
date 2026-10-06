@@ -35,7 +35,10 @@ correct answer is the AWS-managed `ReadOnlyAccess` policy; see
 With no arguments and no `default_service` configured, neboto shows a welcome
 splash and loads nothing until you pick a service, so startup is instant.
 Press <kbd>S</kbd> for the service picker, or type <kbd>@</kbd> followed by a
-prefix such as `ec2` and press <kbd>Enter</kbd>.
+prefix such as `ec2` and press <kbd>Enter</kbd>. With a mouse, click one of
+the services under the logo (`@ec2`, `@s3`, `@lambda` …) or any row of the
+menu. If no profile is set, a `⦿ no profile` badge at the top right opens the
+profile picker.
 
 Set `default_service` in the [config file](@/guide/configuration.md) to skip
 the splash.
