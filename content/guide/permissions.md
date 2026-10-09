@@ -19,7 +19,7 @@ against a read-only vocabulary, so a write call cannot slip in unnoticed.
 `PERMISSIONS.md` calls out the few reads that deserve a conscious decision:
 
 - **Opt-in reveals**: `secretsmanager:GetSecretValue` and `ssm:GetParameter` with decryption are only issued when you press <kbd>x</kbd> or <kbd>Y</kbd> on a secret. Values are never cached, logged, or written anywhere; they go to the screen or the clipboard and nowhere else. Leave these actions out of the policy and the reveal simply fails.
-- **Calls that cost money**: `ce:GetCostAndUsage` bills about $0.01 per request (cached six hours); `dynamodb:Scan` and `Query` consume read capacity; CloudWatch `GetMetricData` bills per metric, which is why the dashboard view caps its series.
+- **Calls that cost money**: `ce:GetCostAndUsage` bills about $0.01 per request (cached six hours), as does `ce:GetAnomalies`, which only runs when you open Cost's Anomalies view; `dynamodb:Scan` and `Query` consume read capacity; CloudWatch `GetMetricData` bills per metric, which is why the dashboard view caps its series.
 - **Data-plane calls that can start things**: Bedrock AgentCore's `GetAgentCard` reaches the running agent and can cold-start it, so it is gated behind <kbd>x</kbd> rather than fired on view.
 - **S3 configuration reads** whose IAM action names do not match the `s3:GetBucket*` wildcard.
 - **`sts:AssumeRole`** behind the member-account switch.

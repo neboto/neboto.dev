@@ -56,6 +56,7 @@ verbs are a single letter. Inside the app,
 | <kbd>h</kbd> <kbd>←</kbd> <kbd>Esc</kbd> | Back to the list |
 | <kbd>Ctrl-O</kbd> | Back through history |
 | <kbd>/</kbd> | Filter the body text |
+| <kbd>Ctrl-W</kbd> | Wrap long values onto continuation rows, instead of clipping them at the pane edge |
 | <kbd>y</kbd> / <kbd>c</kbd> | Copy the row, or the visual selection |
 | <kbd>C</kbd> | Copy an AWS CLI command for this resource (same picker as the list) |
 | <kbd>e</kbd> | Open in `$EDITOR` |

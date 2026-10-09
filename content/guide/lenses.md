@@ -18,8 +18,8 @@ modals. Each takes over the keymap while open; <kbd>Esc</kbd> closes it and
 | <kbd>N</kbd> | Network access: the effective security-group rule table, with load-balancer sources labelled |
 | <kbd>o</kbd> | S3 object browser, with a Terraform state viewer inside it (see [Browsers](@/guide/browsers.md)) |
 | <kbd>i</kbd> | DynamoDB item browser: Scan / Query (see [Browsers](@/guide/browsers.md)) |
-| <kbd>s</kbd> | SSM Session Manager · ECS Exec · assume an Organizations member-account role |
-| <kbd>x</kbd> / <kbd>Y</kbd> | Reveal / copy a secret or SSM parameter value (never cached, never logged) |
+| <kbd>s</kbd> | SSM Session Manager · ECS Exec · assume an Organizations member-account role. Sessions are off while a member-account role is assumed (see [Multi-account](@/guide/multi-account.md)) |
+| <kbd>x</kbd> / <kbd>Y</kbd> | Reveal / copy a secret or SSM parameter value (never cached, never logged). On a Route 53 record's **Test answer** section, <kbd>x</kbd> asks Route 53 what it answers, again on each press |
 | <kbd>O</kbd> | Open this resource in the AWS Console |
 
 ## Metrics (<kbd>m</kbd>)

@@ -33,10 +33,10 @@ credentials neboto holds cannot mutate anything. This is the reason neboto
 stays read-only as a design constraint: a write action would either fail
 silently cross-account or force that guarantee to be weakened.
 
-SSM sessions (<kbd>s</kbd> on an instance) are off while you're assumed into
-a member account. The `aws` CLI they launch can't carry neboto's assumed,
-read-only-scoped session, so it would run as your base profile instead, in
-the wrong account. Exit the role from the profile picker (<kbd>P</kbd>)
+SSM and ECS Exec sessions (<kbd>s</kbd> on an instance or task) are off
+while you're assumed into a member account. The `aws` CLI they launch can't
+carry neboto's assumed, read-only-scoped session, so it would run as your
+base profile instead, in the wrong account. Exit the role from the profile picker (<kbd>P</kbd>)
 first.
 
 ## Macros for the routine
