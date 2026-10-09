@@ -1,6 +1,6 @@
 +++
 title = "What's new"
-description = "Changes since the first release: the mouse works everywhere, CloudFormation stack policies and StackSet results, gzipped EC2 user data, safer SSM sessions, an @all search you can narrow and sort, app/neboto in CloudTrail user agents, a clearer CloudTrail event search, a headless CLI for scripts and AI agents (neboto ls, neboto get), IAM policy documents, sub-tabs from either pane with H and L, a demo mode, a key display for recordings, DMS, X-Ray and Batch, export formats, operational CLI commands behind C, which load balancers hold an instance, the EC2 console log, Route 53 and Resolver fixes. Plus nebaz, the Azure sibling in development."
+description = "Changes since the first release: ECR images, Elastic Beanstalk, Cost Anomaly Detection, Route 53 DNS answer tests, wrapped detail values, credential_process prompts, the mouse works everywhere, CloudFormation stack policies and StackSet results, gzipped EC2 user data, safer SSM sessions, an @all search you can narrow and sort, app/neboto in CloudTrail user agents, a clearer CloudTrail event search, a headless CLI for scripts and AI agents (neboto ls, neboto get), IAM policy documents, sub-tabs from either pane with H and L, a demo mode, a key display for recordings, DMS, X-Ray and Batch, export formats, operational CLI commands behind C, which load balancers hold an instance, the EC2 console log, Route 53 and Resolver fixes. Plus nebaz, the Azure sibling in development."
 weight = 90
 +++
 
@@ -8,6 +8,82 @@ What changed in each release since `v0.1.0`, newest first. The full notes
 and binaries are on the
 [releases page](https://github.com/neboto/neboto-tui/releases). The
 installer always fetches the latest release, so re-running it upgrades you.
+
+## v0.3.0
+
+### ECR images
+
+ECR has an **Images** sub-tab next to Repositories: the newest 100 images
+per repository, each with its own pane.
+
+- **Findings:** the image's scan findings, worst first. Basic and enhanced
+  (Inspector) scanning read the same way, and an image that was never
+  scanned says so.
+- **Used By:** the ECS tasks running this image, matched on the digest they
+  actually pulled, so a task started from a `:latest` that has since moved
+  still counts. It says what it searched, so an empty list doesn't read as
+  "unused".
+- **Links:** a digest in a repository, or a digest-pinned image URI in a
+  task definition, jumps to the image.
+
+Image layers are left out on purpose: reading them updates the image's
+*last pulled* date, which cleanup rules depend on.
+
+### Elastic Beanstalk (`@eb`)
+
+Environments, applications and versions. Environments show their health,
+with red, yellow and mid-update ones sorted first, and **Cluster** (EKS)
+environments list alongside the classic **Standard** ones. An environment
+pane has Overview, Health, Events, Configuration, Resources and Tags, and
+links out to its EKS cluster, Auto Scaling group, load balancer, queue and
+IAM roles. <kbd>U</kbd> on an EKS cluster lists the Beanstalk environments
+sharing it.
+
+### Cost: anomalies
+
+<kbd>8</kbd> on Cost opens **Anomalies**: what Cost Anomaly Detection
+flagged in the last 90 days, newest first, each with its dollar impact and
+whether it's still going. The pane breaks an anomaly down by service, usage
+type, region and account. <kbd>1</kbd>–<kbd>7</kbd> go back to the spend
+view as you left it. The view's one `ce:GetAnomalies` call is only made
+when you open it, and is cached six hours like the rest of Cost.
+
+### Route 53: test what a record answers
+
+A record has a **Test answer** section. <kbd>x</kbd> asks Route 53 what it
+answers for that name and type, and checks the answer against the record.
+A weighted or failover record may give a different set member: press
+<kbd>x</kbd> again to ask again. A health check's status also shows each
+checker's last failure reason, so a check that is healthy now but flapped
+an hour ago shows it.
+
+### Wrap long values in the detail pane
+
+<kbd>Ctrl-W</kbd> wraps long values (a DKIM record, a policy summary, a JSON
+tag) onto continuation rows under the value column instead of clipping them
+at the pane edge. Set `detail_wrap = true` to start with it on. See
+[Configuration](@/guide/configuration.md).
+
+### Fixes
+
+- **Tags:** a tag call that fails (a missing permission, a throttle) now
+  shows its error, rather than "No tags".
+- **Organizations:** the status bar and the account preview now say that
+  <kbd>s</kbd> assumes a role into the account. If the assume is denied,
+  the error points at `org_access_role` / `org_access_roles`.
+- **`credential_process`:** switching profile no longer flashes the shell
+  when the process answers from its cache.
+
+## v0.2.1
+
+### `credential_process` prompts
+
+A `credential_process` that asks for something in the terminal, such as
+`granted` with the `pass` keyring and gpg's pinentry, used to draw over
+neboto and leave the terminal broken. neboto now runs it before the TUI
+starts. When it runs again (after <kbd>P</kbd>, or when credentials
+expire), neboto steps aside for the prompt and redraws when it's answered.
+See [First run](@/guide/first-run.md#credentials-and-region).
 
 ## v0.2.0
 

@@ -22,6 +22,12 @@ neboto uses the standard AWS credential chain: environment variables,
 `~/.aws/credentials`, `~/.aws/config` (SSO profiles, IAM roles), then an
 instance or task role. If the `aws` CLI works in your shell, neboto works.
 
+A `credential_process` that asks for something in the terminal works too:
+`granted` with the `pass` keyring, say, where gpg's pinentry asks for your
+passphrase. neboto runs it before the TUI starts. When it runs again later
+(after <kbd>P</kbd>, or when the credentials expire), neboto steps aside
+until the prompt is answered, then redraws.
+
 The startup region comes from `AWS_DEFAULT_REGION` or the active profile.
 <kbd>R</kbd> switches region at runtime without a restart; <kbd>P</kbd>
 switches profile.
