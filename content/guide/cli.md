@@ -47,6 +47,33 @@ that's the id), then exact name.
 | `--section <NAME>` | Only this section, any case; repeatable. The other sections' data isn't fetched |
 | `--wait <SECS>` | How long to wait for slow sections (default 60); anything still loading prints as not loaded |
 
+### Compare two resources
+
+Diff two `get`s. Both print the same sections in the same order, so the
+diff lines up:
+
+```sh
+diff <(neboto get @lambda orders-api-prod -o md) <(neboto get @lambda orders-api-staging -o md)
+```
+
+`--section` narrows it to what you care about, and any diff tool works
+(`delta`, `vimdiff`, `git diff --no-index`).
+
+Across accounts or regions, give each side its own `-p` / `-r`, and swap out
+the account id and region first, or every ARN row differs:
+
+```sh
+norm() { sed -e "s/$1/ACCOUNT/g" -e "s/$2/REGION/g"; }
+neboto get @lambda orders-api -p prod    -o md | norm 111111111111 ap-southeast-2 > prod.md
+neboto get @lambda orders-api -p staging -o md | norm 222222222222 ap-southeast-2 > staging.md
+diff prod.md staging.md
+```
+
+These run one after the other, so two profiles with a prompting
+`credential_process` don't both ask at once. For an Organizations member
+account, use a profile that assumes into it (`role_arn` +
+`source_profile`); the CLI doesn't assume org roles itself.
+
 ## Output
 
 `-o table` is the default on a terminal and `-o json` the default when

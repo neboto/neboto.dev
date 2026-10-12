@@ -1,6 +1,6 @@
 +++
 title = "What's new"
-description = "Changes since the first release: ECR images, Elastic Beanstalk, Cost Anomaly Detection, Route 53 DNS answer tests, wrapped detail values, credential_process prompts, the mouse works everywhere, CloudFormation stack policies and StackSet results, gzipped EC2 user data, safer SSM sessions, an @all search you can narrow and sort, app/neboto in CloudTrail user agents, a clearer CloudTrail event search, a headless CLI for scripts and AI agents (neboto ls, neboto get), IAM policy documents, sub-tabs from either pane with H and L, a demo mode, a key display for recordings, DMS, X-Ray and Batch, export formats, operational CLI commands behind C, which load balancers hold an instance, the EC2 console log, Route 53 and Resolver fixes. Plus nebaz, the Azure sibling in development."
+description = "Changes since the first release: ECR lifecycle policies evaluated against your images, warnings for running images that are untagged or gone, Cost grouped by tag and cost category, Lambda layers, an update check, where sessions open, ECR images, Elastic Beanstalk, Cost Anomaly Detection, Route 53 DNS answer tests, wrapped detail values, credential_process prompts, the mouse works everywhere, CloudFormation stack policies and StackSet results, gzipped EC2 user data, safer SSM sessions, an @all search you can narrow and sort, app/neboto in CloudTrail user agents, a clearer CloudTrail event search, a headless CLI for scripts and AI agents (neboto ls, neboto get), IAM policy documents, sub-tabs from either pane with H and L, a demo mode, a key display for recordings, DMS, X-Ray and Batch, export formats, operational CLI commands behind C, which load balancers hold an instance, the EC2 console log, Route 53 and Resolver fixes. Plus nebaz, the Azure sibling in development."
 weight = 90
 +++
 
@@ -8,6 +8,106 @@ What changed in each release since `v0.1.0`, newest first. The full notes
 and binaries are on the
 [releases page](https://github.com/neboto/neboto-tui/releases). The
 installer always fetches the latest release, so re-running it upgrades you.
+
+## v0.5.0
+
+### ECR: what the lifecycle policy will delete
+
+A repository's **Lifecycle** section now runs the policy against the images
+neboto has loaded, rule by rule in priority order: a plain-English summary,
+what it matches, what it can expire now, what's due in the next seven days
+and, for count rules at their limit, what the next push will expire. Any
+image that running ECS tasks use and that expires within a week gets a `⚠`
+line naming the tasks. The raw JSON is still underneath.
+
+### ECR and ECS: running images at risk
+
+If a running task's image digest is **untagged**, an untagged-expiry rule
+can delete it, and new tasks then fail with `CannotPullContainerError`. A
+`⚠` line now says so on the image, the repository, the ECS service and the
+task. The same panes say when the digest is **no longer in the repository**.
+`Tag Mutability: MUTABLE` becomes a warning when running containers pull
+from that repository. None of this makes an API call; it uses what's already
+loaded, and stays quiet when it can't be sure.
+
+### Cost: group by tag or cost category
+
+Cost's tab row gains **5 Tag** and **6 Category**. The first press opens a
+picker of your cost-allocation tags or cost categories; after that the
+choice is remembered (`Tag:team`), and pressing the key again re-picks. The
+picker's list is a billed Cost Explorer call, so it's only fetched when the
+picker opens.
+
+The tabs are renumbered to match: **Anomalies moves to <kbd>7</kbd>**. The
+period is no longer a tab. Its chips sit on the Cost pane's top border:
+<kbd>[</kbd> / <kbd>]</kbd> step through them, <kbd>t</kbd> still cycles,
+and a click picks one.
+
+## v0.4.0
+
+### Lambda layers
+
+Lambda has a **Layers** sub-tab: one row per layer, with its versions and
+**Used By**, the loaded functions that use it, grouped by pinned version.
+A function's layer rows jump to the layer. Layers from other accounts (AWS's
+own, or a vendor's) are noted on the function instead, since they can't be
+listed.
+
+### A newer release, announced
+
+Once a day neboto checks for a newer release. When there is one, a
+`↑ vX.Y.Z` chip appears on the service strip; clicking it copies the upgrade
+command. It's the only request neboto makes that isn't to AWS, and it can be
+turned off. See [Permissions](@/guide/permissions.md#the-one-request-that-isn-t-to-aws).
+
+### Choose where sessions open
+
+`session_launch` (or `--session-launch` for one run) picks where SSM and ECS
+Exec sessions open. `auto` keeps the current behaviour: a new tmux window,
+else a new terminal window, else this terminal. `window` always opens a new
+window, and `inline` always uses this terminal. Credentials are still never
+written into the launched command. See
+[Configuration](@/guide/configuration.md).
+
+### ECS: services scaled to 0
+
+A service at 0 desired and 0 running used to read as a healthy green `●`. It
+now shows a muted `◌ scaled to 0`, which <kbd>F</kbd> and
+`neboto ls @ecs --state "scaled to 0"` can filter on.
+
+### Tags in the list for Bedrock, CloudTrail, CloudWatch and Glue
+
+These services' rows now carry their tags as soon as the list loads, so the
+ownership line, `tag:` searches, <kbd>U</kbd> and exports see them without
+opening each resource. It's one extra `tag:GetResources` call per load; if
+it's denied, you get one warning and the list loads as before.
+
+### Compare two resources
+
+Not a feature, a recipe: diff two `neboto get` runs. See
+[CLI](@/guide/cli.md#compare-two-resources).
+
+### Fixes
+
+- **Load errors** now carry the AWS message (`AccessDenied: …`) instead of
+  the SDK's bare "service error", in the status bar, <kbd>M</kbd> and
+  `neboto ls`.
+- **`credential_process`:** while one runs, the status bar says so, rather
+  than raw text printed over the screen.
+- **Demo mode:** CloudWatch loads again.
+- **Read-only guard:** its check of `PERMISSIONS.md` was matching nothing
+  and always passing; it now checks every listed action. The
+  [Permissions](@/guide/permissions.md#the-one-exception-sessions) page now
+  names sessions as the one exception and says where the guarantee is
+  enforced.
+
+## v0.3.1
+
+### Fixes
+
+- **`credential_process` prompts:** v0.3.0's change to stop the screen
+  flashing could interfere with a passphrase prompt. neboto now leaves the
+  terminal alone while one runs.
 
 ## v0.3.0
 
