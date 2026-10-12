@@ -64,6 +64,8 @@ Every flag overrides the config file for that run only.
 | `--endpoint-url <URL>` | Point at a local emulator |
 | `--demo` | Browse a made-up account offline: no credentials, no network |
 | `--banner` / `--no-banner` | Show or hide the ASCII banner |
+| `--session-launch <MODE>` | Where SSM / ECS Exec sessions open: `auto`, `window` or `inline` |
+| `--no-update-check` | Skip the daily check for a newer release |
 
 ## The screen
 

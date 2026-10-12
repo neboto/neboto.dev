@@ -37,6 +37,8 @@ cost = 21600                  # per-service overrides, keyed by @prefix
 | `theme`, `[theme_colors]` | Preset name and per-colour overrides |
 | `cache_ttl`, `[cache_ttls]` | Base cache freshness in seconds, and per-service overrides keyed by `@`-prefix |
 | `org_access_role`, `org_access_roles` | Role name(s) for the member-account switch |
+| `session_launch` | Where SSM / ECS Exec sessions open: `"auto"` (default: a new tmux window, else a new terminal window, else this terminal), `"window"` or `"inline"` |
+| `update_check` | Check once a day for a newer release (default `true`; see [Permissions](@/guide/permissions.md#the-one-request-that-isn-t-to-aws)) |
 | `controltower_audit_account`, `controltower_audit_role` | The account holding the Control Tower Config aggregator. **Quote the id**: a bare 12-digit number is a TOML integer |
 | `owner_tags`, `managed_by_tags`, `ownership_ribbon` | Which tags feed the ownership line under each detail pane, and whether to show it |
 | `endpoint_url` | Point every client at a local emulator |

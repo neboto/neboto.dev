@@ -29,6 +29,14 @@ served from the project's `main` branch on GitHub, which is protected and
 only changes through reviewed pull requests; there is deliberately no copy
 of it on this site.
 
+### Upgrading
+
+Re-run the installer: it always fetches the latest release. neboto checks
+once a day whether one is out, and shows a `↑ vX.Y.Z` chip on the service
+strip when it is. Clicking the chip copies the upgrade command. The check
+can be turned off; see
+[Permissions](@/guide/permissions.md#the-one-request-that-isn-t-to-aws).
+
 ## cargo-binstall
 
 ```bash
