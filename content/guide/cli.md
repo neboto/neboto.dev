@@ -1,6 +1,6 @@
 +++
 title = "Scripts and agents"
-description = "neboto services, ls and get: the same read-only calls as the TUI, printed as a table, JSON, Markdown or CSV for scripts and AI agents."
+description = "neboto services, ls, get and audit: the same read-only calls as the TUI, printed as a table, JSON, Markdown or CSV for scripts and AI agents."
 weight = 65
 +++
 
@@ -15,6 +15,7 @@ neboto ls @ec2 -t volume --state available        # unattached EBS volumes
 neboto ls @iam -t role -f 'deploy'                # IAM roles, fuzzy-matched
 neboto get @lambda orders-api                     # every detail-pane section
 neboto get @iam deploy-role --section policies -o json
+neboto audit                                      # security findings; exit 3 if any
 ```
 
 Try any of them with `--demo`, which answers from a built-in fake account
@@ -46,6 +47,26 @@ that's the id), then exact name.
 | `-t`, `--type <TYPE>` | Pick between resources that share a name (an ECS service and its task definition) |
 | `--section <NAME>` | Only this section, any case; repeatable. The other sections' data isn't fetched |
 | `--wait <SECS>` | How long to wait for slow sections (default 60); anything still loading prints as not loaded |
+
+## `audit`: security findings
+
+`audit` loads EC2, RDS, S3, EKS and IAM, runs the same checks as the TUI's
+[`@audit`](@/guide/search.md#audit), and prints the findings. Each finding
+names its `service` and `resource_id`, so `neboto get` on that pair gives the
+full detail.
+
+```bash
+neboto audit                                      # every finding
+neboto audit --fail-on high -o json               # gate CI on high severity only
+```
+
+| Flag | Effect |
+|---|---|
+| `--fail-on <SEVERITY>` | `high`, `medium`, `low` (the default) or `never`: exit `3` when a finding is at or above it |
+
+A check that couldn't run, usually because a list call was denied, is
+printed too, and `-o json` puts it under `not_checked`. An empty `findings`
+with a non-empty `not_checked` is **not** a clean account.
 
 ### Compare two resources
 
@@ -87,6 +108,7 @@ go to stderr, so `| jq` keeps working.
 | `0` | Success, including an empty list |
 | `1` | AWS error (permissions, throttling, network) |
 | `2` | A bad service, region or section, or a resource that isn't there or matches more than one. The message says what to pass instead |
+| `3` | `audit` only: it ran and found something at or above `--fail-on`. stdout still has the full result |
 
 `-p`, `-r`, `--endpoint-url` and `--demo` work on every subcommand. Unlike
 the TUI, an unknown profile or region is an error rather than a fallback, so

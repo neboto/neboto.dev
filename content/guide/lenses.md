@@ -47,10 +47,13 @@ range; <kbd>s</kbd> flips a live tail into a search on the same group.
 
 ## Change timeline (<kbd>W</kbd>)
 
-"What changed around this resource?" Four sources merged newest-first, each
-row wearing a badge: CloudTrail events that name the resource, CloudWatch
-alarm state changes, CloudFormation stack events for the owning stack, and
-ECS deployments. Works on any resource, from either pane.
+"What changed around this resource?" Its sources are merged newest-first,
+each row wearing a badge: CloudTrail events that name the resource,
+CloudWatch alarm state changes, CloudFormation stack events for the owning
+stack, ECS deployments, Auto Scaling activities (for a group, or an instance
+in one) and RDS events (RDS keeps only 14 days). The last two are what AWS
+itself does, which CloudTrail never records. Works on any resource, from
+either pane.
 <kbd>Enter</kbd> opens the raw event in `$EDITOR`.
 
 ## Referenced by (<kbd>U</kbd>) and network access (<kbd>N</kbd>)
