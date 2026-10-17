@@ -1,6 +1,6 @@
 +++
 title = "Search"
-description = "The @prefix syntax, fuzzy matching, tag filters, and @all across services."
+description = "The @prefix syntax, fuzzy matching, tag filters, @all across services, and @audit's security findings."
 weight = 40
 +++
 
@@ -13,6 +13,7 @@ indexed field of the resources in view.
 @ec2 web             switch to EC2 and fuzzy-search "web"
 ec2:web              colon syntax, same thing
 @all payments        search every warm cache entry, across services
+@audit               security findings from what's loaded (no API calls)
 tag:env=prod         exact tag filter (composes: tag:env=prod api)
 arn:aws:iam::…       paste an ARN — it fuzzy-matches rather than erroring
 ```
@@ -56,6 +57,22 @@ include it. Click a chip, or step through them with <kbd>Tab</kbd> /
 <kbd>Shift</kbd>+<kbd>Tab</kbd> (<kbd>H</kbd> / <kbd>L</kbd>), to show only
 that service's results; `@all` shows them all again. <kbd>z</kbd> sorts the
 results, including grouped by service.
+
+## `@audit`
+
+`@audit` runs security checks over the same warm caches, with no API calls.
+It flags security groups open to the world (graded by port), public or
+unencrypted RDS, unencrypted EBS, IMDSv1, public AMIs, S3 buckets without a
+full public access block, EKS endpoints open to `0.0.0.0/0`, root MFA and
+access keys, the password policy, and Access Analyzer's public findings.
+
+Severity is the row's state, so <kbd>F</kbd> filters by it and <kbd>z</kbd>
+sorts by it. <kbd>Enter</kbd> opens the resource at the section that shows
+the problem; <kbd>l</kbd> reads the finding in place. A check whose service
+you haven't loaded says `not checked — @rds not loaded` rather than passing;
+<kbd>r</kbd> loads every missing one (EC2, RDS, S3, EKS, IAM) in the
+background and re-audits as each lands. `neboto audit` runs the same checks
+from a script; see [CLI](@/guide/cli.md#audit-security-findings).
 
 ## Filters that are not search
 

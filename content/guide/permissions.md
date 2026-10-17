@@ -14,6 +14,11 @@ updated in the same commit as any change that adds an API call. A guard in
 the project's CI checks every SDK operation and every listed IAM action
 against a read-only vocabulary, so a write call cannot slip in unnoticed.
 
+`@audit` needs no permissions of its own: in the TUI it reads only what
+other services have already loaded, and `neboto audit` runs the EC2, RDS,
+S3, EKS and IAM list calls. A denied one doesn't fail the audit; its checks
+report as *not checked*.
+
 ## Calls worth a second look
 
 `PERMISSIONS.md` calls out the few reads that deserve a conscious decision:

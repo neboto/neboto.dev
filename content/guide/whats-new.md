@@ -1,6 +1,6 @@
 +++
 title = "What's new"
-description = "Changes since the first release: ECR lifecycle policies evaluated against your images, warnings for running images that are untagged or gone, Cost grouped by tag and cost category, Lambda layers, an update check, where sessions open, ECR images, Elastic Beanstalk, Cost Anomaly Detection, Route 53 DNS answer tests, wrapped detail values, credential_process prompts, the mouse works everywhere, CloudFormation stack policies and StackSet results, gzipped EC2 user data, safer SSM sessions, an @all search you can narrow and sort, app/neboto in CloudTrail user agents, a clearer CloudTrail event search, a headless CLI for scripts and AI agents (neboto ls, neboto get), IAM policy documents, sub-tabs from either pane with H and L, a demo mode, a key display for recordings, DMS, X-Ray and Batch, export formats, operational CLI commands behind C, which load balancers hold an instance, the EC2 console log, Route 53 and Resolver fixes. Plus nebaz, the Azure sibling in development."
+description = "Changes since the first release: security findings with @audit and neboto audit, security groups open to the world, AppSync, IAM instance profiles, Auto Scaling and RDS events in the change timeline, steadier exports, ECR lifecycle policies evaluated against your images, warnings for running images that are untagged or gone, Cost grouped by tag and cost category, Lambda layers, an update check, where sessions open, ECR images, Elastic Beanstalk, Cost Anomaly Detection, Route 53 DNS answer tests, wrapped detail values, credential_process prompts, the mouse works everywhere, CloudFormation stack policies and StackSet results, gzipped EC2 user data, safer SSM sessions, an @all search you can narrow and sort, app/neboto in CloudTrail user agents, a clearer CloudTrail event search, a headless CLI for scripts and AI agents (neboto ls, neboto get), IAM policy documents, sub-tabs from either pane with H and L, a demo mode, a key display for recordings, DMS, X-Ray and Batch, export formats, operational CLI commands behind C, which load balancers hold an instance, the EC2 console log, Route 53 and Resolver fixes. Plus nebaz, the Azure sibling in development."
 weight = 90
 +++
 
@@ -8,6 +8,127 @@ What changed in each release since `v0.1.0`, newest first. The full notes
 and binaries are on the
 [releases page](https://github.com/neboto/neboto-tui/releases). The
 installer always fetches the latest release, so re-running it upgrades you.
+
+## v0.6.0
+
+### Security findings: `@audit`
+
+`@audit` is a service whose rows are findings: security checks run over what
+neboto has already loaded, with no API calls of its own.
+
+- **Network:** security groups open to the world, graded by port (admin and
+  database ports are high).
+- **Data:** public or unencrypted RDS, unencrypted EBS volumes and
+  snapshots, S3 buckets without a full public access block.
+- **Compute:** instances allowing IMDSv1, public AMIs, EKS endpoints open to
+  `0.0.0.0/0`.
+- **Account:** root MFA, root access keys, the password policy.
+- **Access Analyzer:** its public findings, relayed.
+
+Severity is the row's state, so <kbd>F</kbd> filters by it and <kbd>z</kbd>
+sorts by it. <kbd>Enter</kbd> opens the resource at the section that shows
+the problem (a security group's Inbound rules, an instance's Security).
+
+A check whose service you haven't loaded says `not checked — @rds not
+loaded` rather than passing. <kbd>r</kbd> loads every missing source (EC2,
+RDS, S3, EKS, IAM) in the background and re-audits as each one lands.
+
+`neboto audit` does the same from a script: it loads those five services,
+runs the checks once and exits `3` when it finds something at or above
+`--fail-on`. See [CLI](@/guide/cli.md#audit-security-findings).
+
+### Security groups open to the world
+
+A group with any inbound `0.0.0.0/0` or `::/0` rule now shows a red `●`
+labelled **open to world**. <kbd>F</kbd> filters to them, <kbd>z</kbd> sorts
+them first, and `neboto ls @ec2 -t "Security Group" --state "open to world"`
+gives the same list. Outbound to the world is the AWS default and isn't
+flagged.
+
+Rules that reference a **prefix list** now list its CIDRs underneath: the
+first eight, then a count.
+
+### AppSync (`@appsync`)
+
+GraphQL APIs, with their auth modes, endpoints, logging and WAF. An API's
+pane has **Data Sources**, **Resolvers**, **Functions**, **API Keys** and
+**Schema**. <kbd>e</kbd> on Resolvers or Functions opens their code as
+`.js`, or as `.vtl` for mapping templates. A Cognito user pool, DynamoDB
+table or OpenSearch domain jumps to the resource in its own region.
+
+API key ids *are* the secret, so they're masked when loaded and never shown,
+exported or copied.
+
+### IAM: instance profiles
+
+IAM has a **Profiles** sub-tab (<kbd>8</kbd>). A role's Overview lists the
+instance profiles wrapping it, and an EC2 instance's profile ARN jumps
+there.
+
+### More in the detail pane
+
+Most of these come from responses neboto already fetched, so they need no
+new calls.
+
+- **EC2 instances:** CPU options, On-Demand or Spot, tenancy, placement
+  group, capacity reservation; an IMDS block in Security, with IMDSv1
+  flagged.
+- **Auto Scaling:** termination policies and scale-in protection.
+- **ECS services:** the Service Connect config in Networking.
+- **Load balancers:** a **Key Settings** block (deletion protection,
+  cross-zone, idle timeout, access logs) and target-group stickiness,
+  deregistration delay and algorithm. An ALB shows the **WAF web ACL**
+  protecting it, with `⚠ none` on an internet-facing ALB that has none.
+- **ACM:** issuer, private CA and managed-renewal status.
+- **SNS:** each subscription's filter policy, DLQ, raw message delivery and
+  delivery policy.
+- **Secrets Manager:** version stages (never a value), and a
+  **Replication** section.
+- **SSM parameters:** expiration policies in words, flagged when close.
+- **Cognito users:** every attribute; user pools page up to 500 users.
+- **S3:** Requester Pays. **MSK:** a **Brokers** section. **CodeArtifact:**
+  upstreams and external connections. **Glue:** tags on crawlers and jobs.
+  **Firehose:** database (CDC) sources. **SES:** bounce and complaint rates
+  in <kbd>m</kbd>, against AWS's review line.
+- **Organizations:** account creation status and handshakes.
+- **CloudFormation:** service-managed stack sets show up when you're a
+  delegated StackSets admin.
+
+### Change timeline: Auto Scaling and RDS
+
+<kbd>W</kbd> adds what AWS itself does, which CloudTrail never records: Auto
+Scaling activities for a group (or an instance in one), and RDS events for
+an instance or cluster. RDS keeps only 14 days of events, and the 30- and
+90-day ranges say so.
+
+### Exports
+
+- **<kbd>X</kbd> on one resource** waits for every section to load before
+  writing, like a deep export of a selection. <kbd>Esc</kbd> cancels.
+- **JSON, CSV and Markdown carry the same data.** A list export's Markdown
+  now has every column the CSV and JSON have.
+- **Steadier JSON:** a repeated key is an array of its values, not `X (2)`,
+  `X (3)`; a group's count stays out of its key (`"Inbound"`, not
+  `"Inbound (2 rules)"`); and a row with indented rows under it nests them,
+  with its own value as `"summary"`. This changes the inside of sections in
+  `neboto get -o json`, which was never [stable](@/guide/cli.md#what-scripts-can-rely-on);
+  section names and envelopes are unchanged.
+
+### Fewer throttles
+
+Switching service, profile or region now stops the load it replaces, rather
+than letting it keep paging AWS in the background. AWS calls retry with the
+SDK's adaptive mode, up to five attempts, unless your AWS config sets its
+own retry mode or attempts.
+
+### Fixes
+
+- **Jumps:** an exact id or name always matches, even when the fuzzy filter
+  would have dropped it. A jump to the IAM account settings used to land on
+  "no matches".
+- **`-s audit`** at startup no longer shows an empty list until a key is
+  pressed.
+- **Dependencies:** `rustls` 0.23.46, for RUSTSEC-2026-0346 to 0349.
 
 ## v0.5.0
 
