@@ -50,10 +50,13 @@ that's the id), then exact name.
 
 ## `audit`: security findings
 
-`audit` loads EC2, RDS, S3, EKS and IAM, runs the same checks as the TUI's
-[`@audit`](@/guide/search.md#audit), and prints the findings. Each finding
-names its `service` and `resource_id`, so `neboto get` on that pair gives the
-full detail.
+`audit` loads EC2, RDS, S3, EKS, IAM and KMS, reads the account settings and
+per-resource settings the lists don't carry, runs the same checks as the
+TUI's [`@audit`](@/guide/search.md#audit), and prints the findings. Each
+resource finding names its `service` and `resource_id`, so `neboto get` on
+that pair gives the full detail. Account-level findings, such as GuardDuty
+being off or no multi-region trail, have `service: null` and an empty
+`resource_id`.
 
 ```bash
 neboto audit                                      # every finding
@@ -64,8 +67,9 @@ neboto audit --fail-on high -o json               # gate CI on high severity onl
 |---|---|
 | `--fail-on <SEVERITY>` | `high`, `medium`, `low` (the default) or `never`: exit `3` when a finding is at or above it |
 
-A check that couldn't run, usually because a list call was denied, is
-printed too, and `-o json` puts it under `not_checked`. An empty `findings`
+A check that couldn't run, usually because a call was denied, is printed
+too, with the IAM action it needed, and `-o json` puts it under
+`not_checked`. An empty `findings`
 with a non-empty `not_checked` is **not** a clean account.
 
 ### Compare two resources
