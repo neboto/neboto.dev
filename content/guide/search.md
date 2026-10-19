@@ -13,14 +13,16 @@ indexed field of the resources in view.
 @ec2 web             switch to EC2 and fuzzy-search "web"
 ec2:web              colon syntax, same thing
 @all payments        search every warm cache entry, across services
-@audit               security findings from what's loaded (no API calls)
+@audit               security findings from what's loaded (r fetches the rest)
 tag:env=prod         exact tag filter (composes: tag:env=prod api)
 arn:aws:iam::…       paste an ARN — it fuzzy-matches rather than erroring
 ```
 
 Typing `@e` pops a completion dropdown; <kbd>Tab</kbd> completes to the
 first match. <kbd>Enter</kbd> closes the bar and keeps the filter applied;
-<kbd>Esc</kbd> clears it.
+<kbd>Esc</kbd> clears it. <kbd>↑</kbd> / <kbd>↓</kbd> in the bar recall this
+session's earlier searches. They're kept in memory only and never written
+to disk.
 
 ## What is indexed
 
@@ -60,8 +62,8 @@ results, including grouped by service.
 
 ## `@audit`
 
-`@audit` runs security checks over the same warm caches, with no API calls.
-It flags security groups open to the world (graded by port), public or
+`@audit` runs security checks over the same warm caches, with no API calls
+until you press <kbd>r</kbd>. It flags security groups open to the world (graded by port), public or
 unencrypted RDS, unencrypted EBS, IMDSv1, public AMIs, S3 buckets without a
 full public access block, EKS endpoints open to `0.0.0.0/0`, root MFA and
 access keys, the password policy, and Access Analyzer's public findings.
@@ -70,9 +72,22 @@ Severity is the row's state, so <kbd>F</kbd> filters by it and <kbd>z</kbd>
 sorts by it. <kbd>Enter</kbd> opens the resource at the section that shows
 the problem; <kbd>l</kbd> reads the finding in place. A check whose service
 you haven't loaded says `not checked — @rds not loaded` rather than passing;
-<kbd>r</kbd> loads every missing one (EC2, RDS, S3, EKS, IAM) in the
-background and re-audits as each lands. `neboto audit` runs the same checks
-from a script; see [CLI](@/guide/cli.md#audit-security-findings).
+<kbd>r</kbd> loads every missing one (EC2, RDS, S3, EKS, IAM, KMS) in the
+background and re-audits as each lands.
+
+Then <kbd>r</kbd> reads what no list carries, once per account and region:
+the S3 account-level public access block (a bucket finding it covers drops
+to low), EBS encryption by default, a logging multi-region CloudTrail trail,
+the Config recorder, GuardDuty and Access Analyzer. It also makes capped
+per-resource reads, 100 of each kind: KMS key rotation, IAM users with a
+console password but no MFA, access-key age, and EBS and RDS snapshots that
+are public or shared. A denied call becomes a `not checked — no permission
+for kms:GetKeyRotationStatus` row, not an error. In an Organizations member
+account, a missing Access Analyzer is *not checked*, since the
+organization's analyzer isn't visible from there.
+
+`neboto audit` does all of it from a script; see
+[CLI](@/guide/cli.md#audit-security-findings).
 
 ## Filters that are not search
 

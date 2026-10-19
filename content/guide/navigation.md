@@ -34,6 +34,7 @@ verbs are a single letter. Inside the app,
 | <kbd>Ctrl-d</kbd> / <kbd>Ctrl-u</kbd> | Half page |
 | <kbd>l</kbd> <kbd>→</kbd> <kbd>Enter</kbd> | Open the detail pane |
 | <kbd>Backspace</kbd> <kbd>Ctrl-O</kbd> | Back through history |
+| <kbd>Ctrl-F</kbd> | Forward again, after going back |
 | <kbd>Tab</kbd> / <kbd>Shift-Tab</kbd>, <kbd>1</kbd>–<kbd>9</kbd>, <kbd>0</kbd> | Switch sub-tab |
 | <kbd>H</kbd> / <kbd>L</kbd> | Previous / next sub-tab (from either pane) |
 | <kbd>a</kbd> | Hide noisy rows (defaults, automated snapshots, passed checks…) |
@@ -54,7 +55,8 @@ verbs are a single letter. Inside the app,
 | <kbd>[[</kbd> / <kbd>]]</kbd> | Previous / next group header |
 | <kbd>l</kbd> <kbd>→</kbd> <kbd>Enter</kbd> | Follow the link under the cursor |
 | <kbd>h</kbd> <kbd>←</kbd> <kbd>Esc</kbd> | Back to the list |
-| <kbd>Ctrl-O</kbd> | Back through history |
+| <kbd>Backspace</kbd> <kbd>Ctrl-O</kbd> | Back through history (the footer names where: `⌫ back to EC2 i-0abc`) |
+| <kbd>Ctrl-F</kbd> | Forward again, after going back (`⌃F forward to …`) |
 | <kbd>/</kbd> | Filter the body text |
 | <kbd>Ctrl-W</kbd> | Wrap long values onto continuation rows, instead of clipping them at the pane edge |
 | <kbd>y</kbd> / <kbd>c</kbd> | Copy the row, or the visual selection |
@@ -67,8 +69,10 @@ verbs are a single letter. Inside the app,
 Rows that end in `→` are links: an instance's subnet, a role's ARN, a
 CloudFormation stack name in a tag, an S3 URI in a Glue job. <kbd>Enter</kbd>
 follows them across services, and across regions where the target lives
-elsewhere. <kbd>Ctrl-O</kbd> or a right-click walks back through the history
-you built, and <kbd>`</kbd> shows the whole jump list.
+elsewhere. <kbd>Backspace</kbd>, <kbd>Ctrl-O</kbd> or a right-click walks
+back through the history you built, <kbd>Ctrl-F</kbd> comes forward again
+like a browser, and <kbd>`</kbd> shows the whole jump list. A new jump after
+going back drops the forward history.
 
 ## Mouse
 
@@ -81,6 +85,7 @@ faster, but nothing needs it.
 | Double-click | <kbd>Enter</kbd>: open the detail pane, follow a link, confirm a picker row, drill into a folder |
 | Click a `→` | Follow that link |
 | Click the detail pane's title bar | Full width (<kbd>Z</kbd>) |
+| Click `⌫ back to …` / `⌃F forward to …` in the detail footer | Back / forward through history |
 | Click a `‹` / `›` | Scroll the tabs |
 | Wheel | Scroll the list, the detail body, a picker, or an in-pane view (scrolling up in a log tail pauses it) |
 | Drag | Select a range of rows; <kbd>y</kbd> copies them |

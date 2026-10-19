@@ -14,10 +14,14 @@ updated in the same commit as any change that adds an API call. A guard in
 the project's CI checks every SDK operation and every listed IAM action
 against a read-only vocabulary, so a write call cannot slip in unnoticed.
 
-`@audit` needs no permissions of its own: in the TUI it reads only what
-other services have already loaded, and `neboto audit` runs the EC2, RDS,
-S3, EKS and IAM list calls. A denied one doesn't fail the audit; its checks
-report as *not checked*.
+`@audit` makes no calls of its own until you press <kbd>r</kbd>: in the TUI
+it reads only what other services have already loaded. <kbd>r</kbd> (and
+`neboto audit`) runs the EC2, RDS, S3, EKS, IAM and KMS list calls, then a
+few account-setting reads (S3 Block Public Access, EBS default encryption,
+CloudTrail, Config, GuardDuty, Access Analyzer, Organizations) and capped
+per-resource reads (KMS rotation, IAM users' keys and MFA, snapshot
+sharing). `PERMISSIONS.md` lists every action. A denied call doesn't fail
+the audit; its checks report as *not checked* and name the action.
 
 ## Calls worth a second look
 
@@ -26,6 +30,7 @@ report as *not checked*.
 - **Opt-in reveals**: `secretsmanager:GetSecretValue` and `ssm:GetParameter` with decryption are only issued when you press <kbd>x</kbd> or <kbd>Y</kbd> on a secret. Values are never cached, logged, or written anywhere; they go to the screen or the clipboard and nowhere else. Leave these actions out of the policy and the reveal simply fails.
 - **Calls that cost money**: `ce:GetCostAndUsage` bills about $0.01 per request (cached six hours), as do `ce:GetAnomalies`, `ce:GetTags` and `ce:ListCostCategoryDefinitions`, which only run when you open Cost's Anomalies view or its tag or cost-category picker; `dynamodb:Scan` and `Query` consume read capacity; CloudWatch `GetMetricData` bills per metric, which is why the dashboard view caps its series.
 - **Data-plane calls that can start things**: Bedrock AgentCore's `GetAgentCard` reaches the running agent and can cold-start it, so it is gated behind <kbd>x</kbd> rather than fired on view.
+- **IAM reports**: the Last Accessed section calls `iam:GenerateServiceLastAccessedDetails`, the one IAM call neboto makes that isn't a Get or List. It starts a report job and creates no resource, AWS rates it a Read action and `IAMReadOnlyAccess` includes it, so the read-only guard allows it by name. `GenerateCredentialReport` stays out: the Credential Report section only reads the latest report.
 - **S3 configuration reads** whose IAM action names do not match the `s3:GetBucket*` wildcard.
 - **`sts:AssumeRole`** behind the member-account switch.
 

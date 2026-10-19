@@ -1,6 +1,6 @@
 +++
 title = "What's new"
-description = "Changes since the first release: security findings with @audit and neboto audit, security groups open to the world, AppSync, IAM instance profiles, Auto Scaling and RDS events in the change timeline, steadier exports, ECR lifecycle policies evaluated against your images, warnings for running images that are untagged or gone, Cost grouped by tag and cost category, Lambda layers, an update check, where sessions open, ECR images, Elastic Beanstalk, Cost Anomaly Detection, Route 53 DNS answer tests, wrapped detail values, credential_process prompts, the mouse works everywhere, CloudFormation stack policies and StackSet results, gzipped EC2 user data, safer SSM sessions, an @all search you can narrow and sort, app/neboto in CloudTrail user agents, a clearer CloudTrail event search, a headless CLI for scripts and AI agents (neboto ls, neboto get), IAM policy documents, sub-tabs from either pane with H and L, a demo mode, a key display for recordings, DMS, X-Ray and Batch, export formats, operational CLI commands behind C, which load balancers hold an instance, the EC2 console log, Route 53 and Resolver fixes. Plus nebaz, the Azure sibling in development."
+description = "Changes since the first release: @audit account and per-resource checks, IAM Access Advisor and the credential report, RDS Proxies and blue/green, S3 access points, unused security groups, forward history with Ctrl-F, search history, pinned services, security findings with @audit and neboto audit, security groups open to the world, AppSync, IAM instance profiles, Auto Scaling and RDS events in the change timeline, steadier exports, ECR lifecycle policies evaluated against your images, warnings for running images that are untagged or gone, Cost grouped by tag and cost category, Lambda layers, an update check, where sessions open, ECR images, Elastic Beanstalk, Cost Anomaly Detection, Route 53 DNS answer tests, wrapped detail values, credential_process prompts, the mouse works everywhere, CloudFormation stack policies and StackSet results, gzipped EC2 user data, safer SSM sessions, an @all search you can narrow and sort, app/neboto in CloudTrail user agents, a clearer CloudTrail event search, a headless CLI for scripts and AI agents (neboto ls, neboto get), IAM policy documents, sub-tabs from either pane with H and L, a demo mode, a key display for recordings, DMS, X-Ray and Batch, export formats, operational CLI commands behind C, which load balancers hold an instance, the EC2 console log, Route 53 and Resolver fixes. Plus nebaz, the Azure sibling in development."
 weight = 90
 +++
 
@@ -8,6 +8,118 @@ What changed in each release since `v0.1.0`, newest first. The full notes
 and binaries are on the
 [releases page](https://github.com/neboto/neboto-tui/releases). The
 installer always fetches the latest release, so re-running it upgrades you.
+
+## v0.7.0
+
+### `@audit` reads what the lists don't carry
+
+`@audit` no longer stops at what's loaded. After the source lists land,
+<kbd>r</kbd> reads the account settings no list carries, once per account
+and region:
+
+- the S3 account-level public access block. A bucket finding it fully covers
+  drops to low.
+- EBS encryption by default.
+- a logging, multi-region CloudTrail trail.
+- the Config recorder, GuardDuty and an Access Analyzer.
+
+It also checks resources one at a time, up to 100 of each kind: KMS key
+rotation on customer-managed keys, IAM users with a console password but no
+MFA, access keys older than 90 days, and EBS or RDS snapshots that are
+public or shared with another account. KMS joins EC2, RDS, S3, EKS and IAM
+as a source.
+
+A denied call is a `not checked — no permission for kms:GetKeyRotationStatus`
+row rather than an error, so a narrow role shows what it couldn't see.
+`neboto audit` does all of this in one run. Account-level findings, such as
+GuardDuty being off, have `service: null` and an empty `resource_id` in
+`-o json`.
+
+In an Organizations member account, the organization's analyzer lives in
+the management or delegated-admin account and the member can't see it. "No
+Access Analyzer" is now *not checked* there instead of a low finding, which
+used to fail `neboto audit`'s default `--fail-on low` in every member
+account. A standalone account still gets the finding.
+
+### IAM: who used what, and the credential report
+
+- **Last Accessed** (Access Advisor) on roles, users, groups and managed
+  policies: every service granted, most recently used first, with when and
+  in which region. After those come the services not used in IAM's 400-day
+  tracking window, which are the ones to remove for least privilege.
+- **Credential Report** on the Account pane: console users without MFA,
+  active keys older than 90 days, and keys and passwords unused for 90 days
+  or more, then a row per user, root first. neboto only reads the latest
+  report and never generates one. With no current report, the section tells
+  you to run `aws iam generate-credential-report` and press <kbd>r</kbd>.
+
+### RDS Proxies
+
+RDS has a **Proxies** sub-tab (<kbd>7</kbd>). A proxy's Overview shows its
+network, TLS, IAM role, idle timeout and auth entries. Secrets Manager ARNs
+appear only as references. **Targets** shows the connection-pool settings
+and the health of each target, flags unavailable ones, and jumps to the
+instance or cluster.
+
+RDS also shows **blue/green deployments** on the Config section of both
+sides, with the other side one jump away. A deployment that has already
+switched over is labelled as history.
+
+### More in the detail pane
+
+- **S3:** an **Access Points** section on the bucket: network origin, VPC,
+  alias and ARN.
+- **Security groups:** a group on no network interface is marked
+  **unused**, so <kbd>F</kbd> filters to it like an unattached volume. The
+  VPC's default group is never marked. Unused doesn't mean safe to delete:
+  rules in other groups, launch templates and shared-VPC interfaces can
+  still refer to it, and the **Used By** section says so.
+- **ECS clusters:** a **Capacity Providers** section with the backing Auto
+  Scaling group, managed scaling, termination protection and the default
+  strategy. A Fargate-only cluster makes no call.
+- **Auto Scaling groups:** a **Lifecycle** section with lifecycle hooks and
+  the warm pool, plus the instances in it.
+- **Cognito user pools:** a **Groups** section with precedence, IAM role
+  and members. A member whose username is just their `sub` shows their email
+  instead.
+- **Identity Center applications:** an **Auth** section with authentication
+  methods, access scopes and grants. Each part loads separately, so one
+  denied call doesn't hide the other two.
+- **EBS snapshots:** fast snapshot restore is flagged `⚠` with a row per
+  AZ, since AWS bills it per AZ-hour.
+- **EC2 instances:** a **CPU Credits** row (standard or unlimited) on
+  T-family instances.
+
+### Getting around
+
+- **Forward as well as back.** After <kbd>Backspace</kbd> or
+  <kbd>Ctrl-O</kbd>, <kbd>Ctrl-F</kbd> goes forward again, like a browser.
+  The detail footer names where each one goes (`⌫ back to EC2 i-0abc`,
+  `⌃F forward to …`), and you can click it. <kbd>Backspace</kbd> now works in
+  the detail pane as well.
+- **Search history:** <kbd>↑</kbd> / <kbd>↓</kbd> in the <kbd>/</kbd> bar
+  bring back this session's earlier searches. They're kept in memory only.
+- **List summaries:** the list's dim second column now shows the EC2
+  instance type, Lambda runtime, RDS engine, version and class, and an ECS
+  service's running and desired count.
+- **Pinned services:** `pinned_services = ["ec2", "ecs", "lambda"]` puts
+  those chips on the service strip at startup. Nothing loads until you open
+  one. See [Configuration](@/guide/configuration.md).
+
+### Fixes
+
+- **History:** going back after moving to another row returns to the row
+  you left, not one you passed through. Back no longer bounces straight
+  into a service you switched to with `@`.
+- **`@audit`:** a failed `GetAccessKeyLastUsed` reads `unknown`, not `never
+  used`. "Old and never used" sounds like "delete it". An RDS instance
+  snapshot and a cluster snapshot with the same name no longer mix up their
+  sharing settings.
+- **Selections:** in the flat detail view, a <kbd>V</kbd> selection now
+  highlights every line <kbd>y</kbd> will copy. An export of mixed `@audit`
+  rows is named after the view, not after the first row's check.
+- **Dependencies:** `zip` 9, for RUSTSEC-2026-0367 to 0369. neboto never
+  called the affected functions.
 
 ## v0.6.0
 

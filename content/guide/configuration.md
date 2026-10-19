@@ -17,6 +17,7 @@ default_region  = "eu-west-1"
 default_profile = "prod-readonly"
 theme = "catppuccin-mocha"
 show_banner = false
+pinned_services = ["ec2", "ecs", "lambda"]
 
 org_access_role = "OrganizationAccountAccessRole"
 
@@ -29,6 +30,7 @@ cost = 21600                  # per-service overrides, keyed by @prefix
 |---|---|
 | `default_service` | Load this service on startup (omit for the welcome splash) |
 | `default_region`, `default_profile` | Where to start |
+| `pinned_services` | Service chips on the strip from startup, e.g. `["ec2", "ecs", "lambda"]`. Nothing loads until you open one; an unknown prefix warns and is skipped |
 | `show_banner` | ASCII banner on startup |
 | `watch`, `watch_interval` | Start in watch mode, and its cadence in seconds |
 | `detail_flat` | Start with the flat all-sections detail view |
