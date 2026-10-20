@@ -5,7 +5,7 @@ description = "Why I built a fast, keyboard-driven terminal UI for AWS"
 
 The last 12 months have changed how we work. The models and agents have got so good that everything we do has sped up - and our patience has gone with it. We want instant gratification. We want the API to return quicker and the screen to load quicker. We get frustrated when we have to click through multiple screens and browser tabs just to find that one piece of detail (an ID or a metric) we need to move on to the next thing.
 
-Mario Zechner, the creator of the Pi coding agent, said in a recent talk: "slow the f### down". Great advice, but it's hard to do when it feels like we're all on the bus from *Speed* - drop under 50 and everything blows up.
+Mario Zechner, the creator of the Pi coding agent, put it bluntly in a talk and [a post](https://mariozechner.at/posts/2026-03-25-thoughts-on-slowing-the-fuck-down/): "slowing the f### down is the way to go". Great advice, but it's hard to do when it feels like we're all on the bus from *Speed* - drop under 50 and everything blows up.
 
 Wanting things to be faster, better and more secure isn't new - it's just been amplified 10x.
 
