@@ -15,7 +15,7 @@ Developers have spent years tuning their workflows, trying to find just the righ
 
 It's a great place to view resources and, contrary to some, I like the look and feel of it. But there are rough edges that have frustrated me for the past decade - switching regions, jumping between services, hunting for the right resource, copying and pasting data. Each one is small on its own, but they add up.
 
-Something as simple as an alert with an instance ID, and the question "what's letting traffic into this?", means switching to the right region, opening EC2, searching for the instance, going to the Security tab, clicking through to the security group and reading the inbound rules. Then doing it all again for the next one.
+Something as simple as an alert with an instance ID, and the question "what's letting traffic into this?", means switching to the right region, opening EC2, searching for the instance, going to the Security tab, clicking through to each security group and reading its inbound rules. Then doing it all again for the next one.
 
 ## The AWS CLI
 
@@ -41,7 +41,7 @@ neboto is a terminal UI for AWS. One search bar across all your services, consol
 
 ![neboto showing a security group's inbound rules in the detail pane](/media/screenshot.png)
 
-That security group hunt from earlier? <kbd>R</kbd> to pick the region, <kbd>/</kbd> and paste the instance ID, <kbd>Enter</kbd> on the security group, and the inbound rules are on the screen. A few keystrokes, no tabs.
+That security group hunt from earlier? <kbd>R</kbd> to pick the region, <kbd>/</kbd> and paste the instance ID, then <kbd>N</kbd>. Every inbound rule from every attached security group in one table, with anything open to the world highlighted. A few keystrokes, no tabs.
 
 neboto was built out of all of the above. I wanted:
 
