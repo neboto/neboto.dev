@@ -39,7 +39,7 @@ Over the years I've built plenty of scripts and tools to make my life easier. If
 
 neboto is a terminal UI for AWS. One search bar across all your services, console-style detail panes for every resource, and every ID, ARN and reference is a link you can follow - across services and even across regions. It only reads, so it never changes anything in your account.
 
-![neboto showing a security group's inbound rules in the detail pane](/media/screenshot.png)
+![neboto's network access view for an instance: SSH and HTTPS open to the world, and 8080 only from the load balancer](/media/network-access.png)
 
 That security group hunt from earlier? <kbd>R</kbd> to pick the region, <kbd>/</kbd> and paste the instance ID, then <kbd>N</kbd>. Every inbound rule from every attached security group in one table, with anything open to the world highlighted. A few keystrokes, no tabs.
 
