@@ -9,11 +9,11 @@
   <meta name="theme-color" content="#1e1e2e">
   <link rel="icon" type="image/png" href="{{ get_url(path='favicon.png') }}">
   <link rel="canonical" href="{{ current_url | default(value=config.base_url) }}">
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="{% block ogtype %}website{% endblock ogtype %}">
   <meta property="og:site_name" content="neboto">
   <meta property="og:title" content="{% block ogtitle %}neboto — AWS in your terminal, read-only by design{% endblock ogtitle %}">
   <meta property="og:description" content="{% block ogdescription %}{{ config.description }}{% endblock ogdescription %}">
-  <meta property="og:image" content="{{ get_url(path='brand/neboto-preview.png') }}">
+  <meta property="og:image" content="{% block ogimage %}{{ get_url(path='brand/neboto-preview.png') }}{% endblock ogimage %}">
   <meta property="og:image:width" content="1280">
   <meta property="og:image:height" content="640">
   <meta property="og:image:alt" content="neboto: a read-only terminal UI for AWS, showing a security group's inbound rules">
@@ -23,6 +23,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,600;0,700;1,400&display=swap">
   <link rel="stylesheet" href="{{ get_url(path='css/site.css') }}">
+  <link rel="alternate" type="application/atom+xml" title="neboto blog" href="{{ get_url(path='blog/atom.xml') }}">
+  {% block head %}{% endblock head %}
 </head>
 <body class="{% block bodyclass %}{% endblock bodyclass %}">
 <a class="skip" href="#main">Skip to content</a>
@@ -37,6 +39,7 @@
     </form>
     <ul class="top-nav">
       <li><a href="{{ get_url(path='guide/') }}"{% if current_path is defined and current_path is starting_with(pat="/guide") %} aria-current="page"{% endif %}>Guide</a></li>
+      <li><a href="{{ get_url(path='blog/') }}"{% if current_path is defined and current_path is starting_with(pat="/blog") %} aria-current="page"{% endif %}>Blog</a></li>
       <li><a href="{{ config.extra.releases }}">Releases</a></li>
       <li><a href="{{ config.extra.repo }}">GitHub</a></li>
     </ul>

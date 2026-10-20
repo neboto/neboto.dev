@@ -146,6 +146,19 @@ hr { border: 0; border-top: 1px solid var(--surface0); margin: 2rem 0; }
 .pager a { color: var(--subtext0); }
 .pager a:hover { color: var(--orange); }
 
+/* ── blog ────────────────────────────────────────────────────────────── */
+/* One column at the reading measure; no sidebar. */
+.post-wrap { max-width: calc(var(--measure) + 2.5rem); margin: 0 auto; padding: 2rem 1.25rem; }
+.post-wrap > h1 { margin-top: 0; }
+.post-list { list-style: none; padding: 0; margin: 2rem 0 0; }
+.post-list li { padding: 1.1rem 0; border-top: 1px solid var(--surface0); }
+.post-list time, .post time { color: var(--overlay0); font-size: .85em; }
+.post-list time { display: block; }
+.post-title { display: inline-block; font-size: 1.15rem; font-weight: 700; margin: .2rem 0 .3rem; }
+.post-list p { color: var(--subtext0); margin: 0; }
+.draft { color: var(--yellow); text-transform: uppercase; letter-spacing: .1em; }
+.post img { display: block; max-width: 100%; height: auto; border: 1px solid var(--surface0); border-radius: var(--radius); }
+
 /* syntax highlighting (zola highlight_theme = "css") */
 pre code .z-comment { color: var(--overlay0); font-style: italic; }
 pre code .z-string { color: var(--green); }
