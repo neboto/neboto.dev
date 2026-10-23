@@ -32,6 +32,14 @@ The startup region comes from `AWS_DEFAULT_REGION` or the active profile.
 <kbd>R</kbd> switches region at runtime without a restart; <kbd>P</kbd>
 switches profile.
 
+With `regions` set in the [configuration](@/guide/configuration.md), opening
+<kbd>R</kbd> also lists the current service in each of those regions and
+shows how many rows of the current tab each one has: `3` EC2 instances, or
+`denied` where an SCP blocks the region. Those lists go into the cache, so
+switching to one of them afterwards is instant. A region you haven't listed
+shows nothing rather than `0`. Global services, and ones scoped by a toggle
+(Cost, GuardDuty's severity, CloudTrail's query…), aren't counted.
+
 The account needs read permissions for the services you browse. The quickest
 correct answer is the AWS-managed `ReadOnlyAccess` policy; see
 [Permissions](@/guide/permissions.md) for the narrower, auditable grant.

@@ -15,6 +15,7 @@ at startup rather than silently falling back to defaults.
 default_service = "ec2"
 default_region  = "eu-west-1"
 default_profile = "prod-readonly"
+regions = ["ap-southeast-2", "us-east-1"]
 theme = "catppuccin-mocha"
 show_banner = false
 pinned_services = ["ec2", "ecs", "lambda"]
@@ -30,6 +31,7 @@ cost = 21600                  # per-service overrides, keyed by @prefix
 |---|---|
 | `default_service` | Load this service on startup (omit for the welcome splash) |
 | `default_region`, `default_profile` | Where to start |
+| `regions` | The regions you work in, e.g. `["ap-southeast-2", "us-east-1"]`. The <kbd>R</kbd> picker lists them first, with the current service's count in each, and `neboto ls --regions` lists across them. An unknown code warns at startup |
 | `pinned_services` | Service chips on the strip from startup, e.g. `["ec2", "ecs", "lambda"]`. Nothing loads until you open one; an unknown prefix warns and is skipped |
 | `show_banner` | ASCII banner on startup |
 | `watch`, `watch_interval` | Start in watch mode, and its cadence in seconds |
