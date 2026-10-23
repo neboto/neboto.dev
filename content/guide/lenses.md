@@ -1,6 +1,6 @@
 +++
 title = "Logs, metrics and lenses"
-description = "The in-pane views: log tail and search, CloudWatch charts, the change timeline, references, network access."
+description = "The in-pane views: log tail and search, CloudWatch charts with change markers, the change timeline, @changes account-wide, references, network access."
 weight = 50
 +++
 
@@ -10,12 +10,12 @@ modals. Each takes over the keymap while open; <kbd>Esc</kbd> closes it and
 
 | Key | View |
 |---|---|
-| <kbd>m</kbd> | CloudWatch charts: <kbd>[</kbd> / <kbd>]</kbd> change the window, <kbd>r</kbd> refreshes |
+| <kbd>m</kbd> | CloudWatch charts: <kbd>[</kbd> / <kbd>]</kbd> change the window, <kbd>r</kbd> refreshes, <kbd>c</kbd> toggles change markers |
 | <kbd>t</kbd> | Live log tail: <kbd>[</kbd> / <kbd>]</kbd> widen the lookback, <kbd>s</kbd> flips to search, <kbd>w</kbd> wraps long lines |
 | <kbd>f</kbd> | Log search (server-side filter pattern) · CloudTrail event filter · ECS/execution status filter |
 | <kbd>W</kbd> | Change timeline: who changed this resource; <kbd>[</kbd> / <kbd>]</kbd> widen to 90 days, <kbd>a</kbd> includes reads |
 | <kbd>U</kbd> | Referenced by: which loaded resources mention this one |
-| <kbd>N</kbd> | Network access: the effective security-group rule table, with load-balancer sources labelled |
+| <kbd>N</kbd> | Network access: the effective security-group rule table, with load-balancer sources labelled, then the subnets' network ACLs |
 | <kbd>o</kbd> | S3 object browser, with a Terraform state viewer inside it (see [Browsers](@/guide/browsers.md)) |
 | <kbd>i</kbd> | DynamoDB item browser: Scan / Query (see [Browsers](@/guide/browsers.md)) |
 | <kbd>s</kbd> | SSM Session Manager · ECS Exec · assume an Organizations member-account role. Sessions are off while a member-account role is assumed (see [Multi-account](@/guide/multi-account.md)) |
@@ -31,6 +31,14 @@ Direct Connect, and so on. On a CloudWatch dashboard, <kbd>m</kbd> renders
 the dashboard itself: its widgets laid out on the console's own grid, with
 <kbd>Tab</kbd> walking a widget cursor and <kbd>Enter</kbd> zooming one to
 the whole pane.
+
+Each chart also marks what changed: the resource's [change
+timeline](#change-timeline-w) events (CloudTrail changes, deploys, stack
+events, Auto Scaling and RDS events, alarm changes) are drawn as vertical
+lines, failed ones in the error colour. A legend on the pane's bottom
+border lists them newest first. <kbd>c</kbd> turns them off and on for the
+session. A chart with no events in its window looks exactly as before.
+Dashboards and Cost don't get markers.
 
 > `GetMetricData` bills per metric requested, so the dashboard view caps the
 > number of series it fetches and never fires automatically.
@@ -56,6 +64,31 @@ itself does, which CloudTrail never records. Works on any resource, from
 either pane.
 <kbd>Enter</kbd> opens the raw event in `$EDITOR`.
 
+## What changed, account-wide (`@changes`)
+
+<kbd>W</kbd> answers "what changed around this resource?". `@changes` asks
+"what changed just before this started?" across the whole account. It's a
+service like any other: one regional list, newest first, over a
+<kbd>[</kbd> / <kbd>]</kbd> window from 15 minutes to 7 days.
+
+| Sub-tab | What it lists |
+|---|---|
+| **All** | Everything below, merged |
+| **IAM & Orgs** | IAM and Organizations changes, with the request parameters and the policy document the call wrote |
+| **CloudTrail** | Write events in this region |
+| **Config** | Configuration items Config recorded (what changed, not who) |
+| **Deploys** | CloudFormation stack events, CodePipeline runs, CodeBuild builds, ECS deployments and service events |
+| **Scaling & RDS** | Auto Scaling activities and RDS events |
+
+IAM and Organizations are global, so CloudTrail records them only in
+us-east-1. `@changes` looks them up there whichever region you're in.
+AWS-service and session events are noise, so <kbd>a</kbd> hides them; IAM
+changes never are. CloudTrail's lookup is rate-limited and shared, so it reads the
+newest 500 write events at most, and the warning says how far back that
+reached. Each source is optional: a denied one is a warning, and the rest
+still list. <kbd>Enter</kbd> follows a row to the resource it changed, where the
+source names one.
+
 ## Referenced by (<kbd>U</kbd>) and network access (<kbd>N</kbd>)
 
 <kbd>U</kbd> is the reverse of ownership: every loaded resource that mentions
@@ -66,6 +99,12 @@ it makes no API calls and says how much it covered.
 a Lambda, a load balancer…) shows the **effective** rule table across every
 attached group in one view, with open-to-world sources highlighted.
 <kbd>Enter</kbd> jumps to the group a row came from.
+
+Below the security-group rules come the network ACLs on the resource's
+subnets, in rule order, since the first match wins. A deny is in the
+warning colour, and an ACL that opens everything both ways is labelled
+`allow-all`. <kbd>Enter</kbd> on an ACL row jumps to the ACL. Load
+balancers get their subnets' ACLs too.
 
 ## The editor (<kbd>e</kbd>)
 

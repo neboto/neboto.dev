@@ -13,6 +13,7 @@ as before.
 neboto services                                   # every @prefix it knows
 neboto ls @ec2 -t volume --state available        # unattached EBS volumes
 neboto ls @iam -t role -f 'deploy'                # IAM roles, fuzzy-matched
+neboto ls @ec2 -t instance --regions              # across your config `regions`
 neboto get @lambda orders-api                     # every detail-pane section
 neboto get @iam deploy-role --section policies -o json
 neboto audit                                      # security findings; exit 3 if any
@@ -32,7 +33,27 @@ search filters them.
 | `-f`, `--filter <QUERY>` | Fuzzy text plus exact `tag:key[=value]` terms |
 | `--state <STATE>` | Only rows in this state (`running`, `available`, …) |
 | `--hide-noise` | Drop AWS-managed defaults and other noise rows (the TUI's <kbd>a</kbd>) |
-| `--limit <N>` | At most N rows |
+| `--limit <N>` | At most N rows, across every region with `--regions` |
+| `--regions[=LIST]` | List across several regions, with a region column (see below) |
+
+### Across regions
+
+`--regions` lists a regional service in several regions at once. Bare, it
+uses your config `regions` plus the current region;
+`--regions=us-east-1,eu-west-1` names them for one run (the `=` is
+required).
+
+```bash
+neboto ls @ec2 -t instance --regions
+neboto ls @rds --regions=us-east-1,eu-west-1 -o json
+```
+
+Tables, Markdown and CSV gain a `REGION` column. In JSON, `"region"`
+becomes `"regions": [{"region", "status", "count", "message"}]` and every
+row carries its own `"region"`. A region an SCP denies is `denied`: a line
+on stderr, then the next region. The command fails only when no region
+could be listed. Global services such as IAM have nothing to list per
+region, so they're a usage error.
 
 ## `get`: everything the detail pane shows
 

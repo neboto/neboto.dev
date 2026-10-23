@@ -1,6 +1,6 @@
 +++
 title = "What's new"
-description = "Changes since the first release: @audit account and per-resource checks, IAM Access Advisor and the credential report, RDS Proxies and blue/green, S3 access points, unused security groups, forward history with Ctrl-F, search history, pinned services, security findings with @audit and neboto audit, security groups open to the world, AppSync, IAM instance profiles, Auto Scaling and RDS events in the change timeline, steadier exports, ECR lifecycle policies evaluated against your images, warnings for running images that are untagged or gone, Cost grouped by tag and cost category, Lambda layers, an update check, where sessions open, ECR images, Elastic Beanstalk, Cost Anomaly Detection, Route 53 DNS answer tests, wrapped detail values, credential_process prompts, the mouse works everywhere, CloudFormation stack policies and StackSet results, gzipped EC2 user data, safer SSM sessions, an @all search you can narrow and sort, app/neboto in CloudTrail user agents, a clearer CloudTrail event search, a headless CLI for scripts and AI agents (neboto ls, neboto get), IAM policy documents, sub-tabs from either pane with H and L, a demo mode, a key display for recordings, DMS, X-Ray and Batch, export formats, operational CLI commands behind C, which load balancers hold an instance, the EC2 console log, Route 53 and Resolver fixes. Plus nebaz, the Azure sibling in development."
+description = "Changes since the first release: @changes for what changed recently across the account, change markers on metric charts, multi-region ls and region counts in R, network ACLs in the network access lens, fuzzy pickers, @audit account and per-resource checks, IAM Access Advisor and the credential report, RDS Proxies and blue/green, S3 access points, unused security groups, forward history with Ctrl-F, search history, pinned services, security findings with @audit and neboto audit, security groups open to the world, AppSync, IAM instance profiles, Auto Scaling and RDS events in the change timeline, steadier exports, ECR lifecycle policies evaluated against your images, warnings for running images that are untagged or gone, Cost grouped by tag and cost category, Lambda layers, an update check, where sessions open, ECR images, Elastic Beanstalk, Cost Anomaly Detection, Route 53 DNS answer tests, wrapped detail values, credential_process prompts, the mouse works everywhere, CloudFormation stack policies and StackSet results, gzipped EC2 user data, safer SSM sessions, an @all search you can narrow and sort, app/neboto in CloudTrail user agents, a clearer CloudTrail event search, a headless CLI for scripts and AI agents (neboto ls, neboto get), IAM policy documents, sub-tabs from either pane with H and L, a demo mode, a key display for recordings, DMS, X-Ray and Batch, export formats, operational CLI commands behind C, which load balancers hold an instance, the EC2 console log, Route 53 and Resolver fixes. Plus nebaz, the Azure sibling in development."
 weight = 90
 +++
 
@@ -8,6 +8,78 @@ What changed in each release since `v0.1.0`, newest first. The full notes
 and binaries are on the
 [releases page](https://github.com/neboto/neboto-tui/releases). The
 installer always fetches the latest release, so re-running it upgrades you.
+
+## v0.8.0
+
+### `@changes`: what changed recently, account-wide
+
+<kbd>W</kbd> asks what changed around one resource. `@changes` asks what
+changed just before something broke, across the whole account. It's one
+list, newest first, over a <kbd>[</kbd> / <kbd>]</kbd> window from 15
+minutes to 7 days, with sub-tabs **All**, **IAM & Orgs**, **CloudTrail**,
+**Config**, **Deploys** and **Scaling & RDS**:
+
+- CloudTrail write events. AWS-service and session events are noise, so
+  <kbd>a</kbd> hides them.
+- IAM and Organizations changes, looked up in us-east-1 whichever region
+  you're in, because that's the only place CloudTrail records them. Rows show
+  the request parameters and the policy document the call wrote.
+- Config's recorded changes, CloudFormation stack events, CodePipeline runs,
+  CodeBuild builds, Auto Scaling activities and RDS events.
+- ECS deployments and service events: the failed-to-start tasks and
+  circuit-breaker rollbacks that CloudTrail never sees.
+
+Each source streams in as it finishes, and a denied one is a warning rather
+than an error. CloudTrail is read up to its newest 500 write events, and the
+warning says how far back that reached. See [Logs, metrics and
+lenses](@/guide/lenses.md#what-changed-account-wide-changes).
+
+### Change markers on charts
+
+<kbd>m</kbd> charts now draw the resource's change timeline as vertical
+lines: CloudTrail changes, deploys, stack events, Auto Scaling and RDS
+events, alarm changes. Failed ones are in the error colour, and a legend on
+the pane's bottom border names them newest first. A spike that lines up
+with a deploy is now obvious. <kbd>c</kbd> toggles them for the session.
+
+### Several regions at once
+
+- **Config `regions`:** the regions you work in, e.g.
+  `regions = ["ap-southeast-2", "us-east-1"]`. See
+  [Configuration](@/guide/configuration.md).
+- **Counts in <kbd>R</kbd>:** with `regions` set, the region picker lists
+  the current service in each of them and shows its row count, or `denied`
+  where an SCP blocks the region. Switching to one of them is then instant,
+  and switching region no longer throws the cache away.
+- **History across regions:** <kbd>Backspace</kbd> and <kbd>Ctrl-F</kbd>
+  take you back to the region you were in, and the footer says when they
+  will.
+- **`neboto ls --regions`:** lists a regional service across your
+  configured regions, or `--regions=us-east-1,eu-west-1` for one run, with a
+  region column. A denied region is reported and skipped. See [Scripts and
+  agents](@/guide/cli.md#across-regions).
+
+### Network ACLs in <kbd>N</kbd>
+
+The network access lens now shows the subnets' network ACLs under the
+security-group rules, in rule order. Denies are in the warning colour, and
+an ACL that allows everything is labelled `allow-all`. <kbd>Enter</kbd>
+jumps to the ACL. Load balancers get them too.
+
+### Fuzzy pickers
+
+The service (<kbd>S</kbd>), region (<kbd>R</kbd>), profile (<kbd>P</kbd>),
+Cost group-by and Service Quotas pickers all filter fuzzily now, best match
+first: `apadm` finds `acme-prod-admin`. An exact match still wins, so `ec2`,
+`s3` and `r53` land on their service. Thanks to
+[@jesperalmstrom](https://github.com/jesperalmstrom) for the profile picker,
+their first contribution.
+
+### Fixes
+
+- **Dependencies:** `rustls-webpki` 0.103.16 and `webpki-roots` 1.0.10, for
+  RUSTSEC-2026-0382 and RUSTSEC-2026-0381. The first applies to every AWS
+  connection: it could accept a distrusted intermediate certificate.
 
 ## v0.7.0
 

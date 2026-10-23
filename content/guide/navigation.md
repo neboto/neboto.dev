@@ -13,7 +13,7 @@ verbs are a single letter. Inside the app,
 
 | Key | Action |
 |---|---|
-| <kbd>S</kbd> / <kbd>R</kbd> / <kbd>P</kbd> | Service / region / profile picker |
+| <kbd>S</kbd> / <kbd>R</kbd> / <kbd>P</kbd> | Service / region / profile picker, each fuzzy-filtered as you type |
 | <kbd>@</kbd> | Search bar seeded with `@`, for a fast service switch |
 | <kbd>/</kbd> | Fuzzy search the current service |
 | <kbd>r</kbd> | Refresh: the whole service from the list, just this resource from the detail pane |
@@ -55,7 +55,7 @@ verbs are a single letter. Inside the app,
 | <kbd>[[</kbd> / <kbd>]]</kbd> | Previous / next group header |
 | <kbd>l</kbd> <kbd>→</kbd> <kbd>Enter</kbd> | Follow the link under the cursor |
 | <kbd>h</kbd> <kbd>←</kbd> <kbd>Esc</kbd> | Back to the list |
-| <kbd>Backspace</kbd> <kbd>Ctrl-O</kbd> | Back through history (the footer names where: `⌫ back to EC2 i-0abc`) |
+| <kbd>Backspace</kbd> <kbd>Ctrl-O</kbd> | Back through history (the footer names where: `⌫ back to EC2 i-0abc`, plus the region when going back switches it) |
 | <kbd>Ctrl-F</kbd> | Forward again, after going back (`⌃F forward to …`) |
 | <kbd>/</kbd> | Filter the body text |
 | <kbd>Ctrl-W</kbd> | Wrap long values onto continuation rows, instead of clipping them at the pane edge |
