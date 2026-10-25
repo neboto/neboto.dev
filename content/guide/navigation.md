@@ -6,8 +6,9 @@ weight = 30
 
 The keymap is vim-flavoured: <kbd>j</kbd>/<kbd>k</kbd> move, <kbd>h</kbd>/<kbd>l</kbd>
 move between panes, <kbd>H</kbd>/<kbd>L</kbd> step through sub-tabs, and most
-verbs are a single letter. Inside the app,
-<kbd>?</kbd> opens the full reference.
+verbs are a single letter. Inside the app, <kbd>?</kbd> opens the full
+reference, and <kbd>:</kbd> runs any command by name, so you don't need to
+remember the key.
 
 ## Anywhere
 
@@ -23,7 +24,8 @@ verbs are a single letter. Inside the app,
 | <kbd>B</kbd> / <kbd>'</kbd> | Bookmark this location / open bookmarks |
 | <kbd>M</kbd> | Message history (past errors and toasts) |
 | <kbd>&#92;</kbd> | Flat detail view: every section in one scroll |
-| <kbd>?</kbd> / <kbd>q</kbd> | Help / quit |
+| <kbd>:</kbd> | Command picker: type what you want (`network`, `metrics`) and <kbd>Enter</kbd> runs its key. What works on the selection is listed first |
+| <kbd>?</kbd> / <kbd>q</kbd> | Help, led by the keys that work here; type to filter it / quit |
 
 ## List pane
 
@@ -57,7 +59,7 @@ verbs are a single letter. Inside the app,
 | <kbd>h</kbd> <kbd>←</kbd> <kbd>Esc</kbd> | Back to the list |
 | <kbd>Backspace</kbd> <kbd>Ctrl-O</kbd> | Back through history (the footer names where: `⌫ back to EC2 i-0abc`, plus the region when going back switches it) |
 | <kbd>Ctrl-F</kbd> | Forward again, after going back (`⌃F forward to …`) |
-| <kbd>/</kbd> | Filter the body text |
+| <kbd>/</kbd> | Filter the body text; matches are marked, and <kbd>n</kbd> / <kbd>N</kbd> step through them |
 | <kbd>Ctrl-W</kbd> | Wrap long values onto continuation rows, instead of clipping them at the pane edge |
 | <kbd>y</kbd> / <kbd>c</kbd> | Copy the row, or the visual selection |
 | <kbd>C</kbd> | Copy an AWS CLI command for this resource (same picker as the list) |

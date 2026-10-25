@@ -10,4 +10,5 @@ neboto is a keyboard-driven terminal UI for browsing AWS. It is **read-only**:
 it issues only `describe`, `list` and `get` calls, so it is safe to run
 against production. This guide covers installing it, the first run, and the
 keys and concepts that do most of the work. Inside the app, <kbd>?</kbd> is
-the authoritative key reference.
+the authoritative key reference, and <kbd>:</kbd> finds and runs any command
+by name.

@@ -1,6 +1,6 @@
 +++
 title = "What's new"
-description = "Changes since the first release: @changes for what changed recently across the account, change markers on metric charts, multi-region ls and region counts in R, network ACLs in the network access lens, fuzzy pickers, @audit account and per-resource checks, IAM Access Advisor and the credential report, RDS Proxies and blue/green, S3 access points, unused security groups, forward history with Ctrl-F, search history, pinned services, security findings with @audit and neboto audit, security groups open to the world, AppSync, IAM instance profiles, Auto Scaling and RDS events in the change timeline, steadier exports, ECR lifecycle policies evaluated against your images, warnings for running images that are untagged or gone, Cost grouped by tag and cost category, Lambda layers, an update check, where sessions open, ECR images, Elastic Beanstalk, Cost Anomaly Detection, Route 53 DNS answer tests, wrapped detail values, credential_process prompts, the mouse works everywhere, CloudFormation stack policies and StackSet results, gzipped EC2 user data, safer SSM sessions, an @all search you can narrow and sort, app/neboto in CloudTrail user agents, a clearer CloudTrail event search, a headless CLI for scripts and AI agents (neboto ls, neboto get), IAM policy documents, sub-tabs from either pane with H and L, a demo mode, a key display for recordings, DMS, X-Ray and Batch, export formats, operational CLI commands behind C, which load balancers hold an instance, the EC2 console log, Route 53 and Resolver fixes. Plus nebaz, the Azure sibling in development."
+description = "Changes since the first release: a command picker on :, help you can filter, Overview sections that answer the first question, one-row detail headers, a calmer detail pane, @changes for what changed recently across the account, change markers on metric charts, multi-region ls and region counts in R, network ACLs in the network access lens, fuzzy pickers, @audit account and per-resource checks, IAM Access Advisor and the credential report, RDS Proxies and blue/green, S3 access points, unused security groups, forward history with Ctrl-F, search history, pinned services, security findings with @audit and neboto audit, security groups open to the world, AppSync, IAM instance profiles, Auto Scaling and RDS events in the change timeline, steadier exports, ECR lifecycle policies evaluated against your images, warnings for running images that are untagged or gone, Cost grouped by tag and cost category, Lambda layers, an update check, where sessions open, ECR images, Elastic Beanstalk, Cost Anomaly Detection, Route 53 DNS answer tests, wrapped detail values, credential_process prompts, the mouse works everywhere, CloudFormation stack policies and StackSet results, gzipped EC2 user data, safer SSM sessions, an @all search you can narrow and sort, app/neboto in CloudTrail user agents, a clearer CloudTrail event search, a headless CLI for scripts and AI agents (neboto ls, neboto get), IAM policy documents, sub-tabs from either pane with H and L, a demo mode, a key display for recordings, DMS, X-Ray and Batch, export formats, operational CLI commands behind C, which load balancers hold an instance, the EC2 console log, Route 53 and Resolver fixes. Plus nebaz, the Azure sibling in development."
 weight = 90
 +++
 
@@ -8,6 +8,74 @@ What changed in each release since `v0.1.0`, newest first. The full notes
 and binaries are on the
 [releases page](https://github.com/neboto/neboto-tui/releases). The
 installer always fetches the latest release, so re-running it upgrades you.
+
+## v0.9.0
+
+This release is about finding things without knowing the key, and reading a
+pane at a glance.
+
+### Run any command by name with <kbd>:</kbd>
+
+<kbd>:</kbd> opens a command picker. Type what you want, such as `network`
+or `metrics`, and <kbd>Enter</kbd> runs its key, exactly as if you'd
+pressed it. With nothing typed, the commands that work on the selection come
+first. With a query, the best match is on top, and an exact key wins, so
+`:m` puts metrics first. It only lists what works in the pane you're in.
+
+### Help you can search
+
+- **Type to filter:** <kbd>?</kbd> filters as you type, over keys,
+  descriptions and section titles, and shows the matches at full width
+  instead of cutting them off. <kbd>Esc</kbd> clears the filter, then
+  closes. The arrow keys scroll; <kbd>j</kbd>, <kbd>k</kbd> and
+  <kbd>q</kbd> are now filter text.
+- **Here:** help opens with the keys that work on the selected resource.
+  On an EC2 instance that's <kbd>m</kbd> <kbd>W</kbd> <kbd>U</kbd>
+  <kbd>N</kbd> <kbd>s</kbd>. <kbd>W</kbd> is now called the change
+  timeline everywhere.
+- **Status bar:** `: commands · ? help · q quit` are always shown. Before,
+  they were the first hints cut, so they only appeared on very wide
+  terminals. `j/k`, `H/L` and bookmarks left the bar to make room, and
+  they're still in <kbd>?</kbd> and <kbd>:</kbd>.
+
+### Overviews that answer the first question
+
+On every pane with more than one section, the first is now called
+**Overview**. 66 panes called it Details, and Lambda, RDS, SNS, CloudWatch alarms and StackSets called it
+Config. On these panes the Overview also gives a short summary:
+
+- **Security groups:** the rules open to the internet, folded into one line
+  per protocol and source, then the first eight rules each way.
+- **Network ACLs:** what each direction does (allows all, denies all, or
+  how many rules of each), then the first rules and subnets.
+- **Route tables:** whether the table is public, private via NAT or
+  isolated, from its default routes, plus propagating VPN gateways and blackhole routes.
+- **Transit gateway route tables:** default association and propagation,
+  attachments by kind, route counts and blackholes.
+- **Target groups:** `3 healthy · 1 unhealthy · 1 draining`, why the
+  failing targets fail, the health check, and the load balancers in front.
+- **Hosted zones:** records against the limit, DNSSEC, query logging, name
+  servers or VPCs, then the first records.
+
+> **Scripts:** `neboto get --section details` and `--section config` are
+> now `--section overview`. A pane with a single section still calls it
+> `details`, and MSK's and Redshift's later Config sections keep their name.
+
+### A calmer detail pane
+
+- **One-row header:** the name, the state in its colour, then the key
+  facts, on one line. The rows it frees go to the body.
+- **Steady scrolling:** <kbd>k</kbd> moves the cursor, and the view only
+  scrolls when the cursor would leave it. No section starts or ends on a
+  blank row any more, so <kbd>G</kbd> lands on the last real row.
+- **Section bar:** it scrolls to the active section with `‹` / `›`, so you
+  can see all nine of an EC2 instance's sections.
+- **Body filter:** <kbd>/</kbd> marks its matches in place and counts them
+  properly. <kbd>n</kbd> / <kbd>N</kbd> step through them while the filter
+  is on.
+- **Footer and rows:** every key in the footer is clickable and it no longer
+  overlaps the ownership ribbon. Rows are indented evenly under their group
+  headers, and `(none)` placeholder rows are now plain notes.
 
 ## v0.8.0
 
