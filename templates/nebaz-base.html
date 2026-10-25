@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}nebaz — Azure in your terminal, read-only by design{% endblock title %}</title>
+  <meta name="description" content="{% block description %}{{ section.description }}{% endblock description %}">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#07121e">
+  <link rel="icon" type="image/png" href="{{ get_url(path='nebaz/favicon.png') }}">
+  <link rel="canonical" href="{{ current_url | default(value=config.base_url) }}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="nebaz">
+  <meta property="og:title" content="nebaz — Azure in your terminal, read-only by design">
+  <meta property="og:description" content="{{ section.description }}">
+  <meta property="og:image" content="{{ get_url(path='nebaz/media/poster.jpg') }}">
+  <meta property="og:url" content="{{ current_url | default(value=config.base_url) }}">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="{{ get_url(path='css/nebaz.css') }}">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <nav class="top-inner">
+    <a class="wordmark" href="{{ get_url(path='nebaz/') }}">nebaz</a>
+    <ul class="top-nav">
+      <li><a href="{{ config.extra.nebaz_repo }}/releases">Releases</a></li>
+      <li><a href="{{ config.extra.nebaz_repo }}">GitHub</a></li>
+      <li><a class="sibling" href="{{ get_url(path='/') }}">neboto for AWS →</a></li>
+    </ul>
+  </nav>
+</header>
+<main id="main">
+{% block content %}{% endblock content %}
+</main>
+<footer class="foot">
+  <div class="foot-inner">
+    <span><span class="wordmark">nebaz</span> · read-only by design · MIT</span>
+    <span><a href="{{ config.extra.nebaz_repo }}">Source</a> · <a href="{{ config.extra.nebaz_repo }}/blob/main/PERMISSIONS.md">Permissions</a> · <a href="{{ get_url(path='/') }}">neboto</a></span>
+  </div>
+</footer>
+</body>
+</html>

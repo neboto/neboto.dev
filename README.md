@@ -22,6 +22,14 @@ and avatar from the app repo's `demo/brand/`, `css/site.css` the one
 stylesheet. The palette is the app's catppuccin-mocha theme plus the brand
 orange.
 
+`/nebaz/` is the landing page for [nebaz](https://github.com/neboto/nebaz),
+the Azure sibling (`/azure/` redirects to it). It has its own base template
+(`templates/nebaz-base.html`), stylesheet (`static/css/nebaz.css`, blue and
+yellow over navy) and favicon, so it shares nothing visual with
+neboto's pages. Its clips in `static/nebaz/media/` are built from a nebaz
+checkout's raw takes over a muted backdrop: run `demo/render.sh` in nebaz,
+then `scripts/nebaz-media.sh ../nebaz` here.
+
 ## DNS
 
 The zone for `neboto.dev` is in Route 53. `dns/route53-neboto.dev.json` is
