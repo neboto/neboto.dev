@@ -80,8 +80,17 @@ Every flag overrides the config file for that run only.
 Top to bottom: the service strip with the region and profile badges, the
 search bar, the sub-tabs for the current service, then the **list pane** on
 the left and the **detail pane** on the right, and a status bar. The status
-bar shows contextual key hints, and any error is `y`-copyable from it;
+bar shows the key hints for what's selected, and always ends with
+`: commands · ? help · q quit`. Any error is `y`-copyable from it;
 <kbd>M</kbd> reviews past messages.
+
+The detail pane opens on section 1, **Overview**: the resource's identity
+and configuration. (The few panes with a single section call it
+**Details**.) On security groups, network ACLs, route tables, transit
+gateway route tables, target groups and hosted zones, the Overview also
+answers the first question you'd ask: which rules are open to the internet,
+where the default route goes, how many targets are healthy and why the
+others aren't. The sections after it hold the full detail.
 
 <kbd>l</kbd>, <kbd>→</kbd> or <kbd>Enter</kbd> moves from the list into the
 detail pane; <kbd>h</kbd>, <kbd>←</kbd> or <kbd>Esc</kbd> comes back. That

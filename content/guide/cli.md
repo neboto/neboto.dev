@@ -66,7 +66,7 @@ that's the id), then exact name.
 | Flag | Effect |
 |---|---|
 | `-t`, `--type <TYPE>` | Pick between resources that share a name (an ECS service and its task definition) |
-| `--section <NAME>` | Only this section, any case; repeatable. The other sections' data isn't fetched |
+| `--section <NAME>` | Only this section, any case; repeatable. Section 1 is `overview` (`details` on a pane with only one section). The other sections' data isn't fetched |
 | `--wait <SECS>` | How long to wait for slow sections (default 60); anything still loading prints as not loaded |
 
 ## `audit`: security findings
