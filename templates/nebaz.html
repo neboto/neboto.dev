@@ -1,0 +1,72 @@
+{% extends "nebaz-base.html" %}
+{% block content %}
+<section class="hero">
+  <p class="kicker">Azure · terminal · read-only · <span class="badge">experimental</span></p>
+  <h1>Browse your Azure tenant <em>without leaving the terminal</em>.</h1>
+  <p class="lede">Every subscription behind one fuzzy search, console-style detail panes, a network access lens, a change timeline and a security audit. It issues only <code>GET</code>s, and the built-in <code>Reader</code> role is all it needs.</p>
+  <div class="install">
+    <pre><code>{{ config.extra.nebaz_install_cmd }}</code></pre>
+    <button class="copy" type="button" data-copy="{{ config.extra.nebaz_install_cmd }}" aria-label="Copy install command">copy</button>
+  </div>
+  <p class="hero-note">Needs the Azure CLI, logged in with <code>az login</code>. Or try <code>nebaz --demo</code>: a made-up tenant, no Azure account, no network.</p>
+  <p class="hero-links">
+    <a class="btn primary" href="{{ config.extra.nebaz_repo }}#install">Install</a>
+    <a class="btn" href="{{ config.extra.nebaz_repo }}">Source on GitHub</a>
+  </p>
+</section>
+
+<section class="demo">
+  <video class="clip" autoplay muted loop playsinline preload="metadata" poster="{{ get_url(path='nebaz/media/poster.jpg') }}" aria-label="nebaz demo: a container app's failed revision, then @changes finds a new NSG deny rule, the change timeline puts it next to the alert, the network access lens shows it blocking the Power Platform subnet, and @audit lists the findings">
+    <source src="{{ get_url(path='nebaz/media/demo.mp4') }}" type="video/mp4">
+  </video>
+  <p class="caption">An outage, from the alert to the rule behind it. Recorded with <code>nebaz --demo</code>; nothing on screen is a real tenant.</p>
+</section>
+
+<section class="experimental">
+  <p><strong>nebaz is experimental.</strong> Most services were built against Azure's API specs and tested offline, and haven't had in-depth testing against live subscriptions. Expect missing fields and rough edges. The read-only guarantee doesn't depend on any of that.</p>
+</section>
+
+<section class="features">
+  {{ section.content | safe }}
+</section>
+
+<section class="workflows">
+  <h2>Workflows</h2>
+  <p>Each clip is one question answered against <code>nebaz --demo</code>.</p>
+  <div class="workflow-grid">
+    {% set scenes = [
+      ["power-platform-outage", "Why can't Power Platform reach the API?", "<code>@changes</code> shows a new NSG rule, <kbd>W</kbd> puts it next to the alert, and <kbd>N</kbd> shows it shadowing the default allow for the injected subnet."],
+      ["audit", "Audit.", "<code>@audit</code> lists what is wrong, worst first. <kbd>Enter</kbd> opens the NSG with SSH open to the internet and <kbd>W</kbd> shows the vendor's guest account added it."],
+      ["identities", "Who can do what.", "An app registration with one secret expired and one expiring in six days, and a deploy service principal holding User Access Administrator on the subscription."],
+      ["dns", "Private DNS.", "A private-link zone with records but no VNet link, so nothing resolves it, and which networks each zone is linked to."],
+      ["follow-links", "Follow the links.", "<kbd>Enter</kbd> from an application gateway's backend to the container app, its environment and its subnet, then <kbd>N</kbd> for what may reach it."]
+    ] %}
+    {% for s in scenes %}
+    <figure{% if loop.last %} class="wide"{% endif %}>
+      <video class="clip" autoplay muted loop playsinline preload="metadata" aria-label="{{ s[1] }}">
+        <source src="{{ get_url(path='nebaz/media/scenes/' ~ s[0] ~ '.mp4') }}" type="video/mp4">
+      </video>
+      <figcaption><strong>{{ s[1] }}</strong> {{ s[2] | safe }}</figcaption>
+    </figure>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="readonly">
+  <h2>Read-only is the point</h2>
+  <p>nebaz issues only <code>GET</code>s against Azure Resource Manager and Microsoft Graph, and a test fails the build if that ever changes. Keys, connection strings, app settings and secret values are never fetched: Key Vault shows secret <em>names</em>, never values. When you do want to change something, <kbd>C</kbd> copies the <code>az</code> command instead.</p>
+  <p><a class="btn" href="{{ config.extra.nebaz_repo }}#why-read-only">Why read-only →</a></p>
+</section>
+
+<section class="readonly sibling">
+  <h2>On AWS too</h2>
+  <p>nebaz is built on the same core as <a href="{{ get_url(path='/') }}">neboto</a>, the read-only terminal UI for AWS: same keys, same lenses, same guarantee.</p>
+</section>
+
+<script src="{{ get_url(path='js/lightbox.js') }}" defer></script>
+<script>
+document.querySelectorAll('button.copy').forEach(b => b.addEventListener('click', async () => {
+  try { await navigator.clipboard.writeText(b.dataset.copy); b.textContent = 'copied'; setTimeout(() => b.textContent = 'copy', 1500); } catch (e) {}
+}));
+</script>
+{% endblock content %}

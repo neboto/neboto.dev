@@ -24,3 +24,5 @@ smart_punctuation = true
 repo = "https://github.com/neboto/neboto-tui"
 releases = "https://github.com/neboto/neboto-tui/releases"
 install_cmd = "curl -fsSL https://raw.githubusercontent.com/neboto/neboto-tui/main/install.sh | sh"
+nebaz_repo = "https://github.com/neboto/nebaz"
+nebaz_install_cmd = "curl -fsSL https://raw.githubusercontent.com/neboto/nebaz/main/install.sh | sh"

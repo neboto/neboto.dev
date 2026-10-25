@@ -1,0 +1,122 @@
+/* nebaz section (/nebaz/): its own palette, separate from neboto's
+   catppuccin + orange. A little Sweden: the flag's blue (#006AA7) carries
+   the brand and its yellow (#FECC02) is the one accent, both softened for a
+   dark page. The surfaces are a muted navy close to the recordings'
+   backdrop, so the clips sit on the page without a seam. Change the tokens;
+   nothing below hard-codes a colour. */
+:root {
+  /* the flag */
+  --flag-blue: #006aa7;
+  --flag-yellow: #fecc02;
+  /* surfaces, darkest to lightest */
+  --bg: #07121e;          /* page */
+  --bg-raised: #0d1b2a;   /* header, cards, code */
+  --line: #1b2c3e;        /* borders */
+  --line-strong: #2b4258; /* button and input borders */
+  /* text */
+  --text: #e3e8ee;        /* soft white, not paper white */
+  --text-muted: #a6b2c0;
+  --text-dim: #6c7b8c;
+  /* accents */
+  --brand: var(--flag-blue);  /* primary button, focus */
+  --brand-hi: #5d9fcf;    /* the flag blue lifted for dark: links, the h1 emphasis */
+  --heading: #e3bd3c;     /* the flag yellow, muted: headings, wordmark */
+  --code: #9ebfdc;        /* inline code and keys: a pale blue */
+  --ok: #d9dfe6;          /* the install command */
+  --warn: #e3bd3c;        /* the experimental note: the same yellow */
+  --on-brand: #ffffff;    /* text on the flag-blue button */
+
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --measure: 72ch;
+  --radius: 10px;
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); color: var(--text); font: 16px/1.6 var(--mono); -webkit-text-size-adjust: 100%; }
+body { margin: 0; min-height: 100vh; display: flex; flex-direction: column; background: var(--bg); }
+main { flex: 1; }
+a { color: var(--brand-hi); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 3px; }
+h1, h2, h3 { color: var(--heading); line-height: 1.2; font-weight: 700; margin: 2rem 0 .75rem; }
+h2 { font-size: 1.4rem; }
+p, li { max-width: var(--measure); }
+code { background: var(--bg-raised); color: var(--code); padding: .1em .35em; border-radius: 4px; font-size: .92em; }
+kbd { background: var(--bg-raised); color: var(--text); border: 1px solid var(--line-strong); border-bottom-width: 2px; border-radius: 4px; padding: 0 .4em; font: inherit; font-size: .9em; }
+pre { background: var(--bg-raised); border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 1rem 1.2rem; overflow-x: auto; line-height: 1.5; }
+pre code { background: none; padding: 0; }
+.skip { position: absolute; left: -999px; }
+.skip:focus { left: 1rem; top: 1rem; background: var(--brand); color: var(--on-brand); padding: .5rem 1rem; z-index: 10; }
+
+/* ── header / footer ─────────────────────────────────────────────────── */
+.top { border-bottom: 2px solid var(--flag-yellow); background: var(--bg-raised); position: sticky; top: 0; z-index: 5; }
+.top-inner, .foot-inner { max-width: 74rem; margin: 0 auto; padding: .7rem 1rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.wordmark { color: var(--heading); font-weight: 700; letter-spacing: .02em; }
+a.wordmark:hover { color: var(--flag-yellow); text-decoration: none; }
+.top-nav { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 1.2rem; }
+.top-nav a { color: var(--text-muted); }
+.top-nav a:hover { color: var(--text); text-decoration: none; }
+.top-nav a.sibling { color: var(--text-dim); }
+.foot { border-top: 1px solid var(--line); color: var(--text-dim); font-size: .9em; margin-top: 4rem; }
+.foot a { color: var(--text-muted); }
+
+/* ── page ────────────────────────────────────────────────────────────── */
+main section { max-width: 74rem; margin: 0 auto; padding: 0 1rem; }
+.hero { padding-top: 4rem; }
+.kicker { color: var(--text-dim); text-transform: uppercase; letter-spacing: .18em; font-size: .8em; margin: 0 0 1rem; }
+.badge { color: var(--warn); border: 1px solid currentColor; border-radius: 4px; padding: 0 .4em; letter-spacing: .1em; }
+.hero h1 { font-size: clamp(1.8rem, 4.2vw, 3rem); margin: 0 0 1rem; max-width: 22ch; color: var(--text); }
+.hero h1 em { color: var(--brand-hi); font-style: normal; }
+.lede { color: var(--text-muted); font-size: 1.05rem; max-width: 70ch; margin: 0 0 1.6rem; }
+.install { position: relative; max-width: 58rem; }
+.install pre { margin: 0; padding-right: 5.5rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+.install pre code { color: var(--ok); }
+.install .copy { position: absolute; top: .55rem; right: .6rem; background: var(--bg); color: var(--text-muted); border: 1px solid var(--line-strong); border-radius: 6px; padding: .2rem .6rem; font: inherit; font-size: .8em; cursor: pointer; }
+.install .copy:hover { color: var(--text); border-color: var(--brand); }
+.hero-note { color: var(--text-dim); font-size: .9em; margin: .8rem 0 0; }
+.hero-links { margin: 1.4rem 0 0; display: flex; flex-wrap: wrap; gap: .7rem; }
+.btn { display: inline-block; padding: .55rem 1rem; border-radius: 8px; border: 1px solid var(--line-strong); color: var(--text); background: var(--bg-raised); font-weight: 600; }
+.btn:hover { border-color: var(--brand); text-decoration: none; }
+.btn.primary { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+.btn.primary:hover { background: #0a7bc0; border-color: #0a7bc0; }
+
+/* The recordings bring their own backdrop and window dots: no frame, just a soft edge. */
+.clip { display: block; width: 100%; height: auto; border-radius: var(--radius); border: 1px solid var(--line); background: var(--bg); box-shadow: 0 20px 60px rgba(0, 0, 0, .5); }
+.demo { margin-top: 3.5rem !important; }
+.caption { color: var(--text-dim); font-size: .9em; margin: .8rem 0 0; max-width: none; }
+
+.experimental p { max-width: none; margin: 2.5rem 0 0; padding: .8rem 1rem; border-left: 3px solid var(--warn); background: var(--bg-raised); color: var(--text-muted); border-radius: 0 var(--radius) var(--radius) 0; }
+.experimental strong { color: var(--warn); }
+
+.features { margin-top: 4rem !important; }
+.features h2, .workflows h2 { margin-top: 0; }
+.features ul { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(19rem, 100%), 1fr)); gap: 1rem; }
+.features li { max-width: none; background: var(--bg-raised); border: 1px solid var(--line); border-radius: var(--radius); padding: 1rem 1.1rem; color: var(--text-muted); }
+.features li strong { color: var(--text); }
+.features li > strong:first-child { display: block; margin-bottom: .3rem; }
+
+.workflows { margin-top: 4rem !important; }
+.workflows > p { color: var(--text-muted); }
+.workflow-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(24rem, 100%), 1fr)); gap: 1.5rem; margin-top: 1.25rem; }
+.workflow-grid figure { margin: 0; }
+.workflow-grid figure.wide { grid-column: 1 / -1; }
+.workflow-grid figcaption { color: var(--text-muted); font-size: .95em; margin-top: .7rem; }
+.workflow-grid figcaption strong { color: var(--text); }
+
+.readonly { margin-top: 4rem !important; }
+.readonly h2 { margin-top: 0; }
+.readonly p { color: var(--text-muted); }
+.sibling { border-top: 1px solid var(--line); padding-top: 2rem !important; }
+
+/* ── click to enlarge (js/lightbox.js) ───────────────────────────────── */
+.clip.zoomable { cursor: zoom-in; }
+.clip.zoomable:hover { border-color: var(--line-strong); }
+.enlarge, .lightbox-close { background: none; border: 0; padding: 0 .2rem; font: .85em var(--mono); color: var(--text-dim); cursor: pointer; }
+.enlarge:hover, .enlarge:focus-visible, .lightbox-close:hover, .lightbox-close:focus-visible { color: var(--brand-hi); }
+/* 1296×796 is the recordings' size: any bigger and the terminal text goes soft. */
+.lightbox { width: min(1296px, 94vw, (90vh - 2rem - 5rem) * 1296 / 796); max-width: none; max-height: none; padding: 0; border: 0; background: none; color: var(--text); overflow: visible; }
+.lightbox::backdrop { background: rgba(4, 10, 18, .94); }
+.lightbox .window-bar { display: flex; justify-content: flex-end; padding-bottom: .4rem; }
+.lightbox .window-bar span { display: none; }
+.lightbox video { display: block; width: 100%; height: auto; border-radius: var(--radius); border: 1px solid var(--line); }
+.lightbox-caption { color: var(--text-muted); font-size: .95em; margin: .8rem 0 0; max-width: none; }
+.lightbox-caption strong { color: var(--text); }
