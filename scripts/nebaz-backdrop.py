@@ -3,7 +3,7 @@
 # ///
 """The backdrop behind nebaz's clips on neboto.dev/nebaz/: a muted take on
 nebaz's demo/backdrop.py. The same navy sky, horizon and grid, but close to
-the page's own navy (static/css/nebaz.css), with one soft flag-blue glow and
+the page's own navy (static/css/nebaz.css), with one soft blue glow and
 no cyan, violet or dots, so the clips sit on the page instead of glowing on
 it. scripts/nebaz-media.sh runs it.
 

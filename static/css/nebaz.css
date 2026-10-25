@@ -1,13 +1,12 @@
 /* nebaz section (/nebaz/): its own palette, separate from neboto's
-   catppuccin + orange. A little Sweden: the flag's blue (#006AA7) carries
-   the brand and its yellow (#FECC02) is the one accent, both softened for a
-   dark page. The surfaces are a muted navy close to the recordings'
-   backdrop, so the clips sit on the page without a seam. Change the tokens;
-   nothing below hard-codes a colour. */
+   catppuccin + orange. A deep blue carries the brand and a warm yellow is the
+   one accent, both softened for a dark page. The surfaces are a muted navy
+   close to the recordings' backdrop, so the clips sit on the page without a
+   seam. Change the tokens; nothing below hard-codes a colour. */
 :root {
-  /* the flag */
-  --flag-blue: #006aa7;
-  --flag-yellow: #fecc02;
+  /* the two brand colours */
+  --blue: #006aa7;
+  --yellow: #fecc02;
   /* surfaces, darkest to lightest */
   --bg: #07121e;          /* page */
   --bg-raised: #0d1b2a;   /* header, cards, code */
@@ -18,13 +17,13 @@
   --text-muted: #a6b2c0;
   --text-dim: #6c7b8c;
   /* accents */
-  --brand: var(--flag-blue);  /* primary button, focus */
-  --brand-hi: #5d9fcf;    /* the flag blue lifted for dark: links, the h1 emphasis */
-  --heading: #e3bd3c;     /* the flag yellow, muted: headings, wordmark */
+  --brand: var(--blue);  /* primary button, focus */
+  --brand-hi: #5d9fcf;    /* the blue lifted for dark: links, the h1 emphasis */
+  --heading: #e3bd3c;     /* the yellow, muted: headings, wordmark */
   --code: #9ebfdc;        /* inline code and keys: a pale blue */
   --ok: #d9dfe6;          /* the install command */
   --warn: #e3bd3c;        /* the experimental note: the same yellow */
-  --on-brand: #ffffff;    /* text on the flag-blue button */
+  --on-brand: #ffffff;    /* text on the blue button */
 
   --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --measure: 72ch;
@@ -48,10 +47,10 @@ pre code { background: none; padding: 0; }
 .skip:focus { left: 1rem; top: 1rem; background: var(--brand); color: var(--on-brand); padding: .5rem 1rem; z-index: 10; }
 
 /* ── header / footer ─────────────────────────────────────────────────── */
-.top { border-bottom: 2px solid var(--flag-yellow); background: var(--bg-raised); position: sticky; top: 0; z-index: 5; }
+.top { border-bottom: 2px solid var(--yellow); background: var(--bg-raised); position: sticky; top: 0; z-index: 5; }
 .top-inner, .foot-inner { max-width: 74rem; margin: 0 auto; padding: .7rem 1rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
 .wordmark { color: var(--heading); font-weight: 700; letter-spacing: .02em; }
-a.wordmark:hover { color: var(--flag-yellow); text-decoration: none; }
+a.wordmark:hover { color: var(--yellow); text-decoration: none; }
 .top-nav { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 1.2rem; }
 .top-nav a { color: var(--text-muted); }
 .top-nav a:hover { color: var(--text); text-decoration: none; }
