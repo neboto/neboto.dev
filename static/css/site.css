@@ -108,6 +108,7 @@ hr { border: 0; border-top: 1px solid var(--surface0); margin: 2rem 0; }
 .workflows > p { color: var(--subtext0); }
 .workflow-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(24rem, 100%), 1fr)); gap: 1.5rem; margin-top: 1.25rem; }
 .workflow-grid figure { margin: 0; }
+.workflow-grid figure.wide { grid-column: 1 / -1; }
 .workflow-grid figcaption { color: var(--subtext0); font-size: .95em; margin-top: .7rem; }
 .workflow-grid figcaption strong { color: var(--text); }
 .workflow-grid figcaption kbd { color: var(--peach); }

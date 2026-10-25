@@ -1,6 +1,6 @@
 +++
 title = "What's new"
-description = "Changes since the first release: a command picker on :, help you can filter, Overview sections that answer the first question, one-row detail headers, a calmer detail pane, @changes for what changed recently across the account, change markers on metric charts, multi-region ls and region counts in R, network ACLs in the network access lens, fuzzy pickers, @audit account and per-resource checks, IAM Access Advisor and the credential report, RDS Proxies and blue/green, S3 access points, unused security groups, forward history with Ctrl-F, search history, pinned services, security findings with @audit and neboto audit, security groups open to the world, AppSync, IAM instance profiles, Auto Scaling and RDS events in the change timeline, steadier exports, ECR lifecycle policies evaluated against your images, warnings for running images that are untagged or gone, Cost grouped by tag and cost category, Lambda layers, an update check, where sessions open, ECR images, Elastic Beanstalk, Cost Anomaly Detection, Route 53 DNS answer tests, wrapped detail values, credential_process prompts, the mouse works everywhere, CloudFormation stack policies and StackSet results, gzipped EC2 user data, safer SSM sessions, an @all search you can narrow and sort, app/neboto in CloudTrail user agents, a clearer CloudTrail event search, a headless CLI for scripts and AI agents (neboto ls, neboto get), IAM policy documents, sub-tabs from either pane with H and L, a demo mode, a key display for recordings, DMS, X-Ray and Batch, export formats, operational CLI commands behind C, which load balancers hold an instance, the EC2 console log, Route 53 and Resolver fixes. Plus nebaz, the Azure sibling in development."
+description = "Changes since the first release: one metrics view for every resource kind with a 30-day range, a statistic you can cycle and any metric CloudWatch has, the change timeline from a chart and back, a command picker on :, help you can filter, Overview sections that answer the first question, one-row detail headers, a calmer detail pane, @changes for what changed recently across the account, change markers on metric charts, multi-region ls and region counts in R, network ACLs in the network access lens, fuzzy pickers, @audit account and per-resource checks, IAM Access Advisor and the credential report, RDS Proxies and blue/green, S3 access points, unused security groups, forward history with Ctrl-F, search history, pinned services, security findings with @audit and neboto audit, security groups open to the world, AppSync, IAM instance profiles, Auto Scaling and RDS events in the change timeline, steadier exports, ECR lifecycle policies evaluated against your images, warnings for running images that are untagged or gone, Cost grouped by tag and cost category, Lambda layers, an update check, where sessions open, ECR images, Elastic Beanstalk, Cost Anomaly Detection, Route 53 DNS answer tests, wrapped detail values, credential_process prompts, the mouse works everywhere, CloudFormation stack policies and StackSet results, gzipped EC2 user data, safer SSM sessions, an @all search you can narrow and sort, app/neboto in CloudTrail user agents, a clearer CloudTrail event search, a headless CLI for scripts and AI agents (neboto ls, neboto get), IAM policy documents, sub-tabs from either pane with H and L, a demo mode, a key display for recordings, DMS, X-Ray and Batch, export formats, operational CLI commands behind C, which load balancers hold an instance, the EC2 console log, Route 53 and Resolver fixes. Plus nebaz, the Azure sibling in development."
 weight = 90
 +++
 
@@ -8,6 +8,68 @@ What changed in each release since `v0.1.0`, newest first. The full notes
 and binaries are on the
 [releases page](https://github.com/neboto/neboto-tui/releases). The
 installer always fetches the latest release, so re-running it upgrades you.
+
+## v0.10.0
+
+This release rebuilds the metrics view. Every resource kind now charts
+through the same view, so <kbd>m</kbd> works the same everywhere and
+shows the same things.
+
+### One metrics view for every kind
+
+<kbd>m</kbd> opens one row per metric, each with a sparkline and its last,
+min, max and average in the right unit (`%`, `ms`, `MiB`, bits/s). Below
+them is a large chart of the selected row. <kbd>j</kbd> / <kbd>k</kbd> pick
+a row, and metrics that belong together, such as bytes in and out, share
+one chart.
+
+- **Range:** <kbd>1</kbd>–<kbd>5</kbd> pick 1h, 6h, 24h, 7d or the new
+  **30d**, and <kbd>[</kbd> / <kbd>]</kbd> step through them. If nothing
+  was published in the window, the view says so and suggests a longer range.
+  A stopped instance publishes nothing, for example.
+- **Statistic:** <kbd>s</kbd> cycles the selected metric through Average,
+  Maximum, Sum, Minimum and p99.
+- **Any metric:** <kbd>a</kbd> lists every metric CloudWatch has for the
+  resource (from `ListMetrics`), and <kbd>Enter</kbd> charts it.
+  <kbd>d</kbd> goes back to the default set.
+- **Where it comes from:** the range row ends with the namespace and the
+  home region, dimmed. A CloudWatch metric row also shows its dimensions,
+  since its name alone doesn't say which queue or instance it's for.
+- **One call:** opening the view makes one `GetMetricData` call. If a
+  metric can't be read, the others still chart, and the range row counts
+  the failures as `unread`.
+
+Every kind that charted before still charts. It's now the same view across
+EC2, EBS, Lambda, RDS, ECS, Auto Scaling, EKS, API Gateway, load balancers,
+OpenSearch, DMS, DynamoDB, EFS, ElastiCache, Kinesis, Firehose, Redshift,
+SQS, SNS, Step Functions, Bedrock, Transfer, NAT, VPN, Direct Connect, ECR,
+WorkSpaces, Athena, Glue, Transit Gateway, log groups, EventBridge rules,
+Resolver endpoints, CodeBuild, CloudFront, Route 53 and Global Accelerator.
+A few kinds also chart more than before:
+
+- **ECS:** service CPU and memory come from `AWS/ECS`, so they chart
+  without Container Insights. A task gets one CPU and memory line per
+  container.
+- **Redshift:** `HealthStatus` charts. It's read as Minimum, which the old
+  view never asked for.
+- **GENEVE target groups** query `AWS/GatewayELB` instead of `NetworkELB`.
+
+### Changes on the chart, and back again
+
+- **<kbd>W</kbd> from the chart:** <kbd>W</kbd> opens the change timeline
+  for the events marked on the chart. <kbd>Esc</kbd> takes you back to the
+  charts with the same range, statistic, row and picked metrics. The
+  timeline covers the chart's range, up to 30 days.
+- **A shorter legend:** the legend on the chart's bottom border lists each
+  event once with a count, such as `StopInstances ×7`.
+- **Honest about gaps:** CloudTrail's `LookupEvents` stops after 50 matches.
+  When it stops early, the timeline counts CloudTrail as `N+` and says
+  `nothing before <time> read`. A chart only says `no changes since <time>`
+  for the part it actually read. A nightly scheduler's noise can no longer
+  make an unread stretch look quiet.
+- While the metrics view or another in-pane view is open, the status bar
+  shows no keys and <kbd>:</kbd> is off. The view's own key row is the one
+  that applies.
 
 ## v0.9.0
 

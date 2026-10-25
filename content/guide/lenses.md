@@ -10,7 +10,7 @@ modals. Each takes over the keymap while open; <kbd>Esc</kbd> closes it and
 
 | Key | View |
 |---|---|
-| <kbd>m</kbd> | CloudWatch charts: <kbd>[</kbd> / <kbd>]</kbd> change the window, <kbd>r</kbd> refreshes, <kbd>c</kbd> toggles change markers |
+| <kbd>m</kbd> | CloudWatch charts: <kbd>1</kbd>–<kbd>5</kbd> or <kbd>[</kbd> / <kbd>]</kbd> change the range, <kbd>s</kbd> the statistic, <kbd>a</kbd> lists every metric, <kbd>c</kbd> toggles change markers, <kbd>W</kbd> opens them as the timeline |
 | <kbd>t</kbd> | Live log tail: <kbd>[</kbd> / <kbd>]</kbd> widen the lookback, <kbd>s</kbd> flips to search, <kbd>w</kbd> wraps long lines |
 | <kbd>f</kbd> | Log search (server-side filter pattern) · CloudTrail event filter · ECS/execution status filter |
 | <kbd>W</kbd> | Change timeline: who changed this resource; <kbd>[</kbd> / <kbd>]</kbd> widen to 90 days, <kbd>a</kbd> includes reads |
@@ -27,7 +27,26 @@ modals. Each takes over the keymap while open; <kbd>Esc</kbd> closes it and
 Charts for most resource kinds that publish CloudWatch metrics, each with
 the right namespace and dimension set: EC2, EBS, Lambda, ECS services and tasks, RDS, load balancers,
 DynamoDB, SQS, Kinesis, MSK, API Gateway, CloudFront, NAT gateways, VPN and
-Direct Connect, and so on. On a CloudWatch dashboard, <kbd>m</kbd> renders
+Direct Connect, and so on.
+
+Every kind opens the same view. Each metric gets a row with a sparkline and
+its last, min, max and average in its unit. Below the rows is a large chart
+of the selected one, and related metrics, such as bytes in and out, share
+it. <kbd>j</kbd> / <kbd>k</kbd> pick the row.
+
+| Key | Does |
+|---|---|
+| <kbd>1</kbd>–<kbd>5</kbd>, <kbd>[</kbd> / <kbd>]</kbd> | Range: 1h, 6h, 24h, 7d, 30d |
+| <kbd>s</kbd> | Cycle the selected metric's statistic: Average, Maximum, Sum, Minimum, p99 |
+| <kbd>a</kbd> | List every metric CloudWatch has for the resource; <kbd>Enter</kbd> charts it, <kbd>d</kbd> goes back to the default set |
+| <kbd>c</kbd> / <kbd>W</kbd> | Toggle the change markers / open them as the change timeline |
+| <kbd>y</kbd> / <kbd>e</kbd> | Copy the view / open it in `$EDITOR` |
+
+The range row ends with where the data comes from: the namespace and the
+home region, plus the dimensions for a CloudWatch metric row. If nothing
+was published in the window, the view says so and suggests a longer range.
+
+On a CloudWatch dashboard, <kbd>m</kbd> renders
 the dashboard itself: its widgets laid out on the console's own grid, with
 <kbd>Tab</kbd> walking a widget cursor and <kbd>Enter</kbd> zooming one to
 the whole pane.
@@ -36,8 +55,13 @@ Each chart also marks what changed: the resource's [change
 timeline](#change-timeline-w) events (CloudTrail changes, deploys, stack
 events, Auto Scaling and RDS events, alarm changes) are drawn as vertical
 lines, failed ones in the error colour. A legend on the pane's bottom
-border lists them newest first. <kbd>c</kbd> turns them off and on for the
-session. A chart with no events in its window looks exactly as before.
+border names each event once, newest first, with a count
+(`StopInstances ×7`). <kbd>c</kbd> turns them off and on for the session.
+<kbd>W</kbd> opens those events as the change timeline, and <kbd>Esc</kbd>
+returns to the charts as you left them. CloudTrail is read up to 50 matched
+events. If the chart's window goes back further than that, the legend says
+`N+ changes`, or `no changes since <time>`, rather than calling the
+unread stretch quiet.
 Dashboards and Cost don't get markers.
 
 > `GetMetricData` bills per metric requested, so the dashboard view caps the
