@@ -46,6 +46,15 @@ The range row ends with where the data comes from: the namespace and the
 home region, plus the dimensions for a CloudWatch metric row. If nothing
 was published in the window, the view says so and suggests a longer range.
 
+On a WAF web ACL, the actions (Allowed, Blocked, Counted, CAPTCHA,
+Challenge) share one chart, with a Block rate row, and the rule and label
+tables sit beside it. <kbd>Tab</kbd> moves into the tables, <kbd>Enter</kbd>
+charts that rule's or label's actions, <kbd>d</kbd> goes back to the ACL's
+set, and <kbd>x</kbd> opens the sampled requests for the rule under the
+cursor in your editor (AWS keeps the last 3 hours). A CloudFront
+distribution charts **Blocked by WAF** beside its requests, and says when
+a row needs the distribution's additional metrics turned on.
+
 On a CloudWatch dashboard, <kbd>m</kbd> renders
 the dashboard itself: its widgets laid out on the console's own grid, with
 <kbd>Tab</kbd> walking a widget cursor and <kbd>Enter</kbd> zooming one to
