@@ -9,6 +9,67 @@ and binaries are on the
 [releases page](https://github.com/neboto/neboto-tui/releases). The
 installer always fetches the latest release, so re-running it upgrades you.
 
+## v0.11.0
+
+This release makes search find things wherever they are, gives WAF and
+CloudFront real metrics, and makes Inspector findings searchable down to
+the package.
+
+### Search follows its matches
+
+On a service with sub-tabs, search now covers every tab. While you type, if
+the tab you're on has no matches, the list moves to the first tab that has
+some: `@vpc private` lands on Subnets. It goes back to the tab you started
+on once that tab matches again, or on <kbd>Esc</kbd>. <kbd>Enter</kbd> keeps
+the tab it found, and a tab you pick yourself is never switched away from.
+Tabs with no matches are dimmed.
+
+The query can also be edited in the middle now. <kbd>←</kbd> /
+<kbd>→</kbd> / <kbd>Home</kbd> / <kbd>End</kbd> move through it, so
+<kbd>/</kbd> <kbd>↑</kbd> <kbd>←</kbd><kbd>←</kbd><kbd>←</kbd> fixes a typo
+in the last search. The usual shell keys (<kbd>Ctrl-W</kbd>,
+<kbd>Ctrl-U</kbd>, <kbd>Alt-←</kbd>) work too, and an empty bar shows
+`↑ history` when there is some.
+
+### WAF and CloudFront metrics
+
+- **Web ACLs** chart through the same view as everything else, with
+  <kbd>s</kbd>, <kbd>a</kbd>, the 30-day range and change markers. Allowed,
+  Blocked, Counted, CAPTCHA and Challenge share one chart, with a
+  **Block rate** row under it.
+- **Rule and label tables** sit beside the chart (under it when the pane is
+  narrow). <kbd>Tab</kbd> moves into them, <kbd>Enter</kbd> charts that
+  rule's or label's actions over time, and <kbd>d</kbd> goes back to the
+  ACL's set.
+- **Sampled requests:** <kbd>x</kbd> opens the sampled requests for the rule
+  under the cursor in your editor, over the chart's window, clipped to the
+  3 hours AWS keeps.
+- **CloudFront distributions** chart **Blocked by WAF** beside their
+  requests. When the distribution's additional metrics are off, the rows
+  that need them say so instead of "no data"; when they're on, the 401, 403,
+  404, 502, 503 and 504 rates are added. Origin latency now charts, as p99.
+- **CloudFront Functions** get <kbd>m</kbd>: invocations, errors, throttles
+  and compute utilization.
+
+### Inspector
+
+- A finding NVD hasn't scored yet reads `no score`, not `CRITICAL (0.0)`.
+- The finding pane shows every field: all the scores (Inspector, vendor,
+  EPSS, every CVSS), the advisory, every vulnerable package with its fix,
+  and the affected image, instance or function.
+- Search reaches all of it: any package, file path, related id, tag or
+  account, plus the words `fixable`, `exploitable` and `unscored`.
+  `@inspector CVE-2026-11147` lists every resource with that CVE.
+- Findings and coverage load up to 1,000 rows each, and warn when there are
+  more.
+
+### Back and forward on the service strip
+
+Back and forward are now <kbd>←</kbd> <kbd>→</kbd> arrows at the left edge
+of the service strip, lit when there's somewhere to go. They work from
+either pane and can be clicked. The detail footer no longer names where back
+goes; <kbd>`</kbd> still shows the whole jump list.
+
 ## v0.10.0
 
 This release rebuilds the metrics view. Every resource kind now charts
@@ -947,17 +1008,10 @@ With `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` in the environment,
 kept signing every call with the exported keys. A profile you choose
 explicitly now wins, the same way it does with `aws --profile`.
 
-## Coming soon: nebaz, for Azure
+## nebaz, for Azure
 
-[**nebaz**](https://github.com/neboto/nebaz) is neboto's Azure sibling and
-is in active development. It uses the same keyboard-driven, read-only
-design on the same core: fuzzy search, detail panes with links you can
-follow, visual selection, macros, bookmarks, export and themes. It
-authenticates through the Azure CLI (`az login`).
-
-It already covers subscriptions and resource groups, Virtual Machines,
-Storage, Networking, Key Vault (names and metadata, never secret values),
-AKS, managed identities, App Service, SQL, Container Registry, Cosmos DB and
-Foundry. There is no release yet. Follow or star the
-[repository](https://github.com/neboto/nebaz) to hear when there is. Its
-guide will live here at `neboto.dev/azure`.
+[**nebaz**](@/nebaz/_index.md) is neboto's Azure sibling, built on the same
+core with the same keys and the same read-only guarantee. It's early and
+experimental, with its own releases on
+[GitHub](https://github.com/neboto/nebaz/releases). Try it with
+`nebaz --demo`, which needs no Azure account.

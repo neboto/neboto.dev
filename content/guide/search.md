@@ -22,7 +22,20 @@ Typing `@e` pops a completion dropdown; <kbd>Tab</kbd> completes to the
 first match. <kbd>Enter</kbd> closes the bar and keeps the filter applied;
 <kbd>Esc</kbd> clears it. <kbd>↑</kbd> / <kbd>↓</kbd> in the bar recall this
 session's earlier searches. They're kept in memory only and never written
-to disk.
+to disk. <kbd>←</kbd> / <kbd>→</kbd> / <kbd>Home</kbd> / <kbd>End</kbd> move
+through the query, so <kbd>/</kbd> <kbd>↑</kbd> <kbd>←</kbd><kbd>←</kbd><kbd>←</kbd>
+fixes a typo in the last search; the usual shell keys (<kbd>Ctrl-W</kbd>,
+<kbd>Ctrl-U</kbd>, <kbd>Alt-←</kbd>…) work too. The detail pane's
+<kbd>/</kbd> filter edits the same way.
+
+## Sub-tabs
+
+On a service with sub-tabs, search covers every tab. Tabs it found nothing
+on are dimmed, and while you type, a tab with no matches gives way to the
+first tab that has some: `@vpc private` lands on Subnets. Search returns to
+the tab you started on once that tab matches again, or on <kbd>Esc</kbd>;
+<kbd>Enter</kbd> keeps the tab it found. A tab you pick yourself is never
+switched away from.
 
 ## What is indexed
 

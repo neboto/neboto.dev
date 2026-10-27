@@ -57,8 +57,8 @@ remember the key.
 | <kbd>[[</kbd> / <kbd>]]</kbd> | Previous / next group header |
 | <kbd>l</kbd> <kbd>→</kbd> <kbd>Enter</kbd> | Follow the link under the cursor |
 | <kbd>h</kbd> <kbd>←</kbd> <kbd>Esc</kbd> | Back to the list |
-| <kbd>Backspace</kbd> <kbd>Ctrl-O</kbd> | Back through history (the footer names where: `⌫ back to EC2 i-0abc`, plus the region when going back switches it) |
-| <kbd>Ctrl-F</kbd> | Forward again, after going back (`⌃F forward to …`) |
+| <kbd>Backspace</kbd> <kbd>Ctrl-O</kbd> | Back through history (the `←` at the service strip's left edge lights when there's somewhere to go) |
+| <kbd>Ctrl-F</kbd> | Forward again, after going back (`→` on the service strip) |
 | <kbd>/</kbd> | Filter the body text; matches are marked, and <kbd>n</kbd> / <kbd>N</kbd> step through them |
 | <kbd>Ctrl-W</kbd> | Wrap long values onto continuation rows, instead of clipping them at the pane edge |
 | <kbd>y</kbd> / <kbd>c</kbd> | Copy the row, or the visual selection |
@@ -87,7 +87,7 @@ faster, but nothing needs it.
 | Double-click | <kbd>Enter</kbd>: open the detail pane, follow a link, confirm a picker row, drill into a folder |
 | Click a `→` | Follow that link |
 | Click the detail pane's title bar | Full width (<kbd>Z</kbd>) |
-| Click `⌫ back to …` / `⌃F forward to …` in the detail footer | Back / forward through history |
+| Click `←` / `→` at the service strip's left edge | Back / forward through history |
 | Click a `‹` / `›` | Scroll the tabs |
 | Wheel | Scroll the list, the detail body, a picker, or an in-pane view (scrolling up in a log tail pauses it) |
 | Drag | Select a range of rows; <kbd>y</kbd> copies them |
