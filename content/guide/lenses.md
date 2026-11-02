@@ -17,7 +17,7 @@ modals. Each takes over the keymap while open; <kbd>Esc</kbd> closes it and
 | <kbd>U</kbd> | Referenced by: which loaded resources mention this one |
 | <kbd>N</kbd> | Network access: the effective security-group rule table, with load-balancer sources labelled, then the subnets' network ACLs |
 | <kbd>o</kbd> | S3 object browser, with a Terraform state viewer inside it (see [Browsers](@/guide/browsers.md)) |
-| <kbd>i</kbd> | DynamoDB item browser: Scan / Query (see [Browsers](@/guide/browsers.md)) |
+| <kbd>i</kbd> | DynamoDB item browser: a one-line query that picks Query or Scan for you (see [Browsers](@/guide/browsers.md)) |
 | <kbd>s</kbd> | SSM Session Manager · ECS Exec · assume an Organizations member-account role. Sessions are off while a member-account role is assumed (see [Multi-account](@/guide/multi-account.md)) |
 | <kbd>x</kbd> / <kbd>Y</kbd> | Reveal / copy a secret or SSM parameter value (never cached, never logged). On a Route 53 record's **Test answer** section, <kbd>x</kbd> asks Route 53 what it answers, again on each press |
 | <kbd>O</kbd> | Open this resource in the AWS Console |
@@ -54,6 +54,12 @@ set, and <kbd>x</kbd> opens the sampled requests for the rule under the
 cursor in your editor (AWS keeps the last 3 hours). A CloudFront
 distribution charts **Blocked by WAF** beside its requests, and says when
 a row needs the distribution's additional metrics turned on.
+
+A CloudWatch alarm charts its own metric at its own statistic and period,
+with the threshold drawn across the chart. An ACM certificate charts its
+days to expiry, with lines at 45 days and 0. An FSx file system charts only
+what it publishes, with a per-volume table beside it; <kbd>Enter</kbd> on a
+volume charts it.
 
 On a CloudWatch dashboard, <kbd>m</kbd> renders
 the dashboard itself: its widgets laid out on the console's own grid, with

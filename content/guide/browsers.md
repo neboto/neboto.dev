@@ -1,6 +1,6 @@
 +++
 title = "Browsers"
-description = "Walk a bucket like a file manager, open a Terraform state and jump to its resources, scan or query a DynamoDB table."
+description = "Walk a bucket like a file manager, open a Terraform state and jump to its resources, query a DynamoDB table in one line."
 weight = 55
 +++
 
@@ -76,18 +76,53 @@ dropped when the pane closes.
 
 ## DynamoDB item browser (<kbd>i</kbd>)
 
-<kbd>i</kbd> on a table opens a query form above a result grid. The default
-is a **Scan**: press <kbd>Enter</kbd> to list items, <kbd>n</kbd> for the
-next page. Switch **Mode** to **Query**, set **PK** to a partition-key value
-and optionally an **Op** and **SK** (`begins_with 2024-`, `> 100`) to query
-by key; switch **Index** to a GSI or LSI to query its keys instead. A
-**Filter** applies to either mode: `status=active` for equality,
-`email~@example.com` for contains.
+<kbd>i</kbd> on a table opens a query line above a result table. You write
+conditions, and neboto works out how to read them:
 
-<kbd>Tab</kbd> moves between fields, <kbd>←</kbd> / <kbd>→</kbd> change a
-choice, <kbd>↓</kbd> moves into the results, and <kbd>Enter</kbd> on a row
-shows the full item as JSON. Pages are 50 items; nothing is fetched until
-you run.
+```
+pk = "USER#42" and sk begins_with "ORDER#" and total > 100
+status in (pending, shipped) or not coupon exists
+address.city = Perth and tags contains gift
+```
+
+The language has `and`, `or`, `not`, `=`, `<>`, `<`, `<=`, `>`, `>=`,
+`between`, `begins_with`, `contains`, `exists` and `in (…)`, with nested
+paths (`a.b[0].c`) and backticks for awkward names (`` `order-id` ``). A
+quoted value is always a string. A bare one is a number when it looks like
+one, otherwise a string, and a key attribute's declared type wins.
+
+**Query or Scan.** If the query pins an index's partition key with `=`,
+it's a Query on that index (the table first, then its GSIs and LSIs), with
+one sort-key condition as part of the key and everything else as the
+filter. Otherwise it's a Scan. The plan line under the query says which,
+on which index, why, and roughly what one read costs in RCU, while you
+type. <kbd>Ctrl-N</kbd> pins an index yourself, for example to scan a
+sparse GSI.
+
+**Reads.** <kbd>Enter</kbd> reads pages until it has 50 matches or has
+looked at 5,000 items, whichever comes first, so a selective filter doesn't
+come back empty with matches further in. <kbd>n</kbd> reads more of the
+query that ran, <kbd>Esc</kbd> stops a read, and <kbd>↑</kbd> /
+<kbd>↓</kbd> on the query line step through that table's history.
+
+| Key | In the results |
+|---|---|
+| <kbd>Enter</kbd> | Open the item |
+| <kbd>/</kbd> | Filter the loaded rows (no API call) |
+| <kbd>←</kbd> / <kbd>→</kbd> | Move between columns and scroll |
+| <kbd>z</kbd> | Sort the loaded rows by the column |
+| <kbd>n</kbd> | Read more |
+| <kbd>y</kbd> | Copy |
+| <kbd>C</kbd> | Copy the read as an `aws dynamodb query` or `scan` command, or `get-item` for the selected item |
+| <kbd>Tab</kbd> | Back to the query line |
+
+Key columns are pinned on the left, and the rest follow, most common first.
+In the item view, <kbd>v</kbd> switches between typed rows, JSON and
+DynamoDB JSON, <kbd>/</kbd> finds lines (<kbd>n</kbd> / <kbd>N</kbd>),
+<kbd>V</kbd> selects, <kbd>y</kbd> copies the line's value or the
+selection, <kbd>Y</kbd> the whole item and <kbd>e</kbd> opens it in your
+editor. The copied CLI command carries `--max-items 50` and `--page-size`
+so a pasted Scan doesn't read the whole table.
 
 The same key opens a session browser on a Bedrock AgentCore memory store:
 actors, their sessions, and the events within, with <kbd>t</kbd> switching to

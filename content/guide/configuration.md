@@ -38,6 +38,7 @@ cost = 21600                  # per-service overrides, keyed by @prefix
 | `detail_flat` | Start with the flat all-sections detail view |
 | `log_wrap` | Start log panes with long lines wrapped |
 | `detail_wrap` | Start the detail pane with long values wrapped (<kbd>Ctrl-W</kbd> toggles it) |
+| `syntax_highlight` | Colour templates, policies, definitions and user data in the detail pane as JSON, YAML or shell (default `true`) |
 | `theme`, `[theme_colors]` | Preset name and per-colour overrides |
 | `cache_ttl`, `[cache_ttls]` | Base cache freshness in seconds, and per-service overrides keyed by `@`-prefix |
 | `org_access_role`, `org_access_roles` | Role name(s) for the member-account switch |

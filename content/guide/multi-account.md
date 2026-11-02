@@ -25,6 +25,28 @@ picker.
 <kbd>P</kbd> also offers **assume by account id**, for hopping to an account
 you cannot enumerate with `organizations:ListAccounts`.
 
+## History and bookmarks across accounts
+
+Every history entry and bookmark remembers the account it was saved in.
+<kbd>Backspace</kbd>, <kbd>Ctrl-F</kbd> or a bookmark from another account
+switches profile (and assumes the member role) to get back, then opens the
+place only once the new credentials reach that account. The jump list and
+bookmarks name the account next to the region:
+`· prod (111122223333) · ap-southeast-2`.
+
+It's the account that counts, not the profile name: a place saved under one
+profile opens directly in any session for the same account.
+`AWS_PROFILE=prod neboto` counts as profile `prod`.
+
+Credentials with no profile name (keys exported in the shell,
+`aws-vault exec`, an instance role) can be returned to within a run: once
+you've switched away, <kbd>P</kbd> offers *startup credentials*. They can't
+be returned to from a later run, because neboto never stores credentials.
+A bookmark saved under another run's keys opens only when you start neboto
+with credentials for that account. Otherwise neboto says so and names both
+accounts, rather than opening a same-named resource in the account you're
+in now.
+
 ## The read-only guarantee holds across accounts
 
 Every assumed session is scoped with the AWS-managed `ReadOnlyAccess`
