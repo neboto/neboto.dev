@@ -1,7 +1,6 @@
 +++
 title = "Speed: one search bar for all of AWS"
 description = "The small questions that eat a day - a VPC CIDR, a CVE, a failing Lambda - answered in a few keystrokes without leaving the terminal."
-draft = true
 +++
 
 <!--
