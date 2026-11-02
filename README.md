@@ -48,13 +48,8 @@ and *Enforce HTTPS* can be switched on:
 The custom domain itself is set on the Pages site (`cname = neboto.dev`) and
 mirrored by `static/CNAME`, so a deploy can't unset it.
 
-### Org-level domain verification
-
-`dns/route53-github-org-verification.json` adds the TXT record GitHub uses to
-verify `neboto.dev` for the **neboto** organisation (`_gh-neboto-o.neboto.dev`).
-A verified domain stops another account's Pages site from claiming
-`neboto.dev` if the A/AAAA records ever lapse, and lets the org restrict
-notification emails to the verified domain. Apply the batch the same way as
-above, then complete it with the GraphQL `verifyVerifiableDomain` mutation
-(the token in the batch expires after seven days; `regenerateVerifiableDomainToken`
-issues a new one).
+`dns/route53-github-org-verification.json` is the TXT record that verifies
+`neboto.dev` for the neboto org (guards against Pages domain takeover). If it
+ever needs redoing: apply it as above, then run the GraphQL
+`verifyVerifiableDomain` mutation (`regenerateVerifiableDomainToken` if the
+seven-day token has expired).
