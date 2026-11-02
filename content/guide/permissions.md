@@ -89,7 +89,8 @@ holds the ability to run the command.
 Once a day, neboto asks GitHub whether there's a newer release: an anonymous
 `GET https://api.github.com/repos/neboto/neboto-tui/releases/latest`. It
 sends nothing about you or your account, and a failed request (offline,
-behind a proxy) is silent. It never runs under `--demo`, when `CI` is set,
+behind a proxy) is silent. It trusts the same OS certificate store as
+the AWS SDK, so it works behind a TLS-inspecting proxy such as Zscaler. It never runs under `--demo`, when `CI` is set,
 or for `neboto ls` / `get`. Turn it off with `update_check = false`,
 `--no-update-check` for one run, or `NEBOTO_NO_UPDATE_CHECK=1`.
 

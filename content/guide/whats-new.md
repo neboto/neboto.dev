@@ -9,6 +9,92 @@ and binaries are on the
 [releases page](https://github.com/neboto/neboto-tui/releases). The
 installer always fetches the latest release, so re-running it upgrades you.
 
+## v0.12.0
+
+This release rebuilds the DynamoDB item browser around a one-line query,
+makes history and bookmarks work across accounts, and moves almost every
+remaining kind onto the shared metrics view.
+
+### DynamoDB: one-line queries
+
+The six-field form is gone. <kbd>i</kbd> on a table opens a single query
+line:
+
+```
+pk = "USER#42" and sk begins_with "ORDER#" and total > 100
+status in (pending, shipped) or not coupon exists
+```
+
+- **neboto picks the read.** When the query pins an index's partition key
+  with `=`, it's a Query on that index, with the sort-key condition as part
+  of the key and the rest as the filter. Otherwise it's a Scan. The plan
+  line under the query says which, which index and why, and estimates the
+  cost (`≤ 413 RCU per read`) before you press <kbd>Enter</kbd>.
+- **Reads keep going.** One <kbd>Enter</kbd> reads pages until it has 50
+  matches or has looked at 5,000 items, so a selective filter no longer
+  comes back "No items" with matches further in. <kbd>n</kbd> reads more,
+  <kbd>Esc</kbd> stops.
+- **The results are a real table:** key columns pinned on the left, the
+  rest most common first, <kbd>←</kbd> / <kbd>→</kbd> to scroll,
+  <kbd>z</kbd> to sort and <kbd>/</kbd> to filter what's loaded.
+- **The item view** has a line cursor, <kbd>/</kbd> search, <kbd>V</kbd>
+  selection and <kbd>v</kbd> to switch between typed rows, JSON and
+  DynamoDB JSON.
+- **<kbd>C</kbd> copies the read as an AWS CLI command**, ready to paste,
+  and `get-item` for the selected item.
+
+The demo (`--demo`) now has DynamoDB tables whose queries really filter.
+
+### History and bookmarks across accounts
+
+<kbd>Backspace</kbd>, <kbd>Ctrl-F</kbd> and bookmarks now remember the
+account a place was saved in. Going back into another account switches
+profile (and assumes the member role) first, and only opens the place once
+the credentials reach that account. The jump list and bookmarks name the
+account next to the region. A place is never opened in the wrong account:
+if neboto can't get back to it, it says so and names both accounts.
+
+### Metrics: one view for nearly everything
+
+<kbd>m</kbd> on FSx, SES, Cognito user pools, VPC endpoints, Network
+Firewall, MSK, AgentCore and CloudWatch alarms now opens the same metrics
+view as everything else, with the 30-day range, <kbd>s</kbd>,
+<kbd>a</kbd> and change markers. Only S3, dashboards and Cost keep their
+own.
+
+- **New:** AppSync APIs, ACM certificates (days to expiry), ECS clusters,
+  RDS proxies, Elastic Beanstalk environments and Backup vaults.
+- **CloudWatch alarms** chart their own metric and statistic, with the
+  threshold drawn as a line.
+- **FSx** charts only what the file system publishes, with tables per file
+  system type. Latency was off by a factor of a million and is now in ms,
+  and Lustre sums every storage target instead of charting one.
+
+### Transit Gateway
+
+- Route tables with more than 1,000 routes say so, and still find the
+  default route. Prefix-list routes show their list, and ECMP routes show
+  every target.
+- A new **Propagations** tab on route tables, and attachments show where
+  their routes propagate.
+- Attachments show what their kind adds: VPC options and subnets, the peer
+  gateway (<kbd>Enter</kbd> goes to its region), Connect peers and BGP
+  status.
+- The gateway's options, with a warning when shared attachments are
+  auto-accepted.
+
+### Smaller things
+
+- **Syntax colours:** templates, policies, definitions and user data are
+  coloured as JSON, YAML or shell. Turn it off with
+  `syntax_highlight = false`.
+- **IAM:** AWS-managed policies that are attached to something are listed
+  and searchable. <kbd>Enter</kbd> on a Permissions row goes to the policy.
+- **SSM:** a Fleet node's Instance ID, IAM role and a command's log group
+  are links now.
+- **Update check** works behind TLS-inspecting proxies such as Zscaler, by
+  trusting the OS certificate store.
+
 ## v0.11.0
 
 This release makes search find things wherever they are, gives WAF and
