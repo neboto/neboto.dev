@@ -1,6 +1,6 @@
 +++
 title = "Speed: one search bar for all of AWS"
-description = "The small questions that eat a day - a VPC CIDR, a CVE, a failing Lambda - answered in a few keystrokes without leaving the terminal."
+description = "Most of my day goes on small AWS questions - a VPC CIDR, a CVE, a failing Lambda. Here's how I answer them in a few keystrokes without leaving the terminal."
 +++
 
 <!--
