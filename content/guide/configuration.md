@@ -43,6 +43,7 @@ cost = 21600                  # per-service overrides, keyed by @prefix
 | `cache_ttl`, `[cache_ttls]` | Base cache freshness in seconds, and per-service overrides keyed by `@`-prefix |
 | `org_access_role`, `org_access_roles` | Role name(s) for the member-account switch |
 | `session_launch` | Where SSM / ECS Exec sessions open: `"auto"` (default: a new tmux window, else a new terminal window, else this terminal), `"window"` or `"inline"` |
+| `split_command` | How <kbd>&#124;</kbd> opens the new neboto, instead of the detected terminal's split. `{cmd}` is the neboto command as one shell-quoted word, e.g. `"wezterm cli split-pane --bottom -- sh -c {cmd}"`, or a window-manager script that tiles the new window. Without `{cmd}`, ` sh -c {cmd}` is appended. It runs detached, so its failures aren't reported |
 | `update_check` | Check once a day for a newer release (default `true`; see [Permissions](@/guide/permissions.md#the-one-request-that-isn-t-to-aws)) |
 | `controltower_audit_account`, `controltower_audit_role` | The account holding the Control Tower Config aggregator. **Quote the id**: a bare 12-digit number is a TOML integer |
 | `owner_tags`, `managed_by_tags`, `ownership_ribbon` | Which tags feed the ownership line under each detail pane, and whether to show it |

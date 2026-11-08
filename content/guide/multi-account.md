@@ -25,6 +25,15 @@ picker.
 <kbd>P</kbd> also offers **assume by account id**, for hopping to an account
 you cannot enumerate with `organizations:ListAccounts`.
 
+## Resources shared in from another account
+
+A transit gateway shared through RAM, a shared VPC or subnet, a resolver
+rule, a prefix list or a Redshift snapshot from another account is marked
+`⇄ shared` in the list and `⇄ shared from <owner>` in the pane header.
+Your own resources get no mark. Where AWS shows a non-owner less (a shared
+transit gateway's attachments and route tables), the tab says so in one
+line instead of looking empty.
+
 ## History and bookmarks across accounts
 
 Every history entry and bookmark remembers the account it was saved in.
