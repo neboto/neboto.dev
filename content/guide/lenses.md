@@ -10,12 +10,12 @@ modals. Each takes over the keymap while open; <kbd>Esc</kbd> closes it and
 
 | Key | View |
 |---|---|
-| <kbd>m</kbd> | CloudWatch charts: <kbd>1</kbd>–<kbd>5</kbd> or <kbd>[</kbd> / <kbd>]</kbd> change the range, <kbd>s</kbd> the statistic, <kbd>a</kbd> lists every metric, <kbd>c</kbd> toggles change markers, <kbd>W</kbd> opens them as the timeline |
+| <kbd>m</kbd> | CloudWatch charts: <kbd>1</kbd>–<kbd>5</kbd> or <kbd>[</kbd> / <kbd>]</kbd> change the range, <kbd>s</kbd> the statistic, <kbd>a</kbd> lists every metric, <kbd>c</kbd> toggles change markers, <kbd>W</kbd> opens them as the timeline, <kbd>w</kbd> refreshes them once a minute |
 | <kbd>t</kbd> | Live log tail: <kbd>[</kbd> / <kbd>]</kbd> widen the lookback, <kbd>s</kbd> flips to search, <kbd>w</kbd> wraps long lines |
 | <kbd>f</kbd> | Log search (server-side filter pattern) · CloudTrail event filter · ECS/execution status filter |
 | <kbd>W</kbd> | Change timeline: who changed this resource; <kbd>[</kbd> / <kbd>]</kbd> widen to 90 days, <kbd>a</kbd> includes reads |
 | <kbd>U</kbd> | Referenced by: which loaded resources mention this one |
-| <kbd>N</kbd> | Network access: the effective security-group rule table, with load-balancer sources labelled, then the subnets' network ACLs |
+| <kbd>N</kbd> | Network access: the subnets' network ACLs and the effective security-group rules, in the order AWS checks them, with each rule's NACL verdict |
 | <kbd>o</kbd> | S3 object browser, with a Terraform state viewer inside it (see [Browsers](@/guide/browsers.md)) |
 | <kbd>i</kbd> | DynamoDB item browser: a one-line query that picks Query or Scan for you (see [Browsers](@/guide/browsers.md)) |
 | <kbd>s</kbd> | SSM Session Manager · ECS Exec · assume an Organizations member-account role. Sessions are off while a member-account role is assumed (see [Multi-account](@/guide/multi-account.md)) |
@@ -135,15 +135,29 @@ the selected one, by id, name, ARN or tag. It scans only what is cached, so
 it makes no API calls and says how much it covered.
 
 <kbd>N</kbd> on anything with security groups (an instance, an RDS instance,
-a Lambda, a load balancer…) shows the **effective** rule table across every
-attached group in one view, with open-to-world sources highlighted.
-<kbd>Enter</kbd> jumps to the group a row came from.
+a Lambda, a load balancer…) shows what can reach it and what it can reach,
+layer by layer in the order AWS checks them. Inbound is the subnets'
+network ACLs first, then the security groups. Outbound is the other way
+round. Traffic gets through only if both layers allow it.
 
-Below the security-group rules come the network ACLs on the resource's
-subnets, in rule order, since the first match wins. A deny is in the
-warning colour, and an ACL that opens everything both ways is labelled
-`allow-all`. <kbd>Enter</kbd> on an ACL row jumps to the ACL. Load
-balancers get their subnets' ACLs too.
+- **Security groups** are merged into one **effective** rule table across
+  every attached group, with open-to-world sources highlighted and
+  load-balancer sources labelled. <kbd>t</kbd> cycles inbound, outbound and
+  both.
+- **Network ACL** entries stay in rule order, since the first match wins. An
+  entry that an earlier one fully covers is marked `⊘ shadowed by #N`, and
+  an ACL that allows everything is one line:
+  `allow-all: this layer allows everything`.
+- **Each security-group rule is run through the ACLs.** `⊘ NACL #90 denies`
+  means none of its traffic gets through, and `◐ NACL #* blocks some` means
+  part of it is blocked. ACLs keep no state, so the rule's replies (ephemeral
+  ports back to the peer) are checked too, the other way. A rule that gets
+  through says nothing.
+
+Route tables and Network Firewall aren't evaluated. <kbd>Enter</kbd> jumps to
+the group or ACL a row came from, and going back (<kbd>Backspace</kbd>)
+reopens the lens on that row, for <kbd>U</kbd> as well. Load balancers get
+their subnets' ACLs too.
 
 ## The editor (<kbd>e</kbd>)
 

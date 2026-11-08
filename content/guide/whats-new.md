@@ -9,6 +9,82 @@ and binaries are on the
 [releases page](https://github.com/neboto/neboto-tui/releases). The
 installer always fetches the latest release, so re-running it upgrades you.
 
+## v0.13.0
+
+This release lets you split the place you're looking at out into a second
+neboto, makes copying work over SSH, and makes the network access lens show
+what actually gets through.
+
+### Split out with <kbd>&#124;</kbd>
+
+<kbd>&#124;</kbd> opens a second neboto in a new pane beside this one, at
+exactly where you are: service, sub-tab, row, detail section, lens, region
+and account. Your session flags go with it (`-r`, `-p`, `--endpoint-url`,
+`--demo`, `-w`), and credentials are never written into the command.
+
+- **Panes** in tmux, zellij, WezTerm, kitty, iTerm and Ghostty on macOS. A
+  new tab in GNOME Terminal and Konsole, and a new window in Alacritty,
+  Terminal.app, foot, Ghostty on Linux and kitty without remote control. The
+  status line says what it opened.
+- **From the in-pane views too:** the charts come back at their range, the
+  object browser at the object, and the other views as the pane behind
+  them.
+- **`split_command`** in the config covers any other terminal or a tiling
+  window manager. If nothing opens, neboto says why and copies the command.
+
+Places on Organizations, Identity Center, EventBridge, Direct Connect,
+Transit Gateway, API Gateway, Step Functions, Security Hub and AgentCore
+now remember their sub-tab. A split, <kbd>Ctrl-O</kbd> or bookmark from a
+later tab no longer lands on the first tab with a filter that matches
+nothing.
+
+### Copying works over SSH
+
+Every copy now also goes out as OSC 52, which the terminal on your own
+machine turns into a clipboard write. On a bastion, over SSM or in a
+container, <kbd>y</kbd> used to say "Clipboard unavailable"; now it reaches
+your clipboard. Inside tmux, turn on `set -g set-clipboard on`.
+
+### Network access lens: what actually gets through
+
+<kbd>N</kbd> used to list network ACL entries under the security-group
+rules and leave you to work out whether traffic got through. Now each
+direction is drawn in the order AWS checks it: inbound is the NACL then the
+security groups, outbound the reverse.
+
+- Every security-group rule is run through the ACLs:
+  `⊘ NACL #90 denies` when it's stopped, `◐ NACL #* blocks some` when part
+  of it is. ACLs keep no state, so the replies are checked too.
+- Shadowed ACL entries are marked, and an allow-all ACL is one line.
+- Going back after <kbd>Enter</kbd> on a lens row reopens the lens on that
+  row (<kbd>N</kbd> and <kbd>U</kbd>), instead of the plain detail pane.
+
+### Watch refreshes the charts
+
+<kbd>w</kbd> over the charts (<kbd>m</kbd>) turns watch on and refreshes
+them once a minute, CloudWatch's resolution, keeping the range and the
+grid. If a refresh fails, the last charts stay drawn. Cost and S3 charts
+are daily and aren't refreshed.
+
+### Shared-in resources are marked
+
+Resources shared in from another account are marked `⇄ shared` in the list
+and `⇄ shared from <owner>` in the pane header. That covers transit
+gateways, VPCs and subnets, resolver rules, customer-managed prefix lists,
+DHCP options and Redshift snapshots. A shared transit gateway used to read
+as one made here with no route tables; its tabs now say what AWS doesn't
+show a non-owner.
+
+### Smaller things
+
+- **ARN jumps switch region.** Following an ARN to a resource in another
+  region used to search the current one and find nothing. Going back
+  switches you back, even out of a global service, such as a CloudFront
+  distribution's `us-east-1` certificate.
+- **Errors in lazy sections** read as AWS's message, without the
+  `AWS SDK error:` prefix.
+- **<kbd>Ctrl-L</kbd>** repaints the screen.
+
 ## v0.12.0
 
 This release rebuilds the DynamoDB item browser around a one-line query,
