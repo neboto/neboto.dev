@@ -9,6 +9,99 @@ and binaries are on the
 [releases page](https://github.com/neboto/neboto-tui/releases). The
 installer always fetches the latest release, so re-running it upgrades you.
 
+## v0.14.0
+
+This release adds four services and the provider side of PrivateLink, lets
+you start neboto at a resource from the command line, and makes EC2
+instances say which OS they run.
+
+### Four new services
+
+- **DataSync** (`@datasync`, or `@sync`): tasks, locations and agents. A
+  task's Overview shows its status, error, schedule, both locations and the
+  last run. **Executions** lists the 30 most recent runs. <kbd>m</kbd>
+  charts the task and <kbd>t</kbd> tails its log group. A location's
+  **Configuration** is read when you open it. Secrets show only as their
+  Secrets Manager ARN.
+- **DocumentDB** (`@docdb`) and **Neptune** (`@neptune`): clusters,
+  instances, snapshots, parameter groups and subnet groups. They run on the
+  RDS API, so they need no new permissions and their panes are the RDS
+  ones. <kbd>m</kbd>, <kbd>t</kbd> and <kbd>C</kbd> use each engine's own
+  namespace, log group and CLI, and that now holds for these engines'
+  rows under `@rds` too. Elastic clusters and Neptune Analytics are
+  separate APIs and aren't included.
+- **Amazon MQ** (`@mq`, or `@activemq`, `@rabbitmq`): ActiveMQ and
+  RabbitMQ brokers and their configurations. A broker has Endpoints,
+  Security, Users and Maintenance. A configuration has its Document and
+  Revisions, and flags brokers running an older revision. <kbd>m</kbd>
+  charts the broker's engine metrics and <kbd>t</kbd> tails its log. Users
+  are the names AWS returns with the broker; neboto never reads them one
+  by one.
+
+### PrivateLink: the services you publish
+
+`@vpc`'s Endpoints tab now also lists the endpoint services this account
+publishes (`vpce-svc-…`), beside the endpoints it consumes.
+
+- **Overview:** whether connections need accepting, the connected endpoints
+  by state with a **waiting for you** count, private DNS verification (with
+  the TXT record to add until it's verified), and the load balancers, zones
+  and DNS names.
+- **Connections:** every endpoint connected to the service, pending first,
+  then newest, plus the connection notifications.
+- **Permissions:** the principals allowed to connect. `*` is flagged,
+  and flagged again when connections are accepted without asking.
+- <kbd>m</kbd> charts the traffic and the endpoint count. A consumer
+  endpoint of a service you publish links to it.
+
+### `neboto open`: start at a resource
+
+`neboto open` starts the TUI on one resource, on whichever sub-tab it lives:
+
+```bash
+neboto open ec2 i-0abc123                       # its Overview
+neboto open ec2 sg-0abc123 --section inbound    # a section
+neboto open rds prod-main --charts 24h --full   # its charts, full width
+neboto open ec2 i-0abc123 --metric cpu --only   # charting just that metric
+neboto open arn:aws:iam::123456789012:role/app  # an ARN alone
+neboto --bookmark prod-db                       # a saved bookmark
+```
+
+A typo in the service, range or ARN exits with the reason before the TUI
+starts. A resource that isn't there opens the list searching for it rather
+than landing on the first row. Two tmux recipes in the repo build on it: a
+detail pane beside its charts, and a grid of one pane per metric. See
+[Scripts and agents](@/guide/cli.md#open-start-the-tui-at-a-resource).
+
+### EC2 instances say which OS they are
+
+neboto used to read only the Windows flag, and called every other instance
+Linux/UNIX, RHEL and SUSE included. It now reads AWS's platform label for
+every instance:
+
+- The list reads `t3.large · RHEL`, and the Overview's Platform row shows
+  AWS's label as it is.
+- Search finds them: `linux`, `windows`, `rhel`, `suse` and `sql`.
+- `neboto ls @ec2` carries the Platform.
+
+The label comes from the AMI's billing details, so it names the family, not
+the distro version.
+
+### Smaller things
+
+- **Places on later sub-tabs restore there** on 15 more services, among
+  them Config, GuardDuty, Cognito, Backup, Redshift, Glue and `@changes`.
+  A split, <kbd>Ctrl-O</kbd> or bookmark no longer lands on the first tab.
+- **Bookmarks survive an older neboto.** A bookmark this build can't read,
+  saved by a newer one, is skipped instead of emptying the list, and
+  saving keeps it for the build that wrote it.
+- **The metrics tables take the mouse.** On a WAF web ACL's rule and label
+  tables, a click picks a row, a double-click charts it, and the wheel
+  scrolls them.
+- **AgentCore:** evaluators, online evaluations and datasets get their own
+  panes, a config bundle's versions are diffed against what's live, and
+  <kbd>e</kbd> opens a harness's system prompt.
+
 ## v0.13.0
 
 This release lets you split the place you're looking at out into a second
