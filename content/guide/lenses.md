@@ -48,7 +48,8 @@ was published in the window, the view says so and suggests a longer range.
 
 On a WAF web ACL, the actions (Allowed, Blocked, Counted, CAPTCHA,
 Challenge) share one chart, with a Block rate row, and the rule and label
-tables sit beside it. <kbd>Tab</kbd> moves into the tables, <kbd>Enter</kbd>
+tables sit beside it. <kbd>Tab</kbd> moves into the tables (or click a row,
+and the wheel scrolls them), <kbd>Enter</kbd> or a double-click
 charts that rule's or label's actions, <kbd>d</kbd> goes back to the ACL's
 set, and <kbd>x</kbd> opens the sampled requests for the rule under the
 cursor in your editor (AWS keeps the last 3 hours). A CloudFront

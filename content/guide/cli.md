@@ -1,6 +1,6 @@
 +++
 title = "Scripts and agents"
-description = "neboto services, ls, get and audit: the same read-only calls as the TUI, printed as a table, JSON, Markdown or CSV for scripts and AI agents."
+description = "neboto services, ls, get and audit: the same read-only calls as the TUI, printed as a table, JSON, Markdown or CSV for scripts and AI agents. neboto open starts the TUI at a resource."
 weight = 65
 +++
 
@@ -17,10 +17,49 @@ neboto ls @ec2 -t instance --regions              # across your config `regions`
 neboto get @lambda orders-api                     # every detail-pane section
 neboto get @iam deploy-role --section policies -o json
 neboto audit                                      # security findings; exit 3 if any
+neboto open ec2 i-0abc123 --charts 24h            # the TUI, at a resource's charts
 ```
 
 Try any of them with `--demo`, which answers from a built-in fake account
 and needs no credentials.
+
+## `open`: start the TUI at a resource
+
+`open` is the one subcommand that opens the TUI: on one resource, focused in
+its detail pane.
+
+```bash
+neboto open ec2 i-0abc123                       # the Overview
+neboto open ec2 sg-0abc123 --section inbound    # a section, any case
+neboto open rds prod-main --charts 24h --full   # its charts, full width
+neboto open ec2 i-0abc123 --metric networkout   # the charts, on that metric
+neboto open ec2 i-0abc123 --metric cpu --only   # …charting only it
+neboto open arn:aws:iam::123456789012:role/app  # an ARN alone: the service is inferred
+neboto -w -r eu-west-1 open lambda my-fn --charts 1h   # TUI flags go before `open`
+```
+
+| Flag | Effect |
+|---|---|
+| `--section <NAME>` | Open at this detail section, any case |
+| `--charts <RANGE>` | Open its charts at `1h`, `6h`, `24h`, `7d` or `30d` |
+| `--metric <NAME>` | Open the charts with the cursor on this metric, by label or CloudWatch name |
+| `--only` | With `--metric`, chart just that metric and the ones sharing its chart. <kbd>d</kbd> brings the rest back |
+| `--full` | Give the detail pane the full width |
+
+The id can be the resource's id, ARN or exact name, on whichever sub-tab it
+lives. A typo in the service, range or ARN exits `2` with the reason. A
+resource that isn't there opens the list searching for it. A section or
+metric it doesn't have lists the ones it does.
+
+`neboto --bookmark <NAME>` starts at a bookmark saved with <kbd>B</kbd>,
+matched on its id, its exact name or a unique part of it, in the region and
+account it was saved in.
+
+[`scripts/tmux-metrics.sh`](https://github.com/neboto/neboto-tui/blob/main/scripts/tmux-metrics.sh)
+builds a tmux window from three `open`s: a resource's detail pane beside its
+charts at two ranges.
+[`scripts/tmux-metrics-grid.sh`](https://github.com/neboto/neboto-tui/blob/main/scripts/tmux-metrics-grid.sh)
+tiles a detail pane with one pane per metric (`--metric … --only`).
 
 ## `ls`: list and filter
 
