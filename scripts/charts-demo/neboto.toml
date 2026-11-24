@@ -1,0 +1,7 @@
+# neboto config for the charts blog clips (scripts/charts-demo/*.tape), pointed
+# at via NEBOTO_CONFIG so ~/.neboto.toml never leaks into a take.
+default_service = "ec2"
+default_region = "us-east-1"
+show_banner = false
+theme = "catppuccin-mocha"
+ownership_ribbon = true
