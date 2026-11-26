@@ -16,8 +16,7 @@ modals. Each takes over the keymap while open; <kbd>Esc</kbd> closes it and
 | <kbd>W</kbd> | Change timeline: who changed this resource; <kbd>[</kbd> / <kbd>]</kbd> widen to 90 days, <kbd>a</kbd> includes reads |
 | <kbd>U</kbd> | Referenced by: which loaded resources mention this one |
 | <kbd>N</kbd> | Network access: the subnets' network ACLs and the effective security-group rules, in the order AWS checks them, with each rule's NACL verdict |
-| <kbd>o</kbd> | S3 object browser, with a Terraform state viewer inside it (see [Browsers](@/guide/browsers.md)) |
-| <kbd>i</kbd> | DynamoDB item browser: a one-line query that picks Query or Scan for you (see [Browsers](@/guide/browsers.md)) |
+| <kbd>o</kbd> | Browse contents: S3 objects (with a Terraform state viewer inside), DynamoDB items through a one-line query, AgentCore memory sessions (see [Browsers](@/guide/browsers.md)) |
 | <kbd>s</kbd> | SSM Session Manager · ECS Exec · assume an Organizations member-account role. Sessions are off while a member-account role is assumed (see [Multi-account](@/guide/multi-account.md)) |
 | <kbd>x</kbd> / <kbd>Y</kbd> | Reveal / copy a secret or SSM parameter value (never cached, never logged). On a Route 53 record's **Test answer** section, <kbd>x</kbd> asks Route 53 what it answers, again on each press |
 | <kbd>O</kbd> | Open this resource in the AWS Console |

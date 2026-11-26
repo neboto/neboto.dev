@@ -4,9 +4,10 @@ description = "Walk a bucket like a file manager, open a Terraform state and jum
 weight = 55
 +++
 
-Two resources hold data rather than configuration: an S3 bucket and a
-DynamoDB table. Each gets a browser that opens **inside the detail pane**,
-takes over the keymap while open, and closes with <kbd>Esc</kbd>.
+Some resources hold data rather than configuration: an S3 bucket, a
+DynamoDB table and an AgentCore memory store. <kbd>o</kbd> on one opens a
+browser **inside the detail pane**. It takes over the keymap while open and
+closes with <kbd>Esc</kbd>.
 <kbd>Z</kbd> makes it full-width; <kbd>?</kbd> shows its keys.
 
 ## S3 object browser (<kbd>o</kbd>)
@@ -74,9 +75,9 @@ ends with a per-provider count and the state's outputs. Nothing is written
 anywhere: the state is read once with `GetObject`, parsed in memory, and
 dropped when the pane closes.
 
-## DynamoDB item browser (<kbd>i</kbd>)
+## DynamoDB item browser (<kbd>o</kbd>)
 
-<kbd>i</kbd> on a table opens a query line above a result table. You write
+<kbd>o</kbd> on a table opens a query line above a result table. You write
 conditions, and neboto works out how to read them:
 
 ```

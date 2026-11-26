@@ -23,6 +23,7 @@ remember the key.
 | <kbd>`</kbd> | Jump list (navigation history) |
 | <kbd>B</kbd> / <kbd>'</kbd> | Bookmark this location / open bookmarks |
 | <kbd>M</kbd> | Message history (past errors and toasts) |
+| <kbd>i</kbd> | Info card about this tab: what the service is, what neboto flags there, and links to the AWS docs. Five tabs have one so far |
 | <kbd>&#124;</kbd> | Split out: open this exact place in a second neboto beside this one (see [Split out](#split-out)) |
 | <kbd>&#92;</kbd> | Flat detail view: every section in one scroll |
 | <kbd>:</kbd> | Command picker: type what you want (`network`, `metrics`) and <kbd>Enter</kbd> runs its key. What works on the selection is listed first |
@@ -55,7 +56,7 @@ remember the key.
 |---|---|
 | <kbd>j</kbd> <kbd>k</kbd>, <kbd>gg</kbd> / <kbd>G</kbd> | Scroll |
 | <kbd>Tab</kbd> / <kbd>Shift-Tab</kbd>, <kbd>1</kbd>–<kbd>9</kbd> | Switch section |
-| <kbd>H</kbd> / <kbd>L</kbd> | Previous / next sub-tab, staying in the detail pane |
+| <kbd>H</kbd> / <kbd>L</kbd> | Previous / next sub-tab, staying in the detail pane. A tab that's still loading waits for its first row; any key cancels |
 | <kbd>[[</kbd> / <kbd>]]</kbd> | Previous / next group header |
 | <kbd>l</kbd> <kbd>→</kbd> <kbd>Enter</kbd> | Follow the link under the cursor |
 | <kbd>h</kbd> <kbd>←</kbd> <kbd>Esc</kbd> | Back to the list |

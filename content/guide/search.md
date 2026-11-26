@@ -53,7 +53,7 @@ whose fields match `api`. `tag:key` alone matches any value.
 
 ## `@all`
 
-`@all <text>` searches everything already cached this session, across
+`@all <text>` (or `@* <text>`) searches everything already cached this session, across
 services, and shows a service badge on every row. It never fires a fetch,
 and it says how many services it covered, so visit the services you care
 about first. <kbd>Enter</kbd> on a result jumps to it in its own service;
