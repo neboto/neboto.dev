@@ -39,24 +39,11 @@ can be turned off; see
 
 ## Homebrew
 
-On macOS or Linux:
-
 ```bash
 brew install neboto/tap/neboto
 ```
 
-Use the full name. Homebrew 7 loads a formula from a third-party tap only
-when you name it, and remembers that choice, so later upgrades work as usual.
-`brew tap neboto/tap && brew install neboto` is refused.
-
-The formula installs the same release archives as the installer. A release's
-formula is published only after each archive's checksum and build provenance
-have been verified.
-
-Upgrade with `brew upgrade neboto`. That's also what the `↑ vX.Y.Z` chip
-copies for a Homebrew install. Up to v0.14.0 the chip copied the installer
-command instead, which would put a second copy in `~/.local/bin`, so don't use
-it there.
+It installs the same verified release archives as the installer.
 
 ## cargo-binstall
 
