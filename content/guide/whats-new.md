@@ -9,6 +9,88 @@ and binaries are on the
 [releases page](https://github.com/neboto/neboto-tui/releases). The
 installer always fetches the latest release, so re-running it upgrades you.
 
+## v0.15.0
+
+This release adds API Portal, moves every content browser to <kbd>o</kbd>
+so that <kbd>i</kbd> can explain the tab you're on, and installs with
+Homebrew.
+
+### API Portal
+
+`@apiportal` (or `@apiinventory`, `@shadowapis`, `@devportal`) shows what
+AWS's API discovery found in the account, and what you've done about it.
+It has five sub-tabs:
+
+- **Inventory:** the APIs discovery found behind API Gateway, load
+  balancers and CloudFront, by method, host and path. Each one says whether
+  it's reachable from the internet, whether a web ACL sits in front of it,
+  whether any account in the organization manages it (if none does, it's a
+  shadow API), and whether it serves MCP or LLM traffic. A public, unmanaged
+  API with no WAF is flagged, and flagged harder when it serves AI traffic.
+  <kbd>Enter</kbd> on its resource goes to the API Gateway API behind it.
+- **Managed APIs:** the APIs you've taken under management, with their
+  checks and how many fail. **Events** lists the API's security events
+  from the last 30 days, fetched when you open the section.
+- **Portals:** publish status, domain and sign-in. A portal anyone with the
+  URL can open is flagged. Its products link to the Products tab.
+- **Products:** the portals a product is published on, and its APIs.
+- **Discovery:** whether discovery is on, and how each source is doing. An
+  empty Inventory says why: discovery is off or not set up, a source
+  failed, or it's still starting.
+
+neboto never starts or stops discovery. Its read permissions are in
+[`PERMISSIONS.md`](https://github.com/neboto/neboto-tui/blob/main/PERMISSIONS.md).
+
+### <kbd>o</kbd> browses, <kbd>i</kbd> explains
+
+- **<kbd>o</kbd> opens every content browser:** S3 objects as before, and
+  now DynamoDB items and AgentCore memory sessions, which used to be on
+  <kbd>i</kbd>. <kbd>i</kbd> on those tabs says the browser moved.
+- **<kbd>i</kbd> shows an info card about the tab:** what the service is,
+  the ideas worth knowing, what neboto flags there, and links to the AWS
+  docs. <kbd>o</kbd> or <kbd>Enter</kbd> opens the link under the cursor,
+  <kbd>1</kbd>–<kbd>9</kbd> copy one, and <kbd>y</kbd> copies the text.
+  There are five to start: Security Groups, IAM roles and policies, ECS,
+  Cost, and Organizations policies. They work as nebaz's do.
+- **`@*`** searches every cached service, as `@all` does. It's nebaz's
+  spelling.
+- **<kbd>H</kbd> / <kbd>L</kbd> onto a tab that's still loading** now wait
+  for its first row and open it in the detail pane, instead of dropping you
+  back to the list. Any key or click cancels the wait.
+
+### Homebrew
+
+```bash
+brew install neboto/tap/neboto
+```
+
+It installs the same verified release archives as the installer. The
+`↑ vX.Y.Z` update chip now copies `brew upgrade neboto` when neboto was
+installed with Homebrew. See [Install](@/guide/install.md#homebrew).
+
+### Smaller things
+
+- **CloudFront:** an origin's mTLS certificate shows, and leads to ACM. A
+  multi-tenant distribution has a **Tenants** section: each tenant's
+  domains (inactive ones flagged), connection group, and its WAF and
+  certificate overrides.
+- **Network Firewall:** the list and Overview say which mode a firewall
+  runs in: internet gateway, proxy, Transit Gateway, or VPC subnets. A
+  proxy shows its listeners, certificate and subnets. The network access
+  lens (<kbd>N</kbd>) shows an internet gateway firewall where it sits in
+  the inbound and outbound path.
+- **S3 charts:** <kbd>m</kbd> on a bucket charts its size and object
+  count, one point a day over 30 days. The range is fixed, because S3
+  publishes these once a day. <kbd>s</kbd>, <kbd>a</kbd>, copy and export
+  now work there too.
+- **Cognito:** a member row in a group leads to the user.
+- **AppSync:** a schema with more than 100 types keeps its resolvers when
+  its root types are renamed (`RootQuery` instead of `Query`).
+- **Three chart rows that were always empty:** EKS clusters' running pods
+  and SES's rendering failures now read the metrics AWS actually publishes.
+  Athena workgroups lose their DPU row, because AWS publishes DPU only per
+  capacity reservation.
+
 ## v0.14.0
 
 This release adds four services and the provider side of PrivateLink, lets
