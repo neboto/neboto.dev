@@ -1,6 +1,6 @@
 +++
 title = "Install"
-description = "Prebuilt binaries for Linux and macOS, cargo-binstall, or from source."
+description = "Prebuilt binaries for Linux and macOS: the installer, Homebrew, cargo-binstall, or from source."
 weight = 10
 +++
 
@@ -36,6 +36,26 @@ once a day whether one is out, and shows a `↑ vX.Y.Z` chip on the service
 strip when it is. Clicking the chip copies the upgrade command. The check
 can be turned off; see
 [Permissions](@/guide/permissions.md#the-one-request-that-isn-t-to-aws).
+
+## Homebrew
+
+On macOS or Linux:
+
+```bash
+brew install neboto/tap/neboto
+```
+
+Use the full name. Homebrew 7 loads a formula from a third-party tap only
+when you name it, and remembers that choice, so later upgrades work as usual.
+`brew tap neboto/tap && brew install neboto` is refused.
+
+The formula installs the same release archives as the installer. A release's
+formula is published only after each archive's checksum and build provenance
+have been verified.
+
+Upgrade with `brew upgrade neboto`. The `↑ vX.Y.Z` chip copies the installer
+command, so don't use it for a Homebrew install: it would put a second copy in
+`~/.local/bin`.
 
 ## cargo-binstall
 
