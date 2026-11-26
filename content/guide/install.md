@@ -53,9 +53,10 @@ The formula installs the same release archives as the installer. A release's
 formula is published only after each archive's checksum and build provenance
 have been verified.
 
-Upgrade with `brew upgrade neboto`. The `↑ vX.Y.Z` chip copies the installer
-command, so don't use it for a Homebrew install: it would put a second copy in
-`~/.local/bin`.
+Upgrade with `brew upgrade neboto`. That's also what the `↑ vX.Y.Z` chip
+copies for a Homebrew install. Up to v0.14.0 the chip copied the installer
+command instead, which would put a second copy in `~/.local/bin`, so don't use
+it there.
 
 ## cargo-binstall
 
